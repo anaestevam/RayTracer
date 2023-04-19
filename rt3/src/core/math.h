@@ -21,5 +21,11 @@
 // #include <utility>
 // using std::tuple;
 // #include <array>
+namespace math{
 
+inline float Lerp(float t, float v1, float v2) {
+  return (1.f - t) * v1 + t * v2;
+}
+
+}
 #endif  // MATH_H
