@@ -1,6 +1,7 @@
 #ifndef BACKGROUND_H
 #define BACKGROUND_H
 
+#include "commom.h"
 #include "math.h"
 #include "rt3-base.h"
 #include "rt3.h"
@@ -34,28 +35,29 @@ class Background {
   }
 
   virtual ~Background(){/* empty */};
-  Spectrum sampleXYZ(const Point2f &pixel_ndc) const;
+  RGBColor sampleXYZ(const Point2f &pixel_ndc) const;
 };
 
 class BackgroundColor : public Background {
-
- public:
+ private:
   /// Each corner has a color associated with.
-  // Spectrum corners[4] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+  RGBColor corners[4] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
   /// Corner indices.
   enum Corners_e {
     bl = 0,  //!< Bottom left corner.
     tl = 1,      //!< Top left corner.
     tr = 2,      //!< Top right corner.
-    br = 3     //!< Bottom right corner.
+    br = 3      //!< Bottom right corner.
   };
 
-
-
-  Corners_e corners_e;
+ public:
+  //Corners_e corners_e;
   /// Ctro receives a list of four colors, for each corner.
-  BackgroundColor(const Corners_e &corners) {
-    corners_e = corners;
+  BackgroundColor(RGBColor bl, RGBColor tl, RGBColor tr, RGBColor br) {
+    corners[Corners_e::bl] = bl;
+    corners[Corners_e::tl] = tl;
+    corners[Corners_e::tr] = tr;
+    corners[Corners_e::br] = br;
   }
 
   virtual ~BackgroundColor(){};
