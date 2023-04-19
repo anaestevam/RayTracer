@@ -1,0 +1,56 @@
+[
+{
+  "directory": "/home/anaestevam/Downloads/rt3/build",
+  "command": "/usr/bin/c++  -I/home/anaestevam/Downloads/rt3/cameras -I/home/anaestevam/Downloads/rt3/integrators -I/home/anaestevam/Downloads/rt3/core -I/home/anaestevam/Downloads/rt3/ext -I/src/ext  -Wall -pedantic -std=gnu++1z -o CMakeFiles/basic_rt3.dir/src/core/api.cpp.o -c /home/anaestevam/Downloads/rt3/src/core/api.cpp",
+  "file": "/home/anaestevam/Downloads/rt3/src/core/api.cpp",
+  "output": "CMakeFiles/basic_rt3.dir/src/core/api.cpp.o"
+},
+{
+  "directory": "/home/anaestevam/Downloads/rt3/build",
+  "command": "/usr/bin/c++  -I/home/anaestevam/Downloads/rt3/cameras -I/home/anaestevam/Downloads/rt3/integrators -I/home/anaestevam/Downloads/rt3/core -I/home/anaestevam/Downloads/rt3/ext -I/src/ext  -Wall -pedantic -std=gnu++1z -o CMakeFiles/basic_rt3.dir/src/core/background.cpp.o -c /home/anaestevam/Downloads/rt3/src/core/background.cpp",
+  "file": "/home/anaestevam/Downloads/rt3/src/core/background.cpp",
+  "output": "CMakeFiles/basic_rt3.dir/src/core/background.cpp.o"
+},
+{
+  "directory": "/home/anaestevam/Downloads/rt3/build",
+  "command": "/usr/bin/c++  -I/home/anaestevam/Downloads/rt3/cameras -I/home/anaestevam/Downloads/rt3/integrators -I/home/anaestevam/Downloads/rt3/core -I/home/anaestevam/Downloads/rt3/ext -I/src/ext  -Wall -pedantic -std=gnu++1z -o CMakeFiles/basic_rt3.dir/src/core/error.cpp.o -c /home/anaestevam/Downloads/rt3/src/core/error.cpp",
+  "file": "/home/anaestevam/Downloads/rt3/src/core/error.cpp",
+  "output": "CMakeFiles/basic_rt3.dir/src/core/error.cpp.o"
+},
+{
+  "directory": "/home/anaestevam/Downloads/rt3/build",
+  "command": "/usr/bin/c++  -I/home/anaestevam/Downloads/rt3/cameras -I/home/anaestevam/Downloads/rt3/integrators -I/home/anaestevam/Downloads/rt3/core -I/home/anaestevam/Downloads/rt3/ext -I/src/ext  -Wall -pedantic -std=gnu++1z -o CMakeFiles/basic_rt3.dir/src/core/film.cpp.o -c /home/anaestevam/Downloads/rt3/src/core/film.cpp",
+  "file": "/home/anaestevam/Downloads/rt3/src/core/film.cpp",
+  "output": "CMakeFiles/basic_rt3.dir/src/core/film.cpp.o"
+},
+{
+  "directory": "/home/anaestevam/Downloads/rt3/build",
+  "command": "/usr/bin/c++  -I/home/anaestevam/Downloads/rt3/cameras -I/home/anaestevam/Downloads/rt3/integrators -I/home/anaestevam/Downloads/rt3/core -I/home/anaestevam/Downloads/rt3/ext -I/src/ext  -Wall -pedantic -std=gnu++1z -o CMakeFiles/basic_rt3.dir/src/core/image_io.cpp.o -c /home/anaestevam/Downloads/rt3/src/core/image_io.cpp",
+  "file": "/home/anaestevam/Downloads/rt3/src/core/image_io.cpp",
+  "output": "CMakeFiles/basic_rt3.dir/src/core/image_io.cpp.o"
+},
+{
+  "directory": "/home/anaestevam/Downloads/rt3/build",
+  "command": "/usr/bin/c++  -I/home/anaestevam/Downloads/rt3/cameras -I/home/anaestevam/Downloads/rt3/integrators -I/home/anaestevam/Downloads/rt3/core -I/home/anaestevam/Downloads/rt3/ext -I/src/ext  -Wall -pedantic -std=gnu++1z -o CMakeFiles/basic_rt3.dir/src/core/parser.cpp.o -c /home/anaestevam/Downloads/rt3/src/core/parser.cpp",
+  "file": "/home/anaestevam/Downloads/rt3/src/core/parser.cpp",
+  "output": "CMakeFiles/basic_rt3.dir/src/core/parser.cpp.o"
+},
+{
+  "directory": "/home/anaestevam/Downloads/rt3/build",
+  "command": "/usr/bin/c++  -I/home/anaestevam/Downloads/rt3/cameras -I/home/anaestevam/Downloads/rt3/integrators -I/home/anaestevam/Downloads/rt3/core -I/home/anaestevam/Downloads/rt3/ext -I/src/ext  -Wall -pedantic -std=gnu++1z -o CMakeFiles/basic_rt3.dir/src/ext/lodepng.cpp.o -c /home/anaestevam/Downloads/rt3/src/ext/lodepng.cpp",
+  "file": "/home/anaestevam/Downloads/rt3/src/ext/lodepng.cpp",
+  "output": "CMakeFiles/basic_rt3.dir/src/ext/lodepng.cpp.o"
+},
+{
+  "directory": "/home/anaestevam/Downloads/rt3/build",
+  "command": "/usr/bin/c++  -I/home/anaestevam/Downloads/rt3/cameras -I/home/anaestevam/Downloads/rt3/integrators -I/home/anaestevam/Downloads/rt3/core -I/home/anaestevam/Downloads/rt3/ext -I/src/ext  -Wall -pedantic -std=gnu++1z -o CMakeFiles/basic_rt3.dir/src/ext/tinyxml2.cpp.o -c /home/anaestevam/Downloads/rt3/src/ext/tinyxml2.cpp",
+  "file": "/home/anaestevam/Downloads/rt3/src/ext/tinyxml2.cpp",
+  "output": "CMakeFiles/basic_rt3.dir/src/ext/tinyxml2.cpp.o"
+},
+{
+  "directory": "/home/anaestevam/Downloads/rt3/build",
+  "command": "/usr/bin/c++  -I/home/anaestevam/Downloads/rt3/cameras -I/home/anaestevam/Downloads/rt3/integrators -I/home/anaestevam/Downloads/rt3/core -I/home/anaestevam/Downloads/rt3/ext -I/src/ext  -Wall -pedantic -std=gnu++1z -o CMakeFiles/basic_rt3.dir/src/main/rt3.cpp.o -c /home/anaestevam/Downloads/rt3/src/main/rt3.cpp",
+  "file": "/home/anaestevam/Downloads/rt3/src/main/rt3.cpp",
+  "output": "CMakeFiles/basic_rt3.dir/src/main/rt3.cpp.o"
+}
+]
