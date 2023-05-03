@@ -6,7 +6,10 @@
 
 namespace rt3 {
 
-void render() {}
+void render() {
+
+  
+}
 
 //=== API's static members declaration and initialization.
 API::APIState API::curr_state = APIState::Uninitialized;
@@ -26,11 +29,10 @@ Film *API::make_film(const std::string &name , const ParamSet &ps) {
   return film;
 }
 
-Background *API::make_background(const std::string &name, const ParamSet &ps) {
+Background* API::make_background(const std::string &name, const ParamSet &ps) {
   std::cout << ">>> Inside API::background()\n";
-  Background *bkg{nullptr};
-  bkg = create_color_background(ps);
-
+  BackgroundColor *bkg{nullptr};
+  bkg = create_color_background(ps, new BackgroundColor());
   // Return the newly created background.
   return bkg;
 }

@@ -1,3 +1,0 @@
-/home/anaestevam/Downloads/rt3/build/CMakeFiles/basic_rt3.dir
-/home/anaestevam/Downloads/rt3/build/CMakeFiles/edit_cache.dir
-/home/anaestevam/Downloads/rt3/build/CMakeFiles/rebuild_cache.dir

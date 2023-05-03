@@ -60,10 +60,10 @@ class BackgroundColor : public Background {
     corners[Corners_e::br] = br;
   }
 
-  virtual ~BackgroundColor(){};
+  BackgroundColor(){};
 };
 
 // factory pattern functions.
-BackgroundColor *create_color_background(const ParamSet &ps);
+BackgroundColor* create_color_background(const ParamSet &ps, BackgroundColor* background);
 }  // namespace rt3
 #endif

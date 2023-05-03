@@ -19,22 +19,24 @@ RGBColor Background::sampleXYZ(const Point2f &pixel_ndc) const {
   return RGBColor{0, 0, 0};
 }
 
-BackgroundColor *create_color_background(const ParamSet &ps) {
-  // TODO
-  //BackgroundColor::Corners_e corners;
-  //corners.bl = retrieve(ps, "bl", white);
-  //return new BackgroundColor();
-  BackgroundColor* background = nullptr;
-
-  if(ps.count("color")){
-    RGBColor c = retrieve( ps, "color", RGBColor());
-    background = new BackgroundColor(c, c, c, c);
+BackgroundColor* create_color_background(const ParamSet &ps, BackgroundColor* background) {
+  if(ps.count("colors")){
+    RGBColor c = retrieve( ps, "colors", RGBColor());
+    BackgroundColor* nc = new BackgroundColor(c, c, c, c);
+    if(background != nullptr){
+      delete background;
+    }
+    background = nc;
   }else{
     RGBColor tl = retrieve( ps, "tl", RGBColor());
     RGBColor bl = retrieve( ps, "bl", RGBColor());
     RGBColor tr = retrieve( ps, "tr", RGBColor());
     RGBColor br = retrieve( ps, "br", RGBColor());
-    background = new BackgroundColor( bl, tl, tr, br);
+    BackgroundColor* nc = new BackgroundColor(bl, tl, tr, br);
+    if(background != nullptr){
+      delete background;
+    }
+    background = nc;
   }
   return background;
 }

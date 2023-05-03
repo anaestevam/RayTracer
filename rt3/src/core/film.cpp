@@ -1,5 +1,6 @@
 #include "film.h"
 #include <cmath>
+#include <fstream>
 
 #include "api.h"
 #include "image_io.h"
@@ -66,6 +67,24 @@ Film *create_film(const ParamSet &ps)
     xres = std::max(1, xres / 4);
     yres = std::max(1, yres / 4);
   }
+
+std::ofstream file(filename);
+
+  file << "P3\n" << xres << " " << yres << "\n255\n";
+    // TODO:escrever os pixels da imagem no arquivo no formato PPM
+
+ // Itera sobre todos os pixels da imagem e escreve os valores RGB no arquivo.
+  for (int j = yres - 1; j >= 0; --j) {
+    for (int i = 0; i < xres; ++i) {
+      // Obtém a cor do pixel.
+      // Escreve os valores RGB no arquivo.
+      file << 255 << " "
+           << 3 << " "
+           << 2 << " ";
+    }
+    file << "\n";
+  }
+    file.close();
 
   // TODO
   // Read crop window information.
