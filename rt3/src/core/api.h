@@ -68,6 +68,8 @@ class API {
   static RunningOptions curr_run_opt;
 
  private:
+
+
   /// Current API state
   static APIState curr_state;
   /*
@@ -92,6 +94,11 @@ class API {
   static Camera* make_camera(const string& name, const ParamSet& ps);
 
  public:
+
+  static std::unique_ptr<Film> the_film;
+  static std::unique_ptr<Background> the_background;
+
+
   //=== API function begins here.
   static void init_engine(const RunningOptions&);
   static void run();

@@ -1,34 +1,58 @@
 #include "film.h"
+#include <cstring>
 #include <cmath>
 #include <fstream>
-
+#include <algorithm>
+#include <functional>
 #include "api.h"
 #include "image_io.h"
 #include "paramset.h"
 
 namespace rt3 {
 
-//=== Film Method Definitions
 Film::Film(const Point2i &resolution, const std::string &filename, image_type_e imgt)
     : m_full_resolution{ resolution }, m_filename{ filename }, m_image_type{ imgt }
 {
-  // TODO
+  m_pixels.resize(m_full_resolution[0] * m_full_resolution[1]);
 }
 
 Film::~Film()
 {
 }
 
-/// Add the color to image.
+
 void Film::add_sample(const Point2f &pixel_coord, const ColorXYZ &pixel_color)
 {
-  // TODO: add color to the proper location.
+
+
+  int x = static_cast<int>(pixel_coord[0]);
+  int y = static_cast<int>(pixel_coord[1]);
+  if (x >= 0 && x < m_full_resolution[0] && y >= 0 && y < m_full_resolution[1]) {
+    size_t index = y * m_full_resolution[0] + x;
+    std::transform(m_pixels[index].begin(), m_pixels[index].end(), pixel_color.begin(),
+                   m_pixels[index].begin(), std::plus<float>());
+  }
 }
 
-/// Convert image to RGB, compute final pixel values, write image.
-void Film::write_image(void) const
+void Film::write_image(size_t w, size_t h, size_t d, const std::string &file_name)
 {
-  // TODO: call the proper writing function, either PPM or PNG.
+  unsigned char *data = new unsigned char[w * h * 3];
+
+  for (size_t y = 0; y < h; y++) {
+    for (size_t x = 0; x < w; x++) {
+      size_t index = y * w + x;
+      float r = m_pixels[index][0]  / d;
+      float g = m_pixels[index][1]  / d;
+      float b = m_pixels[index][2]  / d;
+      data[index * 3 + 0] = static_cast<unsigned char>(r);
+      data[index * 3 + 1] = static_cast<unsigned char>(g);
+      data[index * 3 + 2] = static_cast<unsigned char>(b);
+    }
+  }
+
+  save_ppm6(data, w, h,3, file_name.c_str());
+
+  delete[] data;
 }
 
 // Factory function pattern.
@@ -67,24 +91,6 @@ Film *create_film(const ParamSet &ps)
     xres = std::max(1, xres / 4);
     yres = std::max(1, yres / 4);
   }
-
-std::ofstream file(filename);
-
-  file << "P3\n" << xres << " " << yres << "\n255\n";
-    // TODO:escrever os pixels da imagem no arquivo no formato PPM
-
- // Itera sobre todos os pixels da imagem e escreve os valores RGB no arquivo.
-  for (int j = yres - 1; j >= 0; --j) {
-    for (int i = 0; i < xres; ++i) {
-      // Obtém a cor do pixel.
-      // Escreve os valores RGB no arquivo.
-      file << 255 << " "
-           << 3 << " "
-           << 2 << " ";
-    }
-    file << "\n";
-  }
-    file.close();
 
   // TODO
   // Read crop window information.

@@ -6,10 +6,53 @@
 
 namespace rt3 {
 
-void render() {
+void render(rt3::Film the_film) {
+  // Get film resolution
+  auto res = the_film.get_resolution();
+  size_t w = res[0];
+  size_t h = res[1];
 
-  
+  // Iterate through each pixel of the image
+  for (size_t y = 0; y < h; ++y) {
+    for (size_t x = 0; x < w; ++x) {
+      // Compute the normalized coordinates of the current pixel
+      rt3::Point2f pixel_coords{static_cast<float>(x), static_cast<float>(y)};
+
+      // Cast a ray into the scene and compute the resulting color
+      rt3::ColorXYZ color{255, 0, 0};
+
+      // Add the computed color as a sample to the film object
+      the_film.add_sample(pixel_coords, color);
+    }
+  }
+
+  the_film.write_image(w, h, 1, the_film.m_filename);
 }
+
+// void render(rt3::Film the_film, const Scene &scene, const RayTracer &ray_tracer) {
+//   // Get film resolution
+//   auto res = the_film.get_resolution();
+//   size_t w = res[0];
+//   size_t h = res[1];
+
+//   // Iterate through each pixel of the image
+//   for (size_t y = 0; y < h; ++y) {
+//     for (size_t x = 0; x < w; ++x) {
+//       // Compute the normalized coordinates of the current pixel
+//       rt3::Point2f pixel_coords{static_cast<float>(x) / w, static_cast<float>(y) / h};
+
+//       // Cast a ray into the scene and compute the resulting color
+//       Ray ray = compute_ray(x, y, w, h); // Implement a function to compute a ray for the current pixel
+//       rt3::ColorXYZ color = ray_tracer.trace(ray, scene); // Implement a Ray-Tracer that computes the color based on the scene and the ray
+
+//       // Add the computed color as a sample to the film object
+//       the_film.add_sample(pixel_coords, color);
+//     }
+//   }
+
+//   the_film.write_image(w, h, 1, the_film.m_filename);
+// }
+
 
 //=== API's static members declaration and initialization.
 API::APIState API::curr_state = APIState::Uninitialized;
@@ -111,8 +154,8 @@ void API::world_end() {
 
     //================================================================================
     auto start = std::chrono::steady_clock::now();
-    render(); // TODO: This is the ray tracer's  main loop.
-    auto end = std::chrono::steady_clock::now();
+    render(*the_film);
+     auto end = std::chrono::steady_clock::now();
     //================================================================================
     auto diff = end - start; // Store the time difference between start and end
     // Seconds

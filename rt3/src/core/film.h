@@ -24,7 +24,7 @@ class Film {
   };
   /// Takes a sample `p` and its radiance `L` and updates the image.
   void add_sample(const Point2f &, const ColorXYZ &);
-  void write_image() const;
+  void write_image(size_t xres, size_t yres, size_t d, const std::string &file_name_);
 
   //=== Film Public Data
   const Point2i m_full_resolution;  //!< The image's full resolution values.
@@ -33,7 +33,12 @@ class Film {
   // TODO: Create the matrix (or vector) that will hold the image data.
   // std::unique_ptr< ColorBuffer > m_color_buffer_ptr; //!< Reference to the
   // color buffer (image) object.
+
+private:
+  std::vector<ColorXYZ> m_pixels;
 };
+
+
 
 // Factory pattern. It's not part of this class.
 Film *create_film(const ParamSet &ps);
