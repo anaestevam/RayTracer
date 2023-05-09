@@ -1,43 +1,62 @@
 #include "background.h"
 
-namespace rt3 {
-/*!
- * Samples a color base on spherical interpolation of an image ou colored
- * background.
- *
- * @param pixel_ndc Pixel position in NDC space,  in \f$[0:1]\f$.
- * \return The interpolated color.
- */
-RGBColor Background::sampleXYZ(const Point2f &pixel_ndc) const {
-  //float t_ver = pixel_ndc.x();
-  //float t_hor = pixel_ndc.y();
-  //RGBColor top = RGBColor::interpolate_color(corners[Corners_e::tl], corners[Corners_e::tr]);
-  //RGBColor bottom = RGBColor::interpolate_color(corners[Corners_e::bl], corners[Corners_e::br]);
+namespace rt3
+{
 
-  //return RGBColor::interpolate_color(t_ver, top, bottom);
-  // TODO
-  return RGBColor{0, 0, 0};
-}
-
-BackgroundColor* create_color_background(const ParamSet &ps, BackgroundColor* background) {
-  if(ps.count("colors")){
-    RGBColor c = retrieve( ps, "colors", RGBColor());
-    BackgroundColor* nc = new BackgroundColor(c, c, c, c);
-    if(background != nullptr){
-      delete background;
-    }
-    background = nc;
-  }else{
-    RGBColor tl = retrieve( ps, "tl", RGBColor());
-    RGBColor bl = retrieve( ps, "bl", RGBColor());
-    RGBColor tr = retrieve( ps, "tr", RGBColor());
-    RGBColor br = retrieve( ps, "br", RGBColor());
-    BackgroundColor* nc = new BackgroundColor(bl, tl, tr, br);
-    if(background != nullptr){
-      delete background;
-    }
-    background = nc;
+  ColorXYZ Background::sampleXYZ(const Point2f &pixel_ndc)
+  {
+    return ColorXYZ{0, 255, 0};
   }
-  return background;
-}
-}  // namespace rt3
+  /*!
+   * Samples a color base on spherical interpolation of an image ou colored
+   * background.
+   *
+   * @param pixel_ndc Pixel position in NDC space,  in \f$[0:1]\f$.
+   * \return The interpolated color.
+   */
+  ColorXYZ BackgroundColor::sampleXYZ(const Point2f &pixel_ndc)
+  {
+    float t_ver = pixel_ndc[0];
+    float t_hor = pixel_ndc[1];
+
+    // std::cout << corners[Corners_e::tl];
+
+    ColorXYZ top = math::lerp(corners[Corners_e::tl], corners[Corners_e::tr], t_hor);
+    ColorXYZ bottom = math::lerp(corners[Corners_e::bl], corners[Corners_e::br], t_hor);
+
+    return math::lerp(top, bottom, t_ver);
+  }
+
+  BackgroundColor *create_color_background(const ParamSet &ps, BackgroundColor *background)
+  {
+    if (ps.count("color"))
+    {
+      ColorXYZ c = retrieve(ps, "color", ColorXYZ());
+      std::cout << c[0] << "test";
+      BackgroundColor *nc = new BackgroundColor(c, c, c, c);
+      if (background != nullptr)
+      {
+        delete background;
+      }
+      background = nc;
+    }
+    else
+    {
+      // string a = ps.find("colors");
+      std::cout << ps.count("color") << "test2";
+      std::cout << ps.count("colors") << "test2";
+
+      ColorXYZ tl = retrieve(ps, "tl", ColorXYZ());
+      ColorXYZ bl = retrieve(ps, "bl", ColorXYZ());
+      ColorXYZ tr = retrieve(ps, "tr", ColorXYZ());
+      ColorXYZ br = retrieve(ps, "br", ColorXYZ());
+      BackgroundColor *nc = new BackgroundColor(bl, tl, tr, br);
+      if (background != nullptr)
+      {
+        delete background;
+      }
+      background = nc;
+    }
+    return background;
+  }
+} // namespace rt3

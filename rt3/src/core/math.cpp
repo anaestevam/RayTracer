@@ -1,11 +1,13 @@
-#include "math.h"
+#include "rt3.h"
 
-namespace math{
-    RGBColor lerp(const RGBColor &A, const RGBColor &B, float t){
-        RGBColor new_color = black;
-        new_color.r = (1-t) * A.r + t* B.r;
-        new_color.g = (1-t) * A.g + t* B.g;
-        new_color.b = (1-t) * A.b + t* B.b;
+namespace math
+{
+    ColorXYZ lerp(const ColorXYZ &A, const ColorXYZ &B, float t)
+    {
+        ColorXYZ new_color = {0, 0, 0};
+        new_color[0] = (1 - t) * A[0] + t * B[0];
+        new_color[1] = (1 - t) * A[1] + t * B[1];
+        new_color[2] = (1 - t) * A[2] + t * B[2];
         return new_color;
     }
 }
