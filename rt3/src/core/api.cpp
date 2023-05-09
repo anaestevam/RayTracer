@@ -24,10 +24,13 @@ namespace rt3
           color = s->backgroundColor->sampleXYZ(pixel_coords);
         else if (s->backgroundColor->mapping_type == Background::mapping_t::spherical)
           color = s->backgroundColor->sampleXYZ(pixel_coords);
-        // ...
         // for (const auto &p : s->obj_list)
         // {
-        //   // ...
+        //   if (p->intersect_p(ray))
+        //   {
+        //     // Compute the color based on the intersection point and the material
+        //     color = ColorXYZ{0, 0, 0};
+        //   }
         // }
         s->camera->film.add_sample(pixel_coords, color);
       }
@@ -104,6 +107,17 @@ namespace rt3
     RT3_MESSAGE("[1] Rendering engine initiated.\n");
   }
 
+  std::vector<std::shared_ptr<Primitive>> API::parse_objects(const std::vector<ParamSet> &object_params)
+  {
+    std::vector<std::shared_ptr<Primitive>> objects;
+    for (const auto &ps : object_params)
+    {
+      std::shared_ptr<Primitive> primitive = std::make_shared<Primitive>(make_primitive("", ps));
+      objects.push_back(primitive);
+    }
+    return objects;
+  }
+
   void API::clean_up()
   {
     // Check for correct machine state
@@ -150,6 +164,8 @@ namespace rt3
 
     std::shared_ptr<Camera> cam = std::make_shared<Camera>(*the_film);
     std::vector<std::shared_ptr<Primitive>> obj_list;
+    // std::vector<std::shared_ptr<Primitive>> obj_list = parse_objects(render_opt->object_ps);
+
     std::shared_ptr<Scene> scene = std::make_shared<Scene>(*cam, *the_background, obj_list);
 
     // Run only if we got film and background.
@@ -169,7 +185,6 @@ namespace rt3
 
       //================================================================================
       auto start = std::chrono::steady_clock::now();
-      // render(*the_film, *the_background);
 
       render(scene);
 
@@ -244,7 +259,7 @@ namespace rt3
     // retrieve type from ps.
     std::string type = retrieve(ps, "type", string{"unknown"});
     render_opt->object_type = type;
-    render_opt->object_ps = ps;
+    render_opt->object_ps.push_back(ps); // Store the object ParamSet in the render options
   }
 
 } // namespace rt3

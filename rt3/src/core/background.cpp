@@ -20,8 +20,6 @@ namespace rt3
     float t_ver = pixel_ndc[0];
     float t_hor = pixel_ndc[1];
 
-    std::cout << t_ver << " " << t_hor << ",";
-
     ColorXYZ top = math::lerp(corners[Corners_e::tl], corners[Corners_e::tr], t_hor);
     ColorXYZ bottom = math::lerp(corners[Corners_e::bl], corners[Corners_e::br], t_hor);
 
