@@ -1,5 +1,6 @@
 #include "api.h"
 #include "background.h"
+#include "scene.h"
 
 #include <chrono>
 #include <memory>
@@ -7,47 +8,23 @@
 namespace rt3
 {
 
-  void render(rt3::Film the_film, rt3::BackgroundColor the_background)
-  {
-    // Get film resolution
-    auto res = the_film.get_resolution();
-    size_t w = res[0];
-    size_t h = res[1];
-
-    // Iterate through each pixel of the image
-    for (size_t y = 0; y < h; ++y)
-    {
-      for (size_t x = 0; x < w; ++x)
-      {
-        // Compute the normalized coordinates of the current pixel
-        rt3::Point2f pixel_coords{static_cast<float>(x), static_cast<float>(y)};
-
-        // Cast a ray into the scene and compute the resulting color
-        ColorXYZ color = the_background.sampleXYZ(pixel_coords);
-
-        // Add the computed color as a sample to the film object
-        the_film.add_sample(pixel_coords, color);
-      }
-    }
-
-    the_film.write_image(w, h, 1, the_film.m_filename);
-  }
-
-  // void render(rt3::Film the_film, const Scene &scene, const RayTracer &ray_tracer) {
+  // void render(rt3::Film the_film, rt3::BackgroundColor the_background)
+  // {
   //   // Get film resolution
   //   auto res = the_film.get_resolution();
   //   size_t w = res[0];
   //   size_t h = res[1];
 
   //   // Iterate through each pixel of the image
-  //   for (size_t y = 0; y < h; ++y) {
-  //     for (size_t x = 0; x < w; ++x) {
+  //   for (size_t y = 0; y < h; ++y)
+  //   {
+  //     for (size_t x = 0; x < w; ++x)
+  //     {
   //       // Compute the normalized coordinates of the current pixel
-  //       rt3::Point2f pixel_coords{static_cast<float>(x) / w, static_cast<float>(y) / h};
+  //       Point2f pixel_coords{static_cast<float>(x), static_cast<float>(y)};
 
   //       // Cast a ray into the scene and compute the resulting color
-  //       Ray ray = compute_ray(x, y, w, h); // Implement a function to compute a ray for the current pixel
-  //       rt3::ColorXYZ color = ray_tracer.trace(ray, scene); // Implement a Ray-Tracer that computes the color based on the scene and the ray
+  //       ColorXYZ color = the_background.sampleXYZ(pixel_coords);
 
   //       // Add the computed color as a sample to the film object
   //       the_film.add_sample(pixel_coords, color);
@@ -56,6 +33,33 @@ namespace rt3
 
   //   the_film.write_image(w, h, 1, the_film.m_filename);
   // }
+
+  void render(const std::shared_ptr<Scene> &s)
+  {
+    auto res = s->camera->film.get_resolution();
+    size_t w = res[0];
+    size_t h = res[1];
+    for (size_t y = 0; y < h; ++y)
+    {
+      for (size_t x = 0; x < w; ++x)
+      {
+        Ray ray = s->camera->generate_ray(x, y);
+        Point2f pixel_coords{static_cast<float>(x), static_cast<float>(y)};
+        ColorXYZ color{0, 0, 0};
+        if (s->backgroundColor->mapping_type == Background::mapping_t::screen)
+          color = s->backgroundColor->sampleXYZ(pixel_coords);
+        else if (s->backgroundColor->mapping_type == Background::mapping_t::spherical)
+          color = s->backgroundColor->sampleXYZ(pixel_coords);
+        // ...
+        // for (const auto &p : s->obj_list)
+        // {
+        //   // ...
+        // }
+        s->camera->film.add_sample(pixel_coords, color);
+      }
+    }
+    s->camera->film.write_image(w, h, 1, s->camera->film.m_filename);
+  }
 
   //=== API's static members declaration and initialization.
   API::APIState API::curr_state = APIState::Uninitialized;
@@ -152,6 +156,10 @@ namespace rt3
     std::unique_ptr<Film> the_film{
         make_film(render_opt->film_type, render_opt->film_ps)};
 
+    std::shared_ptr<Camera> cam = std::make_shared<Camera>(*the_film);
+    std::vector<std::shared_ptr<Primitive>> obj_list;
+    std::shared_ptr<Scene> scene = std::make_shared<Scene>(*cam, *the_background, obj_list);
+
     // Run only if we got film and background.
     if (the_film and the_background)
     {
@@ -169,7 +177,10 @@ namespace rt3
 
       //================================================================================
       auto start = std::chrono::steady_clock::now();
-      render(*the_film, *the_background);
+      // render(*the_film, *the_background);
+
+      render(scene);
+
       auto end = std::chrono::steady_clock::now();
       //================================================================================
       auto diff = end - start; // Store the time difference between start and end

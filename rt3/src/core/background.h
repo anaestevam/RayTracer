@@ -7,17 +7,6 @@
 
 namespace rt3
 {
-  // TODO: Create a virtual class Background and derive BackgroundColor,
-  // BackgroundSphereImage, BackgroundSkyBoxImage, posterior se tiver tempo.
-  /*!
-   * A background is basically a rectangle, have a color associated to each
-   * corner. A background might be sampled based on a normalized coordinate in
-   * \f$[0,1]^2.\f$. We generate samples with bilinear interpolation of the corner
-   * colors. We consider the corners in a circular clockwise order, starting at
-   * the lower-left corner.
-   *
-   * Alternatively, a background might be a regular image.
-   */
   class Background
   {
   public:
@@ -38,7 +27,7 @@ namespace rt3
     }
 
     virtual ~Background(){/* empty */};
-    ColorXYZ sampleXYZ(const Point2f &pixel_ndc);
+    virtual ColorXYZ sampleXYZ(const Point2f &pixel_ndc);
   };
 
   class BackgroundColor : public Background
@@ -68,7 +57,13 @@ namespace rt3
       corners[Corners_e::br] = br;
     }
 
-    BackgroundColor(){};
+    BackgroundColor()
+    {
+      corners[Corners_e::bl] = {0, 0, 0};
+      corners[Corners_e::tl] = {0, 0, 0};
+      corners[Corners_e::tr] = {0, 0, 0};
+      corners[Corners_e::br] = {0, 0, 0};
+    }
 
     ColorXYZ sampleXYZ(const Point2f &pixel_ndc);
   };

@@ -35,10 +35,16 @@ set( RT3_SOURCE_DIR "src" )
 #=== main  target ===
 add_executable(basic_rt3 ${RT3_SOURCE_DIR}/core/api.cpp
                          ${RT3_SOURCE_DIR}/core/background.cpp
+                         ${RT3_SOURCE_DIR}/core/camera.cpp
+                         ${RT3_SOURCE_DIR}/core/film.cpp
                          ${RT3_SOURCE_DIR}/core/math.cpp
                          ${RT3_SOURCE_DIR}/core/error.cpp
-                         ${RT3_SOURCE_DIR}/core/film.cpp
+                         ${RT3_SOURCE_DIR}/core/material.cpp
+                         ${RT3_SOURCE_DIR}/core/primitive.cpp
+                         ${RT3_SOURCE_DIR}/core/ray.cpp
                          ${RT3_SOURCE_DIR}/core/image_io.cpp
+                         ${RT3_SOURCE_DIR}/core/scene.cpp
+                         ${RT3_SOURCE_DIR}/core/surfel.cpp
                          ${RT3_SOURCE_DIR}/core/parser.cpp
                          ${RT3_SOURCE_DIR}/ext/lodepng.cpp
                          ${RT3_SOURCE_DIR}/ext/tinyxml2.cpp
