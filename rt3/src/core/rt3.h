@@ -38,7 +38,7 @@ namespace rt3
   // Temporary Vector3f, just to compile. TODO: Implement a real one!!!
   using Spectrum = std::array<float, 3>;
   using Normal3f = std::array<float, 3>;
-  using Ray = std::array<float, 3>;
+  // using Ray = std::array<float, 3>;
 
   // List of points
   using ListPoint3f = std::vector<Point3f>;
@@ -60,6 +60,9 @@ namespace rt3
 
   // Global Forward Declarations
   class Film;
+  class Material;
+  class Primitive;
+  class Sphere;
   class Background;
   class BackgroundColor;
   class Camera;

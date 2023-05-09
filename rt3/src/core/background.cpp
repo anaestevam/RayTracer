@@ -20,6 +20,8 @@ namespace rt3
     float t_ver = pixel_ndc[0];
     float t_hor = pixel_ndc[1];
 
+    std::cout << t_ver << " " << t_hor << ",";
+
     ColorXYZ top = math::lerp(corners[Corners_e::tl], corners[Corners_e::tr], t_hor);
     ColorXYZ bottom = math::lerp(corners[Corners_e::bl], corners[Corners_e::br], t_hor);
 
@@ -31,7 +33,6 @@ namespace rt3
     if (ps.count("color"))
     {
       ColorXYZ c = retrieve(ps, "color", ColorXYZ());
-      std::cout << c[0] << "test";
       BackgroundColor *nc = new BackgroundColor(c, c, c, c);
       if (background != nullptr)
       {
@@ -41,10 +42,6 @@ namespace rt3
     }
     else
     {
-      // string a = ps.find("colors");
-      std::cout << ps.count("color") << "test2";
-      std::cout << ps.count("colors") << "test2";
-
       ColorXYZ tl = retrieve(ps, "tl", ColorXYZ());
       ColorXYZ bl = retrieve(ps, "bl", ColorXYZ());
       ColorXYZ tr = retrieve(ps, "tr", ColorXYZ());

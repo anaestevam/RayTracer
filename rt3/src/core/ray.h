@@ -10,13 +10,13 @@ public:
         float start = 0, float end = INFINITY) : o{o}, d{d}, t_min{0.f}, t_max{INFINITY}
     { /*empty*/
     }
+    Point3f o;  //!< origin
+    Vector3f d; //!< direction
     Ray() : t_min{0.f}, t_max{INFINITY}
     { /*empty*/
     }
 
 private:
-    Point3f o;          //!< origin
-    Vector3f d;         //!< direction
     float t_min, t_max; //!< parameters
     Point3f operator()(float t) const
     {

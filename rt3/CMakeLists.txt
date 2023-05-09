@@ -42,6 +42,7 @@ add_executable(basic_rt3 ${RT3_SOURCE_DIR}/core/api.cpp
                          ${RT3_SOURCE_DIR}/core/material.cpp
                          ${RT3_SOURCE_DIR}/core/primitive.cpp
                          ${RT3_SOURCE_DIR}/core/ray.cpp
+                         ${RT3_SOURCE_DIR}/core/sphere.cpp
                          ${RT3_SOURCE_DIR}/core/image_io.cpp
                          ${RT3_SOURCE_DIR}/core/scene.cpp
                          ${RT3_SOURCE_DIR}/core/surfel.cpp

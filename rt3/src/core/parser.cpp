@@ -137,6 +137,33 @@ namespace rt3
 
         API::film(ps);
       }
+      else if (tag_name == "material") // New case for flat
+      {
+        ParamSet ps;
+        vector<std::pair<param_type_e, string>> param_list{
+            {param_type_e::STRING, "type"},
+            {param_type_e::COLOR, "color"},
+            // Add any other parameters specific to the flat tag
+        };
+
+        parse_parameters(p_element, param_list, /* out */ &ps);
+
+        API::material(ps); // Replace with the appropriate API function to handle the flat tag
+      }
+      else if (tag_name == "object") // New case for sphere
+      {
+        ParamSet ps;
+        vector<std::pair<param_type_e, string>> param_list{
+            {param_type_e::STRING, "type"},
+            {param_type_e::REAL, "radius"},
+            {param_type_e::POINT3F, "center"},
+            // Add any other parameters specific to the sphere tag
+        };
+
+        parse_parameters(p_element, param_list, /* out */ &ps);
+
+        API::object(ps); // Replace with the appropriate API function to handle the sphere tag
+      }
       else if (tag_name == "lookat")
       {
         ParamSet ps;

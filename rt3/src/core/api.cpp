@@ -8,32 +8,6 @@
 namespace rt3
 {
 
-  // void render(rt3::Film the_film, rt3::BackgroundColor the_background)
-  // {
-  //   // Get film resolution
-  //   auto res = the_film.get_resolution();
-  //   size_t w = res[0];
-  //   size_t h = res[1];
-
-  //   // Iterate through each pixel of the image
-  //   for (size_t y = 0; y < h; ++y)
-  //   {
-  //     for (size_t x = 0; x < w; ++x)
-  //     {
-  //       // Compute the normalized coordinates of the current pixel
-  //       Point2f pixel_coords{static_cast<float>(x), static_cast<float>(y)};
-
-  //       // Cast a ray into the scene and compute the resulting color
-  //       ColorXYZ color = the_background.sampleXYZ(pixel_coords);
-
-  //       // Add the computed color as a sample to the film object
-  //       the_film.add_sample(pixel_coords, color);
-  //     }
-  //   }
-
-  //   the_film.write_image(w, h, 1, the_film.m_filename);
-  // }
-
   void render(const std::shared_ptr<Scene> &s)
   {
     auto res = s->camera->film.get_resolution();
@@ -44,7 +18,7 @@ namespace rt3
       for (size_t x = 0; x < w; ++x)
       {
         Ray ray = s->camera->generate_ray(x, y);
-        Point2f pixel_coords{static_cast<float>(x), static_cast<float>(y)};
+        Point2f pixel_coords{static_cast<float>(x) / static_cast<float>(w), static_cast<float>(y) / static_cast<float>(h)};
         ColorXYZ color{0, 0, 0};
         if (s->backgroundColor->mapping_type == Background::mapping_t::screen)
           color = s->backgroundColor->sampleXYZ(pixel_coords);
@@ -87,6 +61,24 @@ namespace rt3
     bkg = create_color_background(ps, new BackgroundColor());
     // Return the newly created background.
     return bkg;
+  }
+
+  Primitive *API::make_primitive(const std::string &name, const ParamSet &ps)
+  {
+    std::cout << ">>> Inside API::primitive()\n";
+    Primitive *primitive{nullptr};
+    primitive = create_primitive(ps);
+    // Return the newly created background.
+    return primitive;
+  }
+
+  Material *API::make_material(const std::string &name, const ParamSet &ps)
+  {
+    std::cout << ">>> Inside API::material()\n";
+    Material *material{nullptr};
+    material = create_material(ps);
+    // Return the newly created background.
+    return material;
   }
 
   // ˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆ
@@ -230,6 +222,29 @@ namespace rt3
     std::string type = retrieve(ps, "type", string{"unknown"});
     render_opt->film_type = type;
     render_opt->film_ps = ps;
+  }
+
+  void API::material(const ParamSet &ps)
+  {
+    std::cout << ">>> Inside API::material()\n";
+    VERIFY_WORLD_BLOCK("API::material");
+
+    // retrieve type from ps.
+    std::string type = retrieve(ps, "type", string{"unknown"});
+    render_opt->material_type = type;
+    // Store current background object.
+    render_opt->material_ps = ps;
+  }
+
+  void API::object(const ParamSet &ps)
+  {
+    std::cout << ">>> Inside API::object()\n";
+    VERIFY_WORLD_BLOCK("API::object");
+
+    // retrieve type from ps.
+    std::string type = retrieve(ps, "type", string{"unknown"});
+    render_opt->object_type = type;
+    render_opt->object_ps = ps;
   }
 
 } // namespace rt3

@@ -24,8 +24,8 @@ namespace rt3
   void Film::add_sample(const Point2f &pixel_coord, const ColorXYZ &pixel_color)
   {
 
-    int x = static_cast<int>(pixel_coord[0]);
-    int y = static_cast<int>(pixel_coord[1]);
+    int x = static_cast<int>(pixel_coord[0] * m_full_resolution[0]);
+    int y = static_cast<int>(pixel_coord[1] * m_full_resolution[1]);
     if (x >= 0 && x < m_full_resolution[0] && y >= 0 && y < m_full_resolution[1])
     {
       size_t index = y * m_full_resolution[0] + x;

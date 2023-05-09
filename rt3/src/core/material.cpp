@@ -1,31 +1,28 @@
 #include "material.h"
+#include "rt3.h"
+#include "paramset.h"
+#include "ray.h"
 
-Material::Material() {}
-
-Material::Material(const Vector3f &ambient, const Vector3f &diffuse, const Vector3f &specular, float shininess, float reflectivity)
-    : _ambient(ambient), _diffuse(diffuse), _specular(specular), _shininess(shininess), _reflectivity(reflectivity) {}
-
-Vector3f Material::ambient() const
+namespace rt3
 {
-    return _ambient;
-}
 
-Vector3f Material::diffuse() const
-{
-    return _diffuse;
-}
+    Material *create_material(const ParamSet &ps)
+    {
+        // Extract the required parameters from the ParamSet object
+        std::string type = retrieve(ps, "type", std::string{""});
 
-Vector3f Material::specular() const
-{
-    return _specular;
-}
+        // Create a Material object based on the type
+        Material *material = nullptr;
+        if (type == "flat")
+        {
+            ColorXYZ color = retrieve(ps, "color", ColorXYZ{{0, 0, 0}});
+            material = new Material();
+        }
+        else
+        {
+            // Handle other Material types or throw an exception if the type is not supported
+        }
 
-float Material::shininess() const
-{
-    return _shininess;
-}
-
-float Material::reflectivity() const
-{
-    return _reflectivity;
+        return material;
+    }
 }
