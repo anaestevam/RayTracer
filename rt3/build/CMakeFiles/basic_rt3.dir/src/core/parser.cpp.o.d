@@ -235,4 +235,8 @@ CMakeFiles/basic_rt3.dir/src/core/parser.cpp.o: \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
  /usr/include/c++/11/tr1/riemann_zeta.tcc /usr/include/c++/11/stack \
  /usr/include/c++/11/deque /usr/include/c++/11/bits/stl_deque.h \
- /usr/include/c++/11/bits/deque.tcc /usr/include/c++/11/bits/stl_stack.h
+ /usr/include/c++/11/bits/deque.tcc /usr/include/c++/11/bits/stl_stack.h \
+ /home/ana/RayTracer/rt3/src/core/../ext/vec2.h \
+ /usr/include/c++/11/math.h /usr/include/c++/11/stdlib.h \
+ /home/ana/RayTracer/rt3/src/core/../ext/vec3.h \
+ /home/ana/RayTracer/rt3/src/core/../ext/vec4.h

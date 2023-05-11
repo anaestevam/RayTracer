@@ -216,6 +216,10 @@ CMakeFiles/basic_rt3.dir/src/main/rt3.cpp.o: \
  /usr/include/c++/11/bits/uniform_int_dist.h \
  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
  /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
+ /home/ana/RayTracer/rt3/src/main/../core/../ext/vec2.h \
+ /usr/include/c++/11/math.h /usr/include/c++/11/stdlib.h \
+ /home/ana/RayTracer/rt3/src/main/../core/../ext/vec3.h \
+ /home/ana/RayTracer/rt3/src/main/../core/../ext/vec4.h \
  /home/ana/RayTracer/rt3/src/main/../core/paramset.h \
  /home/ana/RayTracer/rt3/src/main/../core/rt3.h \
  /home/ana/RayTracer/rt3/src/main/../core/error.h \

@@ -21,6 +21,10 @@ using std::tuple;
 #include <array>
 using std::array;
 
+#include "../ext/vec2.h"
+#include "../ext/vec3.h"
+#include "../ext/vec4.h"
+
 //== Alias to the chosen data structure to implement a dictionary.
 // #define Dictionary std::unordered_map
 #define Dictionary std::map
@@ -36,6 +40,7 @@ namespace rt3
   /// Point3f!!!!
   // Alias to a Point3f (simulation)
   // Temporary Vector3f, just to compile. TODO: Implement a real one!!!
+  //tirar todos
   using Spectrum = std::array<float, 3>;
   using Normal3f = std::array<float, 3>;
   // using Ray = std::array<float, 3>;

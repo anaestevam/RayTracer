@@ -15,6 +15,7 @@ namespace rt3
 
         Ray generate_ray(int x, int y) const
         {
+            //existir
             // Implement ray generation logic based on camera parameters and pixel coordinates
         }
 
@@ -24,11 +25,21 @@ namespace rt3
 
     class PerspectiveCamera : public Camera
     {
-        // ...
+        public:
+            PerspectiveCamera(Film &&_film);
+            ~PerspectiveCamera();
+    
     };
     class OrthographicCamera : public Camera
     {
-        // ...
+        public:
+            OrthographicCamera(Film &&_film);
+            ~OrthographicCamera();
+    
     };
+
+    OrthographicCamera* create_orthographic_camera(const ParamSet& ps_camera, const ParamSet& ps_look_at, Film &&the_film);
+    PerspectiveCamera* create_perspective_camera(const ParamSet& ps_camera, const ParamSet& ps_look_at, Film &&the_film);
+
 }
 #endif // CAMERA_H

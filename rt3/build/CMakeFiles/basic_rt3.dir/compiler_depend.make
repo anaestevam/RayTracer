@@ -263,6 +263,11 @@ CMakeFiles/basic_rt3.dir/src/core/api.cpp.o: ../src/core/api.cpp \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
   /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h \
   ../src/core/paramset.h \
   ../src/core/background.h \
   ../src/core/math.h \
@@ -574,6 +579,11 @@ CMakeFiles/basic_rt3.dir/src/core/background.cpp.o: ../src/core/background.cpp \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
   /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h \
   ../src/core/rt3-base.h \
   ../src/ext/lodepng.h \
   /usr/include/string.h \
@@ -875,6 +885,11 @@ CMakeFiles/basic_rt3.dir/src/core/camera.cpp.o: ../src/core/camera.cpp \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
   /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h \
   ../src/core/film.h \
   ../src/core/error.h \
   /usr/include/c++/11/iomanip \
@@ -1371,6 +1386,11 @@ CMakeFiles/basic_rt3.dir/src/core/film.cpp.o: ../src/core/film.cpp \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
   /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h \
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
@@ -1869,6 +1889,11 @@ CMakeFiles/basic_rt3.dir/src/core/material.cpp.o: ../src/core/material.cpp \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
   /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h \
   ../src/core/paramset.h \
   ../src/core/ray.h
 
@@ -2132,7 +2157,12 @@ CMakeFiles/basic_rt3.dir/src/core/math.cpp.o: ../src/core/math.cpp \
   /usr/include/c++/11/bits/uniform_int_dist.h \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
-  /usr/include/c++/11/bits/std_function.h
+  /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h
 
 CMakeFiles/basic_rt3.dir/src/core/parser.cpp.o: ../src/core/parser.cpp \
   /usr/include/stdc-predef.h \
@@ -2428,7 +2458,12 @@ CMakeFiles/basic_rt3.dir/src/core/parser.cpp.o: ../src/core/parser.cpp \
   /usr/include/c++/11/deque \
   /usr/include/c++/11/bits/stl_deque.h \
   /usr/include/c++/11/bits/deque.tcc \
-  /usr/include/c++/11/bits/stl_stack.h
+  /usr/include/c++/11/bits/stl_stack.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h
 
 CMakeFiles/basic_rt3.dir/src/core/primitive.cpp.o: ../src/core/primitive.cpp \
   /usr/include/stdc-predef.h \
@@ -2692,6 +2727,11 @@ CMakeFiles/basic_rt3.dir/src/core/primitive.cpp.o: ../src/core/primitive.cpp \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
   /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h \
   ../src/core/ray.h \
   ../src/core/material.h \
   ../src/core/paramset.h \
@@ -2958,7 +2998,12 @@ CMakeFiles/basic_rt3.dir/src/core/ray.cpp.o: ../src/core/ray.cpp \
   /usr/include/c++/11/bits/uniform_int_dist.h \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
-  /usr/include/c++/11/bits/std_function.h
+  /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h
 
 CMakeFiles/basic_rt3.dir/src/core/scene.cpp.o: ../src/core/scene.cpp \
   /usr/include/stdc-predef.h \
@@ -3224,6 +3269,11 @@ CMakeFiles/basic_rt3.dir/src/core/scene.cpp.o: ../src/core/scene.cpp \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
   /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h \
   ../src/core/rt3-base.h \
   ../src/ext/lodepng.h \
   /usr/include/string.h \
@@ -3528,6 +3578,11 @@ CMakeFiles/basic_rt3.dir/src/core/sphere.cpp.o: ../src/core/sphere.cpp \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
   /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h \
   ../src/core/ray.h \
   ../src/core/material.h \
   ../src/core/paramset.h \
@@ -3795,6 +3850,11 @@ CMakeFiles/basic_rt3.dir/src/core/surfel.cpp.o: ../src/core/surfel.cpp \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
   /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h \
   ../src/core/ray.h \
   ../src/core/primitive.h \
   ../src/core/material.h \
@@ -4329,6 +4389,11 @@ CMakeFiles/basic_rt3.dir/src/main/rt3.cpp.o: ../src/main/rt3.cpp \
   /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/functional \
   /usr/include/c++/11/bits/std_function.h \
+  ../src/ext/vec2.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/stdlib.h \
+  ../src/ext/vec3.h \
+  ../src/ext/vec4.h \
   ../src/core/paramset.h \
   ../src/core/rt3.h \
   ../src/core/error.h \
@@ -4361,10 +4426,6 @@ CMakeFiles/basic_rt3.dir/src/main/rt3.cpp.o: ../src/main/rt3.cpp \
 ../src/core/primitive.cpp:
 
 ../src/core/material.cpp:
-
-/usr/include/c++/11/math.h:
-
-/usr/include/c++/11/stdlib.h:
 
 ../src/ext/stb_image_write.h:
 
@@ -4443,6 +4504,10 @@ CMakeFiles/basic_rt3.dir/src/main/rt3.cpp.o: ../src/main/rt3.cpp \
 ../src/core/primitive.h:
 
 ../src/core/paramset.h:
+
+/usr/include/c++/11/stdlib.h:
+
+/usr/include/c++/11/math.h:
 
 /usr/include/stdlib.h:
 
@@ -4746,6 +4811,8 @@ CMakeFiles/basic_rt3.dir/src/main/rt3.cpp.o: ../src/main/rt3.cpp \
 
 /usr/include/c++/11/bits/ostream.tcc:
 
+../src/ext/vec2.h:
+
 /usr/include/wchar.h:
 
 /usr/include/c++/11/bits/cxxabi_init_exception.h:
@@ -4771,6 +4838,8 @@ CMakeFiles/basic_rt3.dir/src/main/rt3.cpp.o: ../src/main/rt3.cpp \
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
 /usr/include/c++/11/iomanip:
+
+../src/ext/vec4.h:
 
 /usr/include/c++/11/cctype:
 
@@ -4955,6 +5024,8 @@ CMakeFiles/basic_rt3.dir/src/main/rt3.cpp.o: ../src/main/rt3.cpp \
 /usr/include/c++/11/backward/auto_ptr.h:
 
 /usr/include/c++/11/bits/stl_raw_storage_iter.h:
+
+../src/ext/vec3.h:
 
 /usr/include/c++/11/bits/align.h:
 

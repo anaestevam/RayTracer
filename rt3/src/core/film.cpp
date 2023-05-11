@@ -23,7 +23,8 @@ namespace rt3
 
   void Film::add_sample(const Point2f &pixel_coord, const ColorXYZ &pixel_color)
   {
-
+// add_pixels || idx = linhas * largura + colunas
+// m_pixel [idx] = ColorXYZ
     float x = (pixel_coord[0] * m_full_resolution[0]);
     float y = (pixel_coord[1] * m_full_resolution[1]);
     if (x >= 0 && x < m_full_resolution[0] && y >= 0 && y < m_full_resolution[1])
@@ -37,7 +38,7 @@ namespace rt3
   void Film::write_image(size_t w, size_t h, size_t d, const std::string &file_name)
   {
     unsigned char *data = new unsigned char[w * h * 3];
-
+//incluir arquivo de cena o usuário definir qual tipo do arquivo de cena quer tipo = ppm 
     for (size_t y = 0; y < h; y++)
     {
       for (size_t x = 0; x < w; x++)
@@ -52,7 +53,7 @@ namespace rt3
       }
     }
 
-    save_ppm6(data, w, h, 3, file_name.c_str());
+    save_ppm3(data, w, h, 3, file_name.c_str());
 
     delete[] data;
   }
