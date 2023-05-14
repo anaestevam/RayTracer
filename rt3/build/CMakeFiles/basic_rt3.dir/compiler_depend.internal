@@ -264,6 +264,11 @@ CMakeFiles/basic_rt3.dir/src/core/api.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
  /home/ana/RayTracer/rt3/src/core/paramset.h
  /home/ana/RayTracer/rt3/src/core/background.h
  /home/ana/RayTracer/rt3/src/core/math.h
@@ -576,6 +581,11 @@ CMakeFiles/basic_rt3.dir/src/core/background.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
  /home/ana/RayTracer/rt3/src/core/rt3-base.h
  /home/ana/RayTracer/rt3/src/ext/lodepng.h
  /usr/include/string.h
@@ -878,6 +888,11 @@ CMakeFiles/basic_rt3.dir/src/core/camera.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
  /home/ana/RayTracer/rt3/src/core/film.h
  /home/ana/RayTracer/rt3/src/core/error.h
  /usr/include/c++/11/iomanip
@@ -1376,6 +1391,11 @@ CMakeFiles/basic_rt3.dir/src/core/film.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
  /usr/include/c++/11/cstring
  /usr/include/string.h
  /usr/include/strings.h
@@ -1876,6 +1896,11 @@ CMakeFiles/basic_rt3.dir/src/core/material.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
  /home/ana/RayTracer/rt3/src/core/paramset.h
  /home/ana/RayTracer/rt3/src/core/ray.h
 
@@ -2141,6 +2166,12 @@ CMakeFiles/basic_rt3.dir/src/core/math.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
+ /home/ana/RayTracer/rt3/src/core/math.h
 
 CMakeFiles/basic_rt3.dir/src/core/parser.cpp.o
  /home/ana/RayTracer/rt3/src/core/parser.cpp
@@ -2438,6 +2469,11 @@ CMakeFiles/basic_rt3.dir/src/core/parser.cpp.o
  /usr/include/c++/11/bits/stl_deque.h
  /usr/include/c++/11/bits/deque.tcc
  /usr/include/c++/11/bits/stl_stack.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
 
 CMakeFiles/basic_rt3.dir/src/core/primitive.cpp.o
  /home/ana/RayTracer/rt3/src/core/primitive.cpp
@@ -2702,6 +2738,11 @@ CMakeFiles/basic_rt3.dir/src/core/primitive.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
  /home/ana/RayTracer/rt3/src/core/ray.h
  /home/ana/RayTracer/rt3/src/core/material.h
  /home/ana/RayTracer/rt3/src/core/paramset.h
@@ -2970,6 +3011,11 @@ CMakeFiles/basic_rt3.dir/src/core/ray.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
 
 CMakeFiles/basic_rt3.dir/src/core/scene.cpp.o
  /home/ana/RayTracer/rt3/src/core/scene.cpp
@@ -3236,6 +3282,11 @@ CMakeFiles/basic_rt3.dir/src/core/scene.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
  /home/ana/RayTracer/rt3/src/core/rt3-base.h
  /home/ana/RayTracer/rt3/src/ext/lodepng.h
  /usr/include/string.h
@@ -3541,6 +3592,11 @@ CMakeFiles/basic_rt3.dir/src/core/sphere.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
  /home/ana/RayTracer/rt3/src/core/ray.h
  /home/ana/RayTracer/rt3/src/core/material.h
  /home/ana/RayTracer/rt3/src/core/paramset.h
@@ -3809,6 +3865,11 @@ CMakeFiles/basic_rt3.dir/src/core/surfel.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
  /home/ana/RayTracer/rt3/src/core/ray.h
  /home/ana/RayTracer/rt3/src/core/primitive.h
  /home/ana/RayTracer/rt3/src/core/material.h
@@ -4346,6 +4407,11 @@ CMakeFiles/basic_rt3.dir/src/main/rt3.cpp.o
  /usr/include/c++/11/pstl/glue_algorithm_defs.h
  /usr/include/c++/11/functional
  /usr/include/c++/11/bits/std_function.h
+ /home/ana/RayTracer/rt3/src/ext/vec2.h
+ /usr/include/c++/11/math.h
+ /usr/include/c++/11/stdlib.h
+ /home/ana/RayTracer/rt3/src/ext/vec3.h
+ /home/ana/RayTracer/rt3/src/ext/vec4.h
  /home/ana/RayTracer/rt3/src/core/paramset.h
  /home/ana/RayTracer/rt3/src/core/rt3.h
  /home/ana/RayTracer/rt3/src/core/error.h

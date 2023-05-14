@@ -21,16 +21,16 @@ namespace rt3
   {
   }
 
-  void Film::add_sample(const Point2f &pixel_coord, const ColorXYZ &pixel_color)
-  {
+  void Film::add_sample(const Point2f &pixel_coord, const ColorXYZ &pixel_color){
 
     float x = (pixel_coord[0] * m_full_resolution[0]);
     float y = (pixel_coord[1] * m_full_resolution[1]);
-    if (x >= 0 && x < m_full_resolution[0] && y >= 0 && y < m_full_resolution[1])
-    {
+    if (x < m_full_resolution[0] && y < m_full_resolution[1]){
       size_t index = y * m_full_resolution[0] + x;
-      std::transform(m_pixels[index].begin(), m_pixels[index].end(), pixel_color.begin(),
-                     m_pixels[index].begin(), std::plus<float>());
+           for (int i = 0; i < 3; i++)
+           {
+               m_pixels[index][i] += pixel_color[i];
+           }
     }
   }
 
@@ -38,10 +38,8 @@ namespace rt3
   {
     unsigned char *data = new unsigned char[w * h * 3];
 
-    for (size_t y = 0; y < h; y++)
-    {
-      for (size_t x = 0; x < w; x++)
-      {
+    for (size_t y = 0; y < h; y++){
+      for (size_t x = 0; x < w; x++){
         size_t index = y * w + x;
         float r = m_pixels[index][0] / d;
         float g = m_pixels[index][1] / d;
@@ -52,7 +50,17 @@ namespace rt3
       }
     }
 
-    save_ppm6(data, w, h, 3, file_name.c_str());
+    switch (m_image_type) {
+           case image_type_e::PPM3:
+               save_ppm3(data, w, h, 3, file_name.c_str());
+               break;
+           case image_type_e::PPM6:
+               save_ppm6(data, w, h, 3, file_name.c_str());
+               break;
+           case image_type_e::PNG:
+               save_png(data, w, h, 3, file_name.c_str());
+               break;
+       }
 
     delete[] data;
   }
