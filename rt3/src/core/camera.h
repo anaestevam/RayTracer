@@ -29,34 +29,11 @@ namespace rt3
         PerspectiveCamera(const ParamSet &params, const Film &film_)
             : Camera(film_)
         {
-            // Extract camera parameters from the ParamSet
-            // ...
 
-            // Calculate the camera-to-world transformation matrix
-            // ...
-
-            // Calculate the image plane dimensions
-            // ...
-
-            // Calculate the distance from the camera to the image plane
-            // ...
-
-            // Calculate the direction vectors for the image plane
-            // ...
-
-            // Calculate the ray direction based on the image plane and pixel coordinates
-            // ...
-
-            // Transform the ray direction to world space
-            // ...
-
-            // Create and return a new ray
-            // ...
         }
 
     private:
-        // Define private member variables for the camera parameters
-        // ...
+
     };
     class OrthographicCamera : public Camera
     {
@@ -64,22 +41,11 @@ namespace rt3
         OrthographicCamera(const ParamSet &params, const Film &film_)
             : Camera(film_)
         {
-            // Extract camera parameters from the ParamSet
-            // ...
 
-            // Calculate the camera-to-world transformation matrix
-            // ...
-
-            // Calculate the image plane dimensions
-            // ...
-
-            // Calculate the direction vectors for the image plane
-            // ...
         }
 
     private:
-        // Define private member variables for the camera parameters
-        // ...
+
     };
 
 
