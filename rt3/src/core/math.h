@@ -10,8 +10,7 @@ namespace math
 
   ColorXYZ lerp(const ColorXYZ &A, const ColorXYZ &B, float t);
 
-class Vector3
-{
+class Vector3{
 public:
     double vector[3];
     

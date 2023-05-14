@@ -2171,6 +2171,7 @@ CMakeFiles/basic_rt3.dir/src/core/math.cpp.o
  /usr/include/c++/11/stdlib.h
  /home/ana/RayTracer/rt3/src/ext/vec3.h
  /home/ana/RayTracer/rt3/src/ext/vec4.h
+ /home/ana/RayTracer/rt3/src/core/math.h
 
 CMakeFiles/basic_rt3.dir/src/core/parser.cpp.o
  /home/ana/RayTracer/rt3/src/core/parser.cpp

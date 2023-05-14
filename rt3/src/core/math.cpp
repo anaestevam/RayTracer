@@ -1,10 +1,9 @@
 #include "rt3.h"
 #include "math.h"
 
-namespace math
-{
-    ColorXYZ lerp(const ColorXYZ &A, const ColorXYZ &B, float t)
-    {
+namespace math{
+
+    ColorXYZ lerp(const ColorXYZ &A, const ColorXYZ &B, float t){
         ColorXYZ new_color = {0, 0, 0};
         new_color[0] = (1 - t) * A[0] + t * B[0];
         new_color[1] = (1 - t) * A[1] + t * B[1];

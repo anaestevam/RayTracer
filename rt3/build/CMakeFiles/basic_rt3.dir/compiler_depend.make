@@ -2162,7 +2162,8 @@ CMakeFiles/basic_rt3.dir/src/core/math.cpp.o: ../src/core/math.cpp \
   /usr/include/c++/11/math.h \
   /usr/include/c++/11/stdlib.h \
   ../src/ext/vec3.h \
-  ../src/ext/vec4.h
+  ../src/ext/vec4.h \
+  ../src/core/math.h
 
 CMakeFiles/basic_rt3.dir/src/core/parser.cpp.o: ../src/core/parser.cpp \
   /usr/include/stdc-predef.h \

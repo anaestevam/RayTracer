@@ -15,8 +15,8 @@ namespace rt3
 
         Ray generate_ray(int x, int y) const
         {
-            //existir
             // Implement ray generation logic based on camera parameters and pixel coordinates
+
         }
 
     private:
@@ -24,22 +24,67 @@ namespace rt3
     };
 
     class PerspectiveCamera : public Camera
-    {
-        public:
-            PerspectiveCamera(Film &&_film);
-            ~PerspectiveCamera();
-    
+{
+    public:
+        PerspectiveCamera(const ParamSet &params, const Film &film_)
+            : Camera(film_)
+        {
+            // Extract camera parameters from the ParamSet
+            // ...
+
+            // Calculate the camera-to-world transformation matrix
+            // ...
+
+            // Calculate the image plane dimensions
+            // ...
+
+            // Calculate the distance from the camera to the image plane
+            // ...
+
+            // Calculate the direction vectors for the image plane
+            // ...
+
+            // Calculate the ray direction based on the image plane and pixel coordinates
+            // ...
+
+            // Transform the ray direction to world space
+            // ...
+
+            // Create and return a new ray
+            // ...
+        }
+
+    private:
+        // Define private member variables for the camera parameters
+        // ...
     };
     class OrthographicCamera : public Camera
     {
-        public:
-            OrthographicCamera(Film &&_film);
-            ~OrthographicCamera();
-    
+    public:
+        OrthographicCamera(const ParamSet &params, const Film &film_)
+            : Camera(film_)
+        {
+            // Extract camera parameters from the ParamSet
+            // ...
+
+            // Calculate the camera-to-world transformation matrix
+            // ...
+
+            // Calculate the image plane dimensions
+            // ...
+
+            // Calculate the direction vectors for the image plane
+            // ...
+        }
+
+    private:
+        // Define private member variables for the camera parameters
+        // ...
     };
+
 
     OrthographicCamera* create_orthographic_camera(const ParamSet& ps_camera, const ParamSet& ps_look_at, Film &&the_film);
     PerspectiveCamera* create_perspective_camera(const ParamSet& ps_camera, const ParamSet& ps_look_at, Film &&the_film);
 
-}
+    }
 #endif // CAMERA_H
