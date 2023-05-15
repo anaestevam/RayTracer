@@ -17,7 +17,7 @@ namespace rt3
     if (type == "sphere")
     {
       float radius = retrieve(ps, "radius", float{0.0});
-      Point3f center = retrieve(ps, "center", Point3f{{0, 0, 0}});
+      Point3f center = retrieve(ps, "center", Point3f{0, 0, 0});
       primitive = new Sphere(center, radius);
     }
     else

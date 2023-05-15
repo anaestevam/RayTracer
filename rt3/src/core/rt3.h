@@ -21,16 +21,13 @@ using std::tuple;
 #include <array>
 using std::array;
 
-#include "../ext/vec2.h"
-#include "../ext/vec3.h"
-#include "../ext/vec4.h"
+#include "point3f.h"
+#include "vector3f.h"
 
 //== Alias to the chosen data structure to implement a dictionary.
 // #define Dictionary std::unordered_map
 #define Dictionary std::map
 using ColorXYZ = std::array<float, 3>;
-using Point3f = std::array<float, 3>;
-using Vector3f = std::array<float, 3>;
 using Point2f = std::array<float, 2>;
 
 //=== Aliases
@@ -46,7 +43,7 @@ namespace rt3
   // using Ray = std::array<float, 3>;
 
   // List of points
-  using ListPoint3f = std::vector<Point3f>;
+  // using ListPoint3f = std::vector<Point3f>;
 
   // Temporary Vector3fi. TODO: code a real one.
   using Vector3i = std::array<int, 3>;

@@ -20,8 +20,7 @@ private:
     float t_min, t_max; //!< parameters
     Point3f operator()(float t) const
     {
-        //return o + d * t;
-        return o;
+        return o + d * t;
     }
 };
 
