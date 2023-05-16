@@ -89,3 +89,13 @@ private:
   inline Point3f operator+(const Point3f& point, const Vector3f& vector) {
         return Point3f(point[0] + vector[0], point[1] + vector[1], point[2] + vector[2]);
     }
+
+
+  inline Point3f operator-(const Point3f& point, const Vector3f& vector) {
+        return Point3f(point[0] - vector[0], point[1] - vector[1], point[2] - vector[2]);
+    }
+
+  inline Vector3f operator*(const Vector3f& vector, const Point3f& point) {
+        return Vector3f(point[0] * vector[0], point[1] * vector[1], point[2] * vector[2]);
+    }
+    

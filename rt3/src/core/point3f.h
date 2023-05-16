@@ -40,7 +40,9 @@ public:
     }
     
     friend inline Point3f operator+(const Point3f& point, const Vector3f& vector);
-    
+    friend inline Point3f operator-(const Point3f& point, const Vector3f& vector);
+    friend inline Vector3f operator*(const Vector3f& vector, const Point3f& point);
+
     DataType::iterator begin() {
         return data_.begin();
     }

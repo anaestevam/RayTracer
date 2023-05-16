@@ -11,16 +11,6 @@ namespace rt3
     {
     public:
 
-     explicit Primitive(const Primitive &other)
-        {
-            material = other.material;
-        }
-
-        // Add a constructor that takes a Material object as its argument
-        explicit Primitive(Material *mat)
-        {
-            material = mat;
-        }
         virtual ~Primitive(){};
         // Simpler & faster version of intersection that only return true/false.
         // It does not compute the hit point information.

@@ -8,6 +8,11 @@ namespace rt3
     return ColorXYZ{0, 0, 0};
   }
 
+  ColorXYZ Background::sampleXYZ(const Vector3f &pixel_ndc)
+  {
+    return ColorXYZ{0, 0, 0};
+  }
+
   /*!
    * Samples a color base on spherical interpolation of an image ou colored
    * background.
@@ -16,6 +21,19 @@ namespace rt3
    * \return The interpolated color.
    */
   ColorXYZ BackgroundColor::sampleXYZ(const Point2f &pixel_ndc)
+  {
+    float t_ver = pixel_ndc[0];
+    float t_hor = pixel_ndc[1];
+
+    //std::cout << t_ver << " " << t_hor << ",";
+
+    ColorXYZ top = math::lerp(corners[Corners_e::tl], corners[Corners_e::tr], t_hor);
+    ColorXYZ bottom = math::lerp(corners[Corners_e::bl], corners[Corners_e::br], t_hor);
+
+    return math::lerp(top, bottom, t_ver);
+  }
+
+    ColorXYZ BackgroundColor::sampleXYZ(const Vector3f &pixel_ndc)
   {
     float t_ver = pixel_ndc[0];
     float t_hor = pixel_ndc[1];

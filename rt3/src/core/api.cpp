@@ -5,22 +5,54 @@
 #include <chrono>
 #include <memory>
 
+bool hit_sphere(const Point3f& center, float radius, const Ray& r) {
+    Vector3f oc = Vector3f{1,1,1} * (r.o - center);
+    auto a = r.d.dot(r.d);
+    auto b = 2.0 * oc.dot(r.d);
+    auto c = oc.dot(oc) - radius*radius;
+    auto discriminant = b*b - 4*a*c;
+    return (discriminant > 0);
+}
+
 namespace rt3
 {
 
   void render(const std::shared_ptr<Scene> &s)
   {
+
     auto res = s->camera->film.get_resolution();
     size_t w = res[0];
     size_t h = res[1];
+
+    const auto aspect_ratio = w / h;
+    const int image_width = w;
+    const int image_height = h;
+
+    auto viewport_height = 1.0;
+    auto viewport_width = aspect_ratio * viewport_height;
+    auto focal_length = 1.0;
+
+    auto origin = Point3f(0, 0, 0);
+    auto horizontal = Vector3f(viewport_width, 0, 0);
+    auto vertical = Vector3f(0, viewport_height, 0);
+    auto lower_left_corner = origin - horizontal/2 - vertical/2 - Vector3f(0, 0, focal_length);
+
+   
+
+
     for (size_t y = 0; y < h; ++y)
     {
       for (size_t x = 0; x < w; ++x)
       {
-        Ray ray = s->camera->generate_ray(x, y);
+        auto u = float(x) / (image_width-1);
+        auto v = float(y) / (image_height-1);
+        // Ray ray = s->camera->generate_ray(x, y);
         Point2f pixel_coords{static_cast<float>(x) / static_cast<float>(w), static_cast<float>(y) / static_cast<float>(h)};
         ColorXYZ color{0, 0, 0};
-        if (s->backgroundColor->mapping_type == Background::mapping_t::screen)
+        Ray r(origin, Vector3f{1,1,1} * (lower_left_corner + horizontal*u + vertical*v - origin));
+        if (hit_sphere(Point3f(0,0,-1), 0.1, r))
+          color = ColorXYZ{1, 0, 0};
+        else if (s->backgroundColor->mapping_type == Background::mapping_t::screen)
           color = s->backgroundColor->sampleXYZ(pixel_coords);
         else if (s->backgroundColor->mapping_type == Background::mapping_t::spherical)
           color = s->backgroundColor->sampleXYZ(pixel_coords);

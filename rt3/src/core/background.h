@@ -28,6 +28,7 @@ namespace rt3
 
     virtual ~Background(){/* empty */};
     virtual ColorXYZ sampleXYZ(const Point2f &pixel_ndc);
+    virtual ColorXYZ sampleXYZ(const Vector3f &pixel_ndc);
   };
 
   class BackgroundColor : public Background
@@ -66,6 +67,8 @@ namespace rt3
     }
 
     ColorXYZ sampleXYZ(const Point2f &pixel_ndc);
+    ColorXYZ sampleXYZ(const Vector3f &pixel_ndc);
+
   };
 
   // factory pattern functions.
