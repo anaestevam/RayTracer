@@ -8,24 +8,25 @@ namespace rt3
     class Material
     {
     public:
-        Material() {}
+        Material(const ColorXYZ &color, float reflectivity, float transparency)
+            : color(color), reflectivity(reflectivity), transparency(transparency) {}
 
-        Material(const Vector3f &ambient, const Vector3f &diffuse, const Vector3f &specular, float shininess, float reflectivity)
-            : _ambient(ambient), _diffuse(diffuse), _specular(specular), _shininess(shininess), _reflectivity(reflectivity) {}
-
-        Vector3f ambient() const;
-        Vector3f diffuse() const;
-        Vector3f specular() const;
-        float shininess() const;
-        float reflectivity() const;
-
-    private:
-        Vector3f _ambient;
-        Vector3f _diffuse;
-        Vector3f _specular;
-        float _shininess;
-        float _reflectivity;
+        ColorXYZ color;
+        float reflectivity;
+        float transparency;
     };
     Material *create_material(const ParamSet &ps);
+
+    class FrostedGlassMaterial : public Material {
+        public:
+            FrostedGlassMaterial(const ColorXYZ &color, float reflectivity, float transparency, float roughness, float opacity)
+                : Material(color, reflectivity, transparency), roughness(roughness), opacity(opacity) {}
+
+            float roughness;
+            float opacity;
+    };  
 }
+
 #endif // MATERIAL_H
+
+

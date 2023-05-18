@@ -11,13 +11,15 @@ namespace rt3
   class Scene
   {
   public:
-    // Scene(std::shared_ptr<Camera> camera, std::shared_ptr<Background> background, std::vector<std::shared_ptr<Primitive>> obj_list);
-    Scene(const Camera &camera, const BackgroundColor &backgroundColor, const std::vector<std::shared_ptr<Primitive>> &obj_list);
+    // Scene(std::shared_ptr<Camera> camera, std::shared_ptr<Background> background, std::vector<std::shared_ptr<Primitive>> primitives);
+    Scene(const Camera &camera, const BackgroundColor &backgroundColor, const std::vector<std::shared_ptr<Primitive>> &primitives);
 
     std::shared_ptr<Camera> camera;
     // std::shared_ptr<Background> background;
     std::shared_ptr<BackgroundColor> backgroundColor;
-    std::vector<std::shared_ptr<Primitive>> obj_list;
+    std::vector<std::shared_ptr<Primitive>> primitives;
+  
+  
   };
 }
 #endif // SCENE_H

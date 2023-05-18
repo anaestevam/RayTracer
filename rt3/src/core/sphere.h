@@ -6,34 +6,28 @@
 #include "material.h"
 #include "primitive.h"
 
-namespace rt3
-{
-    class Sphere : public Primitive
-    {
+namespace rt3 {
+    class Sphere : public Primitive {
     public:
         Point3f center;
         float radius;
 
-        Sphere(const Point3f &center, float radius) : center(center), radius(radius) {}
+        Sphere(const Point3f &center, float radius, Material *mat)
+            : Primitive(mat), center(center), radius(radius) {}
+
         virtual ~Sphere(){};
 
-        bool intersect_p(const Ray &ray) const
-        {
-            // Point3f m = center - ray.o;
-            // TO-DO multipllicar
-            //  float b = m.Dot(ray.d);
-            //  float c = m.Dot(m) - radius * radius;
+        bool intersect_p(const Ray &r) const {
+            Vector3f oc = Vector3f{1,1,1} * (r.o - center);
+            auto a = r.d.dot(r.d);
+            auto b = 2.0 * oc.dot(r.d);
+            auto c = oc.dot(oc) - radius*radius;
+            auto discriminant = b*b - 4*a*c;
+            return (discriminant > 0);
+        }               
 
-            // if (b < 0 && c > 0)
-            // {
-            //     return false;
-            // }
-            // float discr = b * b - c;
-            return 0;
-        }
-        const Material *get_material(void) const
-        {
-            return new Material();
+        const Material *get_material(void) const {
+            return get_material();
         }
     };
 }
