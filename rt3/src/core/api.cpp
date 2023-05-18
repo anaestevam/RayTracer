@@ -51,7 +51,7 @@ namespace rt3
         ColorXYZ color{0, 0, 0};
         Ray r(origin, Vector3f{1,1,1} * (lower_left_corner + horizontal*u + vertical*v - origin));
         if (hit_sphere(Point3f(0,0,-1), 0.1, r))
-          color = ColorXYZ{1, 0, 0};
+          color = ColorXYZ{255, 0, 0};
         else if (s->backgroundColor->mapping_type == Background::mapping_t::screen)
           color = s->backgroundColor->sampleXYZ(pixel_coords);
         else if (s->backgroundColor->mapping_type == Background::mapping_t::spherical)
