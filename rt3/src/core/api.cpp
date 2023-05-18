@@ -1,6 +1,7 @@
 #include "api.h"
 #include "background.h"
 #include "scene.h"
+#include "sphere.h"
 
 #include <chrono>
 #include <memory>
@@ -50,17 +51,27 @@ namespace rt3
         Point2f pixel_coords{static_cast<float>(x) / static_cast<float>(w), static_cast<float>(y) / static_cast<float>(h)};
         ColorXYZ color{0, 0, 0};
         Ray r(origin, Vector3f{1,1,1} * (lower_left_corner + horizontal*u + vertical*v - origin));
-        if (hit_sphere(Point3f(0,0,-1), 0.1, r))
-          color = ColorXYZ{255, 0, 0};
-        else if (s->backgroundColor->mapping_type == Background::mapping_t::screen)
+      
+        if (s->backgroundColor->mapping_type == Background::mapping_t::screen)
           color = s->backgroundColor->sampleXYZ(pixel_coords);
         else if (s->backgroundColor->mapping_type == Background::mapping_t::spherical)
           color = s->backgroundColor->sampleXYZ(pixel_coords);
-        // ...
-        // for (const auto &p : s->obj_list)
-        // {
-        //   // ...
-        // }
+for (const auto &p : s->primitives)
+{
+    bool is_intersecting = false;
+
+    Sphere *sphere = dynamic_cast<Sphere *>(p.get());
+    if (sphere != nullptr)
+    {
+        is_intersecting = sphere->intersect_p(r);
+    }
+    
+    if (is_intersecting)
+    {
+        color = ColorXYZ{255, 0, 0};
+    }
+}
+
         s->camera->film.add_sample(pixel_coords, color);
       }
     }
@@ -95,14 +106,21 @@ namespace rt3
     return bkg;
   }
 
-  Primitive *API::make_primitive(const std::string &name, const ParamSet &ps)
-  {
-    std::cout << ">>> Inside API::primitive()\n";
-    Primitive *primitive{nullptr};
-    primitive = create_primitive(ps);
-    // Return the newly created background.
-    return primitive;
-  }
+
+  std::vector<std::shared_ptr<Primitive>> *API::make_primitives(const std::vector<ParamSet> &object_params) {
+    std::cout << ">>> Inside API::make_primitives()\n";
+    auto primitives = new std::vector<std::shared_ptr<Primitive>>();
+
+    for (const auto &ps : object_params) {
+        Primitive *primitive{nullptr};
+        primitive = create_primitive(ps);
+        if (primitive) {
+            primitives->emplace_back(std::shared_ptr<Primitive>(primitive));
+        }
+    }
+    return primitives;
+}
+
 
   Material *API::make_material(const std::string &name, const ParamSet &ps)
   {
@@ -181,8 +199,8 @@ namespace rt3
         make_film(render_opt->film_type, render_opt->film_ps)};
 
     std::shared_ptr<Camera> cam = std::make_shared<Camera>(*the_film);
-    std::vector<std::shared_ptr<Primitive>> obj_list;
-    std::shared_ptr<Scene> scene = std::make_shared<Scene>(*cam, *the_background, obj_list);
+    std::vector<std::shared_ptr<Primitive>> the_primitives  = *make_primitives(render_opt->object_ps);
+    std::shared_ptr<Scene> scene = std::make_shared<Scene>(*cam, *the_background, the_primitives);
 
     // Run only if we got film and background.
     if (the_film and the_background)
@@ -276,7 +294,7 @@ namespace rt3
     // retrieve type from ps.
     std::string type = retrieve(ps, "type", string{"unknown"});
     render_opt->object_type = type;
-    render_opt->object_ps = ps;
+    render_opt->object_ps.push_back(ps);
   }
 
 } // namespace rt3

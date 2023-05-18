@@ -41,7 +41,7 @@ namespace rt3
     ParamSet material_ps;
 
     std::string object_type{"sphere"}; // The only type available.
-    ParamSet object_ps;
+    std::vector<ParamSet> object_ps;
     // the Film
     std::string film_type{"image"}; // The only type available.
     ParamSet film_ps;
@@ -98,9 +98,8 @@ namespace rt3
     static Film *make_film(const string &name, const ParamSet &ps);
     static BackgroundColor *make_background(const string &name, const ParamSet &ps);
     static Camera *make_camera(const string &name, const ParamSet &ps);
-    static Primitive *make_primitive(const std::string &name, const ParamSet &ps);
     static Material *make_material(const string &name, const ParamSet &ps);
-
+    static std::vector<std::shared_ptr<Primitive>> *make_primitives(const std::vector<ParamSet> &object_params);  
   public:
     static std::unique_ptr<Film> the_film;
     static std::unique_ptr<Background> the_background;
