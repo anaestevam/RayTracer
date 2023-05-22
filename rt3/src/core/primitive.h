@@ -29,15 +29,10 @@ namespace rt3
         {
             return 0;
         };
-        virtual const Material *get_material(void) const
-        {
-            return material;
-        }
 
-    private:
         Material *material;
     };
 
-    Primitive *create_primitive(const ParamSet &ps);
+    Primitive *create_primitive(const ParamSet &ps, Material* material);
 }
 #endif // PRIMITIVE_H

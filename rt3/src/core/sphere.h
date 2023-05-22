@@ -26,9 +26,6 @@ namespace rt3 {
             return (discriminant > 0);
         }               
 
-        const Material *get_material(void) const {
-            return get_material();
-        }
     };
 }
 #endif // SPHERE_H

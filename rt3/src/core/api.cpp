@@ -6,14 +6,6 @@
 #include <chrono>
 #include <memory>
 
-bool hit_sphere(const Point3f& center, float radius, const Ray& r) {
-    Vector3f oc = Vector3f{1,1,1} * (r.o - center);
-    auto a = r.d.dot(r.d);
-    auto b = 2.0 * oc.dot(r.d);
-    auto c = oc.dot(oc) - radius*radius;
-    auto discriminant = b*b - 4*a*c;
-    return (discriminant > 0);
-}
 
 namespace rt3
 {
@@ -56,21 +48,21 @@ namespace rt3
           color = s->backgroundColor->sampleXYZ(pixel_coords);
         else if (s->backgroundColor->mapping_type == Background::mapping_t::spherical)
           color = s->backgroundColor->sampleXYZ(pixel_coords);
-for (const auto &p : s->primitives)
-{
-    bool is_intersecting = false;
+      for (const auto &p : s->primitives)
+      {
+          bool is_intersecting = false;
 
-    Sphere *sphere = dynamic_cast<Sphere *>(p.get());
-    if (sphere != nullptr)
-    {
-        is_intersecting = sphere->intersect_p(r);
-    }
-    
-    if (is_intersecting)
-    {
-        color = ColorXYZ{255, 0, 0};
-    }
-}
+          Sphere *sphere = dynamic_cast<Sphere *>(p.get());
+          if (sphere != nullptr)
+          {
+              is_intersecting = sphere->intersect_p(r);
+          }
+          
+          if (is_intersecting)
+          {
+              color = sphere->material->color;
+          }
+      }
 
         s->camera->film.add_sample(pixel_coords, color);
       }
@@ -107,13 +99,18 @@ for (const auto &p : s->primitives)
   }
 
 
-  std::vector<std::shared_ptr<Primitive>> *API::make_primitives(const std::vector<ParamSet> &object_params) {
+  std::vector<std::shared_ptr<Primitive>> *API::make_primitives(const std::vector<ParamSet> &object_params, const std::vector<ParamSet> &object_material_ps) {
     std::cout << ">>> Inside API::make_primitives()\n";
     auto primitives = new std::vector<std::shared_ptr<Primitive>>();
+    // Material *default_material = new FrostedGlassMaterial(ColorXYZ{1, 1, 1}, 0.5, 0.5, 0.1, 0.8); // You may need to provide a default material here
+    std::vector<Material*> materials;
+    for (const auto& ps : object_material_ps) {
+        // Create a Material object from the ParamSet and add it to the materials vector
+        materials.push_back(create_material(ps));
+    }
 
-    for (const auto &ps : object_params) {
-        Primitive *primitive{nullptr};
-        primitive = create_primitive(ps);
+    for (size_t i = 0; i < object_params.size(); ++i) {
+        Primitive* primitive = create_primitive(object_params[i], materials[i]);
         if (primitive) {
             primitives->emplace_back(std::shared_ptr<Primitive>(primitive));
         }
@@ -199,7 +196,7 @@ for (const auto &p : s->primitives)
         make_film(render_opt->film_type, render_opt->film_ps)};
 
     std::shared_ptr<Camera> cam = std::make_shared<Camera>(*the_film);
-    std::vector<std::shared_ptr<Primitive>> the_primitives  = *make_primitives(render_opt->object_ps);
+    std::vector<std::shared_ptr<Primitive>> the_primitives  = *make_primitives(render_opt->object_ps, render_opt->object_material_ps);
     std::shared_ptr<Scene> scene = std::make_shared<Scene>(*cam, *the_background, the_primitives);
 
     // Run only if we got film and background.
@@ -295,6 +292,8 @@ for (const auto &p : s->primitives)
     std::string type = retrieve(ps, "type", string{"unknown"});
     render_opt->object_type = type;
     render_opt->object_ps.push_back(ps);
+    render_opt->object_material_ps.push_back(render_opt->material_ps);
+
   }
 
 } // namespace rt3
