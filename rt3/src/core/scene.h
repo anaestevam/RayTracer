@@ -21,5 +21,15 @@ namespace rt3
   
   
   };
+  Scene *create_scene();
+
+  /*1)criar film_type
+  2) criar camera
+  3) criar cena )(que precisa da lista de objetos e bacjground)
+  4)criar integrador
+  5) the_integrator->render(*the_scene)
+
+
+  */
 }
 #endif // SCENE_H

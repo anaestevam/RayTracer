@@ -45,7 +45,7 @@ namespace rt3
       {
         auto u = float(x) / (image_width-1);
         auto v = float(y) / (image_height-1);
-        Ray r = s->camera->generate_ray(x, y);
+        Ray r = s->camera->generate_ray(u, v);
         Point2f pixel_coords{static_cast<float>(x) / static_cast<float>(w), static_cast<float>(y) / static_cast<float>(h)};
         ColorXYZ color{0, 0, 0};
         //Ray r(origin, Vector3f{1,1,1} * (lower_left_corner + horizontal*u + vertical*v - origin));
@@ -83,7 +83,7 @@ for (const auto &p : s->primitives)
   // GraphicsState API::curr_GS;
 
   // THESE FUNCTIONS ARE NEEDED ONLY IN THIS SOURCE FILE (NO HEADER NECESSARY)
-  // ˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇ
+  // 
 
   Film *API::make_film(const std::string &name, const ParamSet &ps)
   {
@@ -103,8 +103,29 @@ for (const auto &p : s->primitives)
     // Return the newly created background.
     return bkg;
   }
+  //criar setup_camera 
 
+  /*Camera *API::make_camera()
+  {
+    std::cout << ">>> Inside API::setup_camera()\n";
+    Camera *camera{nullptr};
+    //scene = create_scene(ps);
 
+    // Return the newly created scene.
+    return camera;
+  }ˇ
+*/
+ /* Scene *API::make_scene(const ParamSet &ps)
+  {
+    std::cout << ">>> Inside API::make_scene()\n";
+    Scene *scene{nullptr};
+    scene = create_scene(ps);
+
+    // Return the newly created scene.
+    return scene;
+  }ˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇ
+
+*/
   std::vector<std::shared_ptr<Primitive>> *API::make_primitives(const std::vector<ParamSet> &object_params) {
     std::cout << ">>> Inside API::make_primitives()\n";
     auto primitives = new std::vector<std::shared_ptr<Primitive>>();
@@ -199,7 +220,7 @@ for (const auto &p : s->primitives)
     std::shared_ptr<Camera> cam = std::make_shared<Camera>(*the_film);
     std::vector<std::shared_ptr<Primitive>> the_primitives  = *make_primitives(render_opt->object_ps);
     std::shared_ptr<Scene> scene = std::make_shared<Scene>(*cam, *the_background, the_primitives);
-
+    //std::shared_ptr<const camera> camera(setup_camera());
     // Run only if we got film and background.
     if (the_film and the_background)
     {
@@ -293,6 +314,15 @@ for (const auto &p : s->primitives)
     std::string type = retrieve(ps, "type", string{"unknown"});
     render_opt->object_type = type;
     render_opt->object_ps.push_back(ps);
+  }
+
+  void API::camera(const ParamSet &ps){
+    VERIFY_SETUP_BLOCK("API::camera");
+    auto type = retrieve(ps, "type", string{"unknown"});
+    render_opt->camera_type = type;
+    render_opt->camera_ps = ps;
+    render_opt->camera2word = inverse(curr_TM);
+    named_coord_system["camera"] = render_opt->camera2world;
   }
 
 } // namespace rt3
