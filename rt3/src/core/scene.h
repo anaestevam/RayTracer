@@ -11,8 +11,8 @@ namespace rt3
   class Scene
   {
   public:
-    // Scene(std::shared_ptr<Camera> camera, std::shared_ptr<Background> background, std::vector<std::shared_ptr<Primitive>> primitives);
-    Scene(const Camera &camera, const BackgroundColor &backgroundColor, const std::vector<std::shared_ptr<Primitive>> &primitives);
+    Scene(std::shared_ptr<Camera> &camera, std::shared_ptr<Background> &background, std::vector<std::shared_ptr<Primitive>> &primitives);
+    //Scene(const Camera &camera, const BackgroundColor &backgroundColor, const std::vector<std::shared_ptr<Primitive>> &primitives);
 
     std::shared_ptr<Camera> camera;
     // std::shared_ptr<Background> background;
@@ -21,7 +21,7 @@ namespace rt3
   
   
   };
-  Scene *create_scene();
+  //Scene *create_scene();
 
   /*1)criar film_type
   2) criar camera

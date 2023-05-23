@@ -316,13 +316,13 @@ for (const auto &p : s->primitives)
     render_opt->object_ps.push_back(ps);
   }
 
-  void API::camera(const ParamSet &ps){
+  /*void API::camera(const ParamSet &ps){
     VERIFY_SETUP_BLOCK("API::camera");
     auto type = retrieve(ps, "type", string{"unknown"});
     render_opt->camera_type = type;
     render_opt->camera_ps = ps;
     render_opt->camera2word = inverse(curr_TM);
     named_coord_system["camera"] = render_opt->camera2world;
-  }
+  }*/
 
 } // namespace rt3

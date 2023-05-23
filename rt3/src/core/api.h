@@ -40,8 +40,8 @@ namespace rt3
     std::string material_type{"flat"}; // The only type available.
     ParamSet material_ps;
 
-    /*std::string object_type{"sphere"}; // The only type available.
-    std::vector<ParamSet> object_ps;*/
+    std::string object_type{"sphere"}; // The only type available.
+    std::vector<ParamSet> object_ps;
     // the Film
     std::string film_type{"image"}; // The only type available.
     ParamSet film_ps;
@@ -52,8 +52,8 @@ namespace rt3
     string bkg_type{"solid"}; // "image", "interpolated"
     ParamSet bkg_ps;
 
-    using PrimVec = vector<shared_ptr<Primitive>>;
-    PrimVec Primitive;
+    //using PrimVec = vector<shared_ptr<Primitive>>;
+    //PrimVec Primitive;
   };
 
   /// Collection of data related to a Graphics state, such as current material,
