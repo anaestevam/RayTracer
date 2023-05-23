@@ -5,13 +5,11 @@ namespace rt3{
 /*Ray PerspectiveCamera::generate_ray(int x, int y) const
 {
     // Implement ray generation logic for perspective camera
-    // ...
 }
 
 Ray OrthographicCamera::generate_ray(int x, int y) const
 {
     // Implement ray generation logic for orthographic camera
-    // ...
 }*/
 
 std::shared_ptr<Camera> create_perspective_camera(const ParamSet &camera_ps, const ParamSet &lookat_ps, Film* film)

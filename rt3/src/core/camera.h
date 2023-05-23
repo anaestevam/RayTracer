@@ -43,12 +43,12 @@ namespace rt3
 
     private:
         Film film_;
-        Vector3f origin_;
+        /*Vector3f origin_;
         Vector3f lower_left_corner_;
         Vector3f horizontal_;
         Vector3f vertical_;
         Vector3f u_, v_, w_;
-        float lens_radius_;
+        float lens_radius_;*/
     };
 
 class PerspectiveCamera : public Camera
