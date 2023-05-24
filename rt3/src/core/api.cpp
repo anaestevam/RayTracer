@@ -95,7 +95,7 @@ for (const auto &p : s->primitives)
     return film;
   }
 
-  BackgroundColor *API::make_background(const std::string &name, const ParamSet &ps)
+  BackgroundColor *API::make_background(const std::string &type, const ParamSet &ps)
   {
     std::cout << ">>> Inside API::background()\n";
     BackgroundColor *bkg{nullptr};
@@ -104,7 +104,22 @@ for (const auto &p : s->primitives)
     return bkg;
   }
   //criar setup_camera 
+  std::shared_ptr<Camera> make_camera(const std::string &type, const ParamSet &camera_ps, const ParamSet &lookat_ps, Film* film) {
+    std::cout << ">>> Inside API::camera()\n";
+    std::shared_ptr<Camera> cmr{nullptr};
 
+    if(type == "orthographic") {
+      cmr = create_orthographic_camera(camera_ps, lookat_ps, film);
+    } else if (type == "perspective") {
+      cmr = create_perspective_camera(camera_ps, lookat_ps, film);
+    } else {
+      RT3_ERROR("API::clean_up() called before engine initialization.");
+    }
+
+    // Return the newly created background.
+    return cmr;
+  }
+  
   /*Camera *API::make_camera()
   {
     std::cout << ">>> Inside API::setup_camera()\n";
@@ -201,6 +216,7 @@ for (const auto &p : s->primitives)
   {
     VERIFY_SETUP_BLOCK("API::world_begin"); // check for correct machine state.
     curr_state = APIState::WorldBlock;      // correct machine state.
+	  //render_opt->curr_scene = Scene();
   }
 
   void API::world_end()
@@ -214,7 +230,7 @@ for (const auto &p : s->primitives)
     std::unique_ptr<BackgroundColor> the_background{
         make_background(render_opt->bkg_type, render_opt->bkg_ps)};
     // Same with the film, that later on will belong to a camera object.
-    std::unique_ptr<Film> the_film{
+    Film* the_film{
         make_film(render_opt->film_type, render_opt->film_ps)};
 
     std::shared_ptr<Camera> cam = std::make_shared<Camera>(*the_film);
@@ -316,13 +332,20 @@ for (const auto &p : s->primitives)
     render_opt->object_ps.push_back(ps);
   }
 
-  void API::camera(const ParamSet &ps){
+  /*void API::camera(const ParamSet &ps){
     VERIFY_WORLD_BLOCK("API::camera");
     auto type = retrieve(ps, "type", string{"unknown"});
     render_opt->camera_type = type;
-    render_opt->camera_ps.push_back(ps);
+    render_opt->camera_ps = ps;
     //render_opt->camera2word = inverse(curr_TM);
     //named_coord_system["camera"] = render_opt->camera2world;
+  }*/
+  void API::look_at(const ParamSet &ps) {
+    std::cout << ">>> Inside API::look_at()\n";
+    VERIFY_SETUP_BLOCK("API::look_at");
+    // retrieve type from ps.
+    std::string type = retrieve(ps, "type", string{"unknown"});
+    render_opt->lookat_ps = ps;
   }
 
 } // namespace rt3

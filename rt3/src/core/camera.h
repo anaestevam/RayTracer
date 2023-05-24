@@ -119,15 +119,8 @@ private:
     Vector3f u, v, w;
 };
 
-std::shared_ptr<Camera> create_perspective_camera(const Vector3f& lookfrom, const Vector3f& lookat, const Vector3f& vup, float vfov, float aspect_ratio)
-{
-    return std::make_shared<PerspectiveCamera>(lookfrom, lookat, vup, vfov, aspect_ratio);
-}
+std::shared_ptr<Camera> create_perspective_camera(const ParamSet &camera_ps, const ParamSet &lookat_ps, Film* film);
+std::shared_ptr<Camera> create_orthographic_camera(const ParamSet &camera_ps, const ParamSet &lookat_ps, Film* film);
 
-std::shared_ptr<Camera> create_orthographic_camera(const Vector3f& lookfrom, const Vector3f& lookat, const Vector3f& vup, float height, float aspect_ratio)
-{
-    return std::make_shared<OrthographicCamera>(lookfrom, lookat, vup, height, aspect_ratio);
-
-}
 }
 #endif // CAMERA_H

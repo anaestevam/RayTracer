@@ -18,6 +18,7 @@ namespace rt3
     // std::shared_ptr<Background> background;
     std::shared_ptr<BackgroundColor> backgroundColor;
     std::vector<std::shared_ptr<Primitive>> primitives;
+    Scene(){}
   
   
   };

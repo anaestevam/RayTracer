@@ -48,9 +48,12 @@ namespace rt3
     /// the Camera
     string camera_type{"perspective"};
     ParamSet camera_ps;
+	  ParamSet lookat_ps;
     /// the Bakcground
     string bkg_type{"solid"}; // "image", "interpolated"
     ParamSet bkg_ps;
+	  //Scene curr_scene;
+	  //std::vector<std::shared_ptr<Primitive>> primitives;
 
     //using PrimVec = vector<shared_ptr<Primitive>>;
     //PrimVec Primitive;
@@ -78,6 +81,10 @@ namespace rt3
     /// Stores the running options collect in main().
     static RunningOptions curr_run_opt;
 
+    //static APIState curr_state;
+
+    static std::unique_ptr<RenderOptions> render_opt;
+
   private:
     /// Current API state
     static APIState curr_state;
@@ -87,7 +94,7 @@ namespace rt3
      * a single run of the system.
      */
     /// Unique infrastructure to render a scene (camera, integrator, etc.).
-    static std::unique_ptr<RenderOptions> render_opt;
+    //static std::unique_ptr<RenderOptions> render_opt;
     // [NO NECESSARY IN THIS PROJECT]
     // /// The current GraphicsState
     // static GraphicsState curr_GS;
@@ -115,6 +122,7 @@ namespace rt3
 
     static void film(const ParamSet &ps);
     static void camera(const ParamSet &ps);
+	  static void look_at(const ParamSet& ps);
     static void material(const ParamSet &ps);
     static void object(const ParamSet &ps);
     static void background(const ParamSet &ps);
