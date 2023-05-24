@@ -308,6 +308,17 @@ for (const auto &p : s->primitives)
     render_opt->film_type = type;
     render_opt->film_ps = ps;
   }
+  void API::camera(const ParamSet &ps) {
+    std::cout << ">>> Inside API::camera()\n";
+    VERIFY_SETUP_BLOCK("API::camera");
+
+    // retrieve type from ps.
+    std::string type = retrieve(ps, "type", string{"unknown"});
+    render_opt->camera_type = type;
+    // Store current camera object.
+
+    render_opt->camera_ps = ps;
+  }
 
   void API::material(const ParamSet &ps)
   {
