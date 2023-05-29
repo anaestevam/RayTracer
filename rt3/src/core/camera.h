@@ -10,9 +10,8 @@ namespace rt3
     class Camera
     {
     public:
-        Camera(const Film &film_) : film(film_.m_full_resolution, film_.m_filename, film_.m_image_type) {}
-
-        Film film;
+        Camera(Film *film_) : film(film_) {}
+        Camera(const Film &film_2) : film2(film_2.m_full_resolution, film_2.m_filename, film_2.m_image_type) {}
 
     /*Camera(Vector3f lookfrom, Vector3f lookat, Vector3f vup, float vfov, float aspect_ratio, float aperture, float focus_distance) {
        float theta = degrees_to_radians(vfov);
@@ -37,12 +36,16 @@ namespace rt3
 
             return Ray(origin_, lower_left_corner_ + x * horizontal_ + y * vertical_ - origin_, 0);
         }*/
-    virtual ~Camera() {}
+    virtual ~Camera() = default;
 
-    virtual Ray generate_ray(int x, int y) const = 0;
+    [[nodiscard]] virtual Ray generate_ray(int x, int y) const = 0;
+
+     std::unique_ptr<Film> film;
+
+     Film film2;
 
     private:
-        Film film_;
+        Film film_2;
         /*Vector3f origin_;
         Vector3f lower_left_corner_;
         Vector3f horizontal_;
@@ -51,32 +54,31 @@ namespace rt3
         float lens_radius_;*/
     };
 
-class PerspectiveCamera : public Camera
-{
+class PerspectiveCamera : public Camera {
 public:
-    PerspectiveCamera(const Vector3f& lookfrom, const Vector3f& lookat, const Vector3f& vup, float vfov, float aspect_ratio)
-        : Camera(Film()), origin(lookfrom)
-    {
-        float theta = degrees_to_radians(vfov);
-        float h = tan(theta / 2);
-        float viewport_height = 2.0 * h;
-        float viewport_width = aspect_ratio * viewport_height;
+  PerspectiveCamera(const Vector3f &lookfrom, const Vector3f &lookat,
+                    const Vector3f &vup, float vfov, float aspect_ratio,
+                    Film *film)
+      : Camera(film), origin(lookfrom) {
+    float theta = degrees_to_radians(vfov);
+    float h = tan(theta / 2);
+    float viewport_height = 2.0 * h;
+    float viewport_width = aspect_ratio * viewport_height;
 
-        w = Vector3f::unit_vector(lookfrom - lookat);
-        u = Vector3f::unit_vector(Vector3f::cross(vup, w));
-        v = Vector3f::cross(w, u);
+    w = Vector3f::unit_vector(lookfrom - lookat);
+    u = Vector3f::unit_vector(Vector3f::cross(vup, w));
+    v = Vector3f::cross(w, u);
 
-        horizontal = viewport_width * u;
-        vertical = viewport_height * v;
-        lower_left_corner = origin - horizontal / 2 - vertical / 2 - w;
-    }
+    horizontal = viewport_width * u;
+    vertical = viewport_height * v;
+    lower_left_corner = origin - horizontal / 2 - vertical / 2 - w;
+  }
 
-    Ray generate_ray(int x, int y) const override
-    {
-        float u = float(x) / float(film.m_full_resolution[0]);
-        float v = float(y) / float(film.m_full_resolution[1]);
-        return Ray(origin, lower_left_corner + u * horizontal + v * vertical - origin);
-    }
+  [[nodiscard]] Ray generate_ray(int x, int y) const override {
+    float u = float(x) / float(film->m_full_resolution[0]);
+    float v = float(y) / float(film->m_full_resolution[1]);
+    return {origin, lower_left_corner + u * horizontal + v * vertical - origin};
+  }
 
 private:
     Vector3f origin;
@@ -86,30 +88,31 @@ private:
     Vector3f u, v, w;
 };
 
-class OrthographicCamera : public Camera
-{
+class OrthographicCamera : public Camera {
 public:
-    OrthographicCamera(const Vector3f& lookfrom, const Vector3f& lookat, const Vector3f& vup, float height, float aspect_ratio)
-        : Camera(Film()), origin(lookfrom)
-    {
-        float viewport_height = height;
-        float viewport_width = aspect_ratio * viewport_height;
+  OrthographicCamera(const Vector3f &lookfrom, const Vector3f &lookat,
+                     const Vector3f &vup, float left, float right, float bottom,
+                     float top, Film *film)
+      : Camera(film), origin(lookfrom) {
+    this->left = left;
+    this->right = right;
+    this->bottom = bottom;
+    this->top = top;
 
-        w = Vector3f::unit_vector(lookfrom - lookat);
-        u = Vector3f::unit_vector(Vector3f::cross(vup, w));
-        v = Vector3f::cross(w, u);
+    w = Vector3f::unit_vector(lookfrom - lookat);
+    u = Vector3f::unit_vector(Vector3f::cross(vup, w));
+    v = Vector3f::cross(w, u);
 
-        horizontal = viewport_width * u;
-        vertical = viewport_height * v;
-        lower_left_corner = origin - horizontal / 2 - vertical / 2 - w;
-    }
+    // horizontal = viewport_width * u;
+    // vertical = viewport_height * v;
+    // lower_left_corner = origin - horizontal / 2 - vertical / 2 - w;
+  }
 
-    Ray generate_ray(int x, int y) const override
-    {
-        float u = float(x) / float(film.m_full_resolution[0]);
-        float v = float(y) / float(film.m_full_resolution[1]);
-        return Ray(lower_left_corner + u * horizontal + v * vertical, w);
-    }
+  [[nodiscard]] Ray generate_ray(int x, int y) const override {
+    float u = float(x) / float(film->m_full_resolution[0]);
+    float v = float(y) / float(film->m_full_resolution[1]);
+    return {lower_left_corner + u * horizontal + v * vertical, w};
+  }
 
 private:
     Vector3f origin;
@@ -117,10 +120,15 @@ private:
     Vector3f horizontal;
     Vector3f vertical;
     Vector3f u, v, w;
+    float left, bottom, right, top;
 };
 
-std::shared_ptr<Camera> create_perspective_camera(const ParamSet &camera_ps, const ParamSet &lookat_ps, Film* film);
-std::shared_ptr<Camera> create_orthographic_camera(const ParamSet &camera_ps, const ParamSet &lookat_ps, Film* film);
+PerspectiveCamera *create_perspective_camera(const ParamSet &camera_ps,
+                                             const ParamSet &lookat_ps,
+                                             Film *film);
+OrthographicCamera *create_orthographic_camera(const ParamSet &camera_ps,
+                                               const ParamSet &lookat_ps,
+                                               Film *film);
 
-}
+} // namespace rt3
 #endif // CAMERA_H

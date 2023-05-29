@@ -52,11 +52,11 @@ namespace rt3
     /// the Bakcground
     string bkg_type{"solid"}; // "image", "interpolated"
     ParamSet bkg_ps;
-	  //Scene curr_scene;
-	  //std::vector<std::shared_ptr<Primitive>> primitives;
+  // Scene curr_scene;
+  // std::vector<std::shared_ptr<Primitive>> primitives;
 
-    //using PrimVec = vector<shared_ptr<Primitive>>;
-    //PrimVec Primitive;
+  // using PrimVec = vector<shared_ptr<Primitive>>;
+  // PrimVec Primitive;
   };
 
   /// Collection of data related to a Graphics state, such as current material,
@@ -81,9 +81,9 @@ namespace rt3
     /// Stores the running options collect in main().
     static RunningOptions curr_run_opt;
 
-    //static APIState curr_state;
+  // static APIState curr_state;
 
-    static std::unique_ptr<RenderOptions> render_opt;
+  static std::unique_ptr<RenderOptions> render_opt;
 
   private:
     /// Current API state
@@ -94,7 +94,7 @@ namespace rt3
      * a single run of the system.
      */
     /// Unique infrastructure to render a scene (camera, integrator, etc.).
-    //static std::unique_ptr<RenderOptions> render_opt;
+    // static std::unique_ptr<RenderOptions> render_opt;
     // [NO NECESSARY IN THIS PROJECT]
     // /// The current GraphicsState
     // static GraphicsState curr_GS;
@@ -106,10 +106,14 @@ namespace rt3
     // === Helper functions.
     ///
     static Film *make_film(const string &name, const ParamSet &ps);
-    static BackgroundColor *make_background(const string &name, const ParamSet &ps);
-    static Camera *make_camera(const string &name, const ParamSet &ps);
-    static Material *make_material(const string &name, const ParamSet &ps);
-    static std::vector<std::shared_ptr<Primitive>> *make_primitives(const std::vector<ParamSet> &object_params);  
+  static BackgroundColor *make_background(const string &type,
+                                          const ParamSet &ps);
+  static Camera *make_camera(const string &type, const ParamSet &camera_ps,
+                             const ParamSet &lookat_ps, Film *);
+  static Material *make_material(const string &name, const ParamSet &ps);
+  static std::vector<std::shared_ptr<Primitive>>
+  make_primitives(const std::vector<ParamSet> &object_params);
+
   public:
     static std::unique_ptr<Film> the_film;
     static std::unique_ptr<Background> the_background;
@@ -122,7 +126,7 @@ namespace rt3
 
     static void film(const ParamSet &ps);
     static void camera(const ParamSet &ps);
-	  static void look_at(const ParamSet& ps);
+	  static void look_at(const ParamSet &ps);
     static void material(const ParamSet &ps);
     static void object(const ParamSet &ps);
     static void background(const ParamSet &ps);
