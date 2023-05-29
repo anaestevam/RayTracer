@@ -10,7 +10,7 @@
 namespace rt3
 {
 
-  void render(const std::shared_ptr<Scene> &s)
+  void render(Scene* &s)
   {
 
     auto res = s->camera->film.get_resolution();
@@ -97,9 +97,9 @@ namespace rt3
   }
 
 
-  std::vector<std::shared_ptr<Primitive>> *API::make_primitives(const std::vector<ParamSet> &object_params, const std::vector<ParamSet> &object_material_ps) {
+std::vector<Primitive*> API::make_primitives(const std::vector<ParamSet> &object_params, const std::vector<ParamSet> &object_material_ps) {  std::cout << ">>> Inside API::make_primitives()\n";
     std::cout << ">>> Inside API::make_primitives()\n";
-    auto primitives = new std::vector<std::shared_ptr<Primitive>>();
+    auto primitives = new std::vector<Primitive*>();
     // Material *default_material = new FrostedGlassMaterial(ColorXYZ{1, 1, 1}, 0.5, 0.5, 0.1, 0.8); // You may need to provide a default material here
     std::vector<Material*> materials;
     for (const auto& ps : object_material_ps) {
@@ -110,11 +110,30 @@ namespace rt3
     for (size_t i = 0; i < object_params.size(); ++i) {
         Primitive* primitive = create_primitive(object_params[i], materials[i]);
         if (primitive) {
-            primitives->emplace_back(std::shared_ptr<Primitive>(primitive));
+          primitives->emplace_back(*primitive);
         }
     }
     return primitives;
 }
+
+
+std::shared_ptr<Camera> make_camera(const std::string &type, const ParamSet &camera_ps, const ParamSet &lookat_ps, Film* film) {
+    std::cout << ">>> Inside API::camera()\n";
+    auto cmr{nullptr};
+
+    if(type == "orthographic") {
+      cmr = create_orthographic_camera(camera_ps, lookat_ps, film);
+    } else if (type == "perspective") {
+      cmr = create_perspective_camera(camera_ps, lookat_ps, film);
+    } else {
+      RT3_ERROR("API::clean_up() called before engine initialization.");
+    }
+
+    // Return the newly created background.
+    return cmr;
+  }
+
+
 
 
   Material *API::make_material(const std::string &name, const ParamSet &ps)
@@ -187,15 +206,15 @@ namespace rt3
 
     // At this point, we have the background as a solitary pointer here.
     // In the future, the background will be parte of the scene object.
-    std::unique_ptr<BackgroundColor> the_background{
+    BackgroundColor* the_background{
         make_background(render_opt->bkg_type, render_opt->bkg_ps)};
     // Same with the film, that later on will belong to a camera object.
-    std::unique_ptr<Film> the_film{
+    Film* the_film{
         make_film(render_opt->film_type, render_opt->film_ps)};
 
-    std::shared_ptr<Camera> cam = std::make_shared<Camera>(*the_film);
-    std::vector<std::shared_ptr<Primitive>> the_primitives  = *make_primitives(render_opt->object_ps, render_opt->object_material_ps);
-    std::shared_ptr<Scene> scene = std::make_shared<Scene>(*cam, *the_background, the_primitives);
+    Camera* cam = make_camera(render_opt->camera_type, render_opt->camera_ps);
+    auto the_primitives  = make_primitives(render_opt->object_ps, render_opt->object_material_ps);
+    Scene* scene = Scene(cam, the_background, the_primitives);
 
     // Run only if we got film and background.
     if (the_film and the_background)
@@ -294,4 +313,23 @@ namespace rt3
 
   }
 
+ void API::camera(const ParamSet &ps) {
+    std::cout << ">>> Inside API::camera()\n";
+    VERIFY_SETUP_BLOCK("API::camera");
+
+    // retrieve type from ps.
+    std::string type = retrieve(ps, "type", string{"unknown"});
+    render_opt->camera_type = type;
+    // Store current camera object.
+
+    render_opt->camera_ps = ps;
+  }
+
+   void API::look_at(const ParamSet &ps) {
+    std::cout << ">>> Inside API::look_at()\n";
+    VERIFY_SETUP_BLOCK("API::look_at");
+    // retrieve type from ps.
+    std::string type = retrieve(ps, "type", string{"unknown"});
+    render_opt->lookat_ps = ps;
+  }
 } // namespace rt3

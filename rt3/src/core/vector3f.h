@@ -11,6 +11,16 @@ public:
     Vector3f() : data_{0.0f, 0.0f, 0.0f} {}
     Vector3f(float x, float y, float z) : data_{x, y, z} {}
 
+    Point3f ToPoint3()
+    {
+        return Point3f(data_[0], data_[1], data_[2]);
+    }
+
+    const Point3f ToPoint3() const
+    {
+        return Point3f(data_[0], data_[1], data_[2]);
+    }
+
     float& operator[](size_t index) {
         return data_[index];
     }
@@ -35,6 +45,15 @@ public:
         return Vector3f(data_[0] / scalar, data_[1] / scalar, data_[2] / scalar);
     }
 
+    float * const operator*(const Vector3f& other) const {
+        float* result = new float[3];
+        result[0] = data_[0] * other[0];
+        result[1] = data_[1] * other[1];
+        result[2] = data_[2] * other[2];
+        return result;
+    }
+
+
     float dot(const Vector3f& other) const {
         return data_[0] * other[0] + data_[1] * other[1] + data_[2] * other[2];
     }
@@ -52,6 +71,14 @@ public:
 
     float norm() const {
         return std::sqrt(data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2]);
+    }
+
+    Vector3f unit_vector() const {
+        float magnitude = norm();
+        if (magnitude == 0) {
+            return Vector3f(0, 0, 0);
+        }
+        return Vector3f(data_[0] / magnitude, data_[1] / magnitude, data_[2] / magnitude);
     }
 
     Vector3f normalized() const {
@@ -129,16 +156,16 @@ private:
         return degrees * M_PI / 180.0;
     }
 
-  inline Point3f operator+(const Point3f& point, const Vector3f& vector) {
-        return Point3f(point[0] + vector[0], point[1] + vector[1], point[2] + vector[2]);
-    }
+    inline Point3f operator+(const Point3f& point, const Vector3f& vector) {
+    return Point3f(point[0] + vector[0], point[1] + vector[1], point[2] + vector[2]);
+}
 
 
-  inline Point3f operator-(const Point3f& point, const Vector3f& vector) {
-        return Point3f(point[0] - vector[0], point[1] - vector[1], point[2] - vector[2]);
-    }
+inline Point3f operator-(const Point3f& point, const Vector3f& vector) {
+    return Point3f(point[0] - vector[0], point[1] - vector[1], point[2] - vector[2]);
+}
 
- /**/ inline Vector3f operator*(const Vector3f& vector, const Point3f& point) {
+inline Vector3f operator*(const Vector3f& vector, const Point3f& point) {
         return Vector3f(point[0] * vector[0], point[1] * vector[1], point[2] * vector[2]);
     }
     inline Vector3f operator*(const Vector3f& v1, const Vector3f& v2) {

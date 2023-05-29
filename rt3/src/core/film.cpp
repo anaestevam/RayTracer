@@ -74,16 +74,19 @@ namespace rt3
     std::string filename;
     // Let us check whether user has provided an output file name via
     // command line arguments in main().
-    if (API::curr_run_opt.outfile != "")
+    if (API::curr_run_opt.outfile.empty()) 
     {
       // Retrieve filename defined via CLI.
       filename = API::curr_run_opt.outfile;
       // Retrieve another filename, now from the ParamSet object.
       std::string filename_from_file = retrieve(ps, "filename", std::string{""});
-      if (filename_from_file != "") // We also get a filename from scene file...
-        RT3_WARNING(string{"Output filename supplied on command line, \""} + API::curr_run_opt.outfile + string{"\" is overriding filename provided in scene "
-                                                                                                                "description file, \""} +
-                    filename_from_file);
+     if (!filename_from_file
+             .empty()) { // We also get a filename from scene file...
+      RT3_WARNING(string{"Output filename supplied on command line, \""} +
+                  API::curr_run_opt.outfile +
+                  string{"\" is overriding filename provided in scene "
+                         "description file, \""} +
+                  filename_from_file);
     }
     else
     {
@@ -97,7 +100,7 @@ namespace rt3
     // Aux function that retrieves info from the ParamSet.
     int yres = retrieve(ps, "y_res", int(720));
     // Quick render?
-    if (API::curr_run_opt.quick_render == true)
+    if (API::curr_run_opt.quick_render)
     {
       // decrease resolution.
       xres = std::max(1, xres / 4);
@@ -108,11 +111,13 @@ namespace rt3
     // Read crop window information.
     std::vector<real_type> cw = retrieve(ps, "crop_window", std::vector<real_type>{0, 1, 0, 1});
     std::cout << "Crop window ";
-    for (const auto &e : cw)
+   for (const auto &e : cw) {
       std::cout << e << " ";
+    }
     std::cout << '\n';
 
     // Note that the image type is fixed here. Must be read from ParamSet, though.
     return new Film(Point2i{xres, yres}, filename, Film::image_type_e::PNG);
   }
 } // namespace rt3
+}
