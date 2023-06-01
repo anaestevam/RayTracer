@@ -10,12 +10,14 @@
 namespace rt3
 {
 
-  void render(Scene* &s)
+void render(Scene* &s)
   {
 
-    auto res = s->camera->film.get_resolution();
+    auto res = s->camera->film->get_resolution();
     size_t w = res[0];
     size_t h = res[1];
+
+
 
     const auto aspect_ratio = w / h;
     const int image_width = w;
@@ -38,9 +40,10 @@ namespace rt3
         auto u = float(x) / (image_width-1);
         auto v = float(y) / (image_height-1);
         Ray r = s->camera->generate_ray(x, y);
+        Ray r = s->camera->generate_ray(x, y);
         Point2f pixel_coords{static_cast<float>(x) / static_cast<float>(w), static_cast<float>(y) / static_cast<float>(h)};
         ColorXYZ color{0, 0, 0};
-        //Ray r(origin, Vector3f{1,1,1} * (lower_left_corner + horizontal*u + vertical*v - origin));
+        // Ray r(origin, Vector3f{1,1,1} * (lower_left_corner + horizontal*u + vertical*v - origin));
       
         if (s->backgroundColor->mapping_type == Background::mapping_t::screen)
           color = s->backgroundColor->sampleXYZ(pixel_coords);
@@ -50,7 +53,7 @@ namespace rt3
       {
           bool is_intersecting = false;
 
-          Sphere *sphere = dynamic_cast<Sphere *>(p.get());
+          Sphere *sphere = dynamic_cast<Sphere *>(p);
           if (sphere != nullptr)
           {
               is_intersecting = sphere->intersect_p(r);
@@ -62,10 +65,10 @@ namespace rt3
           }
       }
 
-        s->camera->film.add_sample(pixel_coords, color);
+        s->camera->film->add_sample(pixel_coords, color);
       }
     }
-    s->camera->film.write_image(w, h, 1, s->camera->film.m_filename);
+    s->camera->film->write_image(w, h, 1, s->camera->film->m_filename);
   }
 
   //=== API's static members declaration and initialization.
@@ -97,43 +100,48 @@ namespace rt3
   }
 
 
-std::vector<Primitive*> API::make_primitives(const std::vector<ParamSet> &object_params, const std::vector<ParamSet> &object_material_ps) {  std::cout << ">>> Inside API::make_primitives()\n";
+std::vector<rt3::Primitive> API::make_primitives(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps) {
     std::cout << ">>> Inside API::make_primitives()\n";
-    auto primitives = new std::vector<Primitive*>();
-    // Material *default_material = new FrostedGlassMaterial(ColorXYZ{1, 1, 1}, 0.5, 0.5, 0.1, 0.8); // You may need to provide a default material here
-    std::vector<Material*> materials;
+    std::vector<rt3::Material*> materials;
+
     for (const auto& ps : object_material_ps) {
         // Create a Material object from the ParamSet and add it to the materials vector
         materials.push_back(create_material(ps));
     }
 
-    for (size_t i = 0; i < object_params.size(); ++i) {
-        Primitive* primitive = create_primitive(object_params[i], materials[i]);
-        if (primitive) {
-          primitives->emplace_back(*primitive);
-        }
+    std::vector<rt3::Primitive> primitives;
+    for (size_t i = 0; i < object_ps.size(); ++i) {
+        std::unique_ptr<rt3::Primitive> primitive_ptr = create_primitive(object_ps[i], materials[i]);
+        
+        // Move the unique pointer into a local variable
+        rt3::Primitive* primitive_raw_ptr = primitive_ptr.release();
+
+        // Add the primitive to the vector
+        primitives.emplace_back(*primitive_raw_ptr);
+        
+        // Release ownership of the raw pointer
+        delete primitive_raw_ptr;
     }
+
     return primitives;
 }
 
 
-std::shared_ptr<Camera> make_camera(const std::string &type, const ParamSet &camera_ps, const ParamSet &lookat_ps, Film* film) {
-    std::cout << ">>> Inside API::camera()\n";
-    auto cmr{nullptr};
+Camera* API::make_camera(const std::string& type, const ParamSet& camera_ps, const ParamSet& lookat_ps, Film* film) {
+    std::cout << ">>> Inside API::make_camera()\n";
+    Camera* cmr = nullptr;
 
-    if(type == "orthographic") {
-      cmr = create_orthographic_camera(camera_ps, lookat_ps, film);
+    if (type == "orthographic") {
+        cmr = create_orthographic_camera(camera_ps, lookat_ps, film);
     } else if (type == "perspective") {
-      cmr = create_perspective_camera(camera_ps, lookat_ps, film);
+        cmr = create_perspective_camera(camera_ps, lookat_ps, film);
     } else {
-      RT3_ERROR("API::clean_up() called before engine initialization.");
+        RT3_ERROR("API::clean_up() called before engine initialization.");
     }
 
-    // Return the newly created background.
+    // Return the newly created camera.
     return cmr;
-  }
-
-
+}
 
 
   Material *API::make_material(const std::string &name, const ParamSet &ps)
@@ -212,9 +220,15 @@ std::shared_ptr<Camera> make_camera(const std::string &type, const ParamSet &cam
     Film* the_film{
         make_film(render_opt->film_type, render_opt->film_ps)};
 
-    Camera* cam = make_camera(render_opt->camera_type, render_opt->camera_ps);
+    Camera* cam = make_camera(render_opt->camera_type, render_opt->camera_ps, render_opt->lookat_ps, the_film);
     auto the_primitives  = make_primitives(render_opt->object_ps, render_opt->object_material_ps);
-    Scene* scene = Scene(cam, the_background, the_primitives);
+
+    std::vector<Primitive*> primitive_pointers;
+    for (auto& p : the_primitives) {
+        primitive_pointers.push_back(&p);
+    }
+
+rt3::Scene scene(cam, std::move(the_background), primitive_pointers);
 
     // Run only if we got film and background.
     if (the_film and the_background)
@@ -233,9 +247,10 @@ std::shared_ptr<Camera> make_camera(const std::string &type, const ParamSet &cam
 
       //================================================================================
       auto start = std::chrono::steady_clock::now();
-      // render(*the_film, *the_background);
 
-      render(scene);
+      Scene* scene_ptr = &scene;
+
+      render(scene_ptr);
 
       auto end = std::chrono::steady_clock::now();
       //================================================================================

@@ -21,7 +21,7 @@ cd ..
 cmake -S . -B build
 cd build
 make
-./basic_rt3 ../scene/scene_01.xml
+./basic_rt3 ../scene/scene_07.xml
 ```
 
 # TODO

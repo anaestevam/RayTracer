@@ -100,9 +100,9 @@ namespace rt3
     ///
     static Film *make_film(const string &name, const ParamSet &ps);
     static BackgroundColor *make_background(const string &name, const ParamSet &ps);
-    static Camera *make_camera(const string &name, const ParamSet &ps);
+    static Camera* make_camera(const std::string& type, const ParamSet& camera_ps, const ParamSet& lookat_ps, Film* film);
     static Material *make_material(const string &name, const ParamSet &ps);
-    static std::vector<Primitive*> make_primitives(const std::vector<ParamSet> &object_params, const std::vector<ParamSet> &object_material_ps);
+    static std::vector<rt3::Primitive> make_primitives(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps);
   public:
     static std::unique_ptr<Film> the_film;
     static std::unique_ptr<Background> the_background;

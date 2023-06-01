@@ -5,7 +5,6 @@
 #include "film.h"
 #include "paramset.h"
 
-
 namespace rt3
 {
     class Camera
@@ -13,57 +12,44 @@ namespace rt3
     public:
         Camera(Film *film_) : film(film_) {}
 
-    /*Camera(Vector3f lookfrom, Vector3f lookat, Vector3f vup, float vfov, float aspect_ratio, float aperture, float focus_distance) {
-       float theta = degrees_to_radians(vfov);
-       float h = tan(theta / 2);
-       float viewport_height = 2.0 * h;
-       float viewport_width = aspect_ratio * viewport_height;
+  //   Camera(Vector3f lookfrom, Vector3f lookat, Vector3f vup, float vfov, float aspect_ratio, float aperture, float focus_distance) {
+  //      float theta = Radians(vfov);
+  //      float h = tan(theta / 2);
+  //      float viewport_height = 2.0 * h;
+  //      float viewport_width = aspect_ratio * viewport_height;
 
-       w_ = Vector3f::unit_vector(lookfrom - lookat);
-       u_ = Vector3f::unit_vector(Vector3f::cross(vup, w_));
-       v_ = Vector3f::cross(w_, u_);
+  //         w = (lookfrom - lookat).unit_vector();
+  //       u = vup.cross(w).unit_vector();
+  //       v = w.cross(u);
 
-       origin_ = lookfrom;
-       horizontal_ = focus_distance * viewport_width * u_;
-       vertical_ = focus_distance * viewport_height * v_;
-       lower_left_corner_ = origin_ - horizontal_ / 2 - vertical_ / 2 - focus_distance * w_;
+  //      origin_ = lookfrom;
+  //      horizontal_ = focus_distance * viewport_width * u;
+  //      vertical_ = focus_distance * viewport_height * v;
+  //      lower_left_corner_ = origin_ - horizontal_ / 2 - vertical_ / 2 - focus_distance * w;
 
-       lens_radius_ = aperture / 2;
-   }*/
-        /*Ray generate_ray(int x, int y) const
-    Camera(Vector3f lookfrom, Vector3f lookat, Vector3f vup, float vfov, float aspect_ratio, float aperture, float focus_distance) {
-       float theta = degrees_to_radians(vfov);
-       float h = tan(theta / 2);
-       float viewport_height = 2.0 * h;
-       float viewport_width = aspect_ratio * viewport_height;
-
-       w_ = Vector3f::unit_vector(lookfrom - lookat);
-       u_ = Vector3f::unit_vector(Vector3f::cross(vup, w_));
-       v_ = Vector3f::cross(w_, u_);
-
-       origin_ = lookfrom;
-       horizontal_ = focus_distance * viewport_width * u_;
-       vertical_ = focus_distance * viewport_height * v_;
-       lower_left_corner_ = origin_ - horizontal_ / 2 - vertical_ / 2 - focus_distance * w_;
-
-       lens_radius_ = aperture / 2;
-   }
-        Ray generate_ray(int x, int y) const
-        {
+  //      lens_radius_ = aperture / 2;
+  //  }
+  //       Ray generate_ray(int x, int y) const
+  //       {
             // Implement ray generation logic based on camera parameters and pixel coordinates
 
-        }
+        //     return Ray(origin_, lower_left_corner_ + x * horizontal_ + y * vertical_ - origin_, 0);
+        // }
+    virtual ~Camera() = default;
+
+    [[nodiscard]] virtual Ray generate_ray(int x, int y) const = 0;
+
+     Film* film;
 
 
     private:
-        Film film_;
+        Vector3f origin_;
+        Vector3f lower_left_corner_;
+        Vector3f horizontal_;
+        Vector3f vertical_;
+        Vector3f u, v, w;
+        float lens_radius_;
     };
-
-
-double degrees_to_radians(double degrees) {
-    const double pi = 3.14159;
-    return degrees * (pi/180);
-}
 
 
 class PerspectiveCamera : public Camera {
@@ -72,7 +58,7 @@ public:
                     const Vector3f &vup, float vfov, float aspect_ratio,
                     Film *film)
       : Camera(film), origin(lookfrom) {
-    float theta = degrees_to_radians(vfov);
+    float theta = Radians(vfov);
     float h = tan(theta / 2);
     float viewport_height = 2.0 * h;
     float viewport_width = aspect_ratio * viewport_height;
@@ -87,11 +73,11 @@ public:
   }
 
 
-  [[nodiscard]] Ray generate_ray(int x, int y) const override {
+  Ray generate_ray(int x, int y) const override {
         float u = float(x) / float(film->m_full_resolution[0]);
         float v = float(y) / float(film->m_full_resolution[1]);
         Vector3f direction = (lower_left_corner + horizontal * u + vertical * v) - origin;
-        return Ray(origin.ToPoint3(), direction);
+        return Ray(origin.ToPoint3(), direction, 0);
     }
 
 
@@ -123,11 +109,11 @@ public:
     // lower_left_corner = origin - horizontal / 2 - vertical / 2 - w;
   }
 
-  [[nodiscard]] Ray generate_ray(int x, int y) const override {
+  Ray generate_ray(int x, int y) const override {
     float u = float(x) / float(film->m_full_resolution[0]);
     float v = float(y) / float(film->m_full_resolution[1]);
     //maybe wrong beacause of order
-    return  Ray((lower_left_corner + horizontal * u + vertical * v).ToPoint3(), w);
+    return  Ray((lower_left_corner + horizontal * u + vertical * v).ToPoint3(), w, 0);
   }
 
 private:

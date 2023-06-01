@@ -26,6 +26,8 @@ namespace rt3
     }
     //=== Film Public Methods
     Film(const Point2i &resolution, const std::string &filename, image_type_e imgt);
+    Film(Film* film_);
+
     virtual ~Film();
 
     /// Retrieve original Film resolution.

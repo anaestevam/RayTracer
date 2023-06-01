@@ -33,6 +33,6 @@ namespace rt3
         Material *material;
     };
 
-    Primitive *create_primitive(const ParamSet &ps, Material* material);
+    std::unique_ptr<rt3::Primitive> create_primitive(const ParamSet& ps, rt3::Material *material);
 }
 #endif // PRIMITIVE_H
