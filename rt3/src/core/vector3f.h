@@ -21,9 +21,20 @@ public:
         return Point3f(data_[0], data_[1], data_[2]);
     }
 
+    Vector3f ToVector3(Point3f point)
+    {
+        return Vector3f(point[0], point[1], point[2]);
+    }
+
+    const Vector3f ToVector3(const Point3f point) const
+    {
+        return Vector3f(point[0], point[1], point[2]);
+    }
+
     float& operator[](size_t index) {
         return data_[index];
     }
+    
 
     const float& operator[](size_t index) const {
         return data_[index];
@@ -58,16 +69,11 @@ public:
         return data_[0] * other[0] + data_[1] * other[1] + data_[2] * other[2];
     }
 
-    /*static Vector3f cross(const Vector3f& other) const {
-        return Vector3f(data_[1] * other[2] - data_[2] * other[1],
-                         data_[2] * other[0] - data_[0] * other[2],
-                         data_[0] * other[1] - data_[1] * other[0]);
-    }*/
-    static Vector3f cross(const Vector3f &v1, const Vector3f &v2) {
-        return Vector3f( (v1.data_[1]*v2.data_[2] - v1.data_[2]*v2.data_[1]),
-                (-(v1.data_[0]*v2.data_[2] - v1.data_[2]*v2.data_[0])),
-                (v1.data_[0]*v2.data_[1] - v1.data_[1]*v2.data_[0]));
-    }
+        Vector3f cross(const Vector3f& other) const {
+                return Vector3f(data_[1] * other[2] - data_[2] * other[1],
+                                data_[2] * other[0] - data_[0] * other[2],
+                                data_[0] * other[1] - data_[1] * other[0]);
+        }
 
     float norm() const {
         return std::sqrt(data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2]);

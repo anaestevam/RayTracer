@@ -40,10 +40,8 @@ void render(Scene* &s)
         auto u = float(x) / (image_width-1);
         auto v = float(y) / (image_height-1);
         Ray r = s->camera->generate_ray(x, y);
-        Ray r = s->camera->generate_ray(x, y);
         Point2f pixel_coords{static_cast<float>(x) / static_cast<float>(w), static_cast<float>(y) / static_cast<float>(h)};
         ColorXYZ color{0, 0, 0};
-        // Ray r(origin, Vector3f{1,1,1} * (lower_left_corner + horizontal*u + vertical*v - origin));
       
         if (s->backgroundColor->mapping_type == Background::mapping_t::screen)
           color = s->backgroundColor->sampleXYZ(pixel_coords);
