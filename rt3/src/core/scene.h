@@ -11,7 +11,7 @@ namespace rt3
   class Scene
   {
   public:
-Scene(Camera* cam, BackgroundColor* &&bkg, const std::vector<Primitive*>& prim);
+Scene(Camera* cam, BackgroundColor* &&bkg, const std::vector<Sphere*>& prim);
 
   // Scene(const Camera &camera, const BackgroundColor &backgroundColor, const
   // std::vector<std::shared_ptr<Primitive>> &primitives);
@@ -19,7 +19,7 @@ Scene(Camera* cam, BackgroundColor* &&bkg, const std::vector<Primitive*>& prim);
     Camera* camera;
     // std::shared_ptr<Background> background;
     BackgroundColor* backgroundColor;
-    std::vector<Primitive*> primitives;
+    std::vector<Sphere*> primitives;
   };
   //Scene *create_scene();
 

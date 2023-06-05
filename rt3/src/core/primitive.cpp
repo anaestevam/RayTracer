@@ -31,5 +31,15 @@ std::unique_ptr<rt3::Primitive> create_primitive(const ParamSet& ps, rt3::Materi
     return primitive;
 }
 
+Sphere create_sphere(const ParamSet& ps, rt3::Material *material)
+{
+    std::string type = retrieve(ps, "type", std::string{""});
 
+    if (type == "sphere")
+    {
+        float radius = retrieve(ps, "radius", float{0.0});
+        Point3f center = retrieve(ps, "center", Point3f{0, 0, 0});
+        return Sphere(center, radius, std::move(material));
+    }
+}
 }

@@ -125,6 +125,25 @@ std::vector<rt3::Primitive> API::make_primitives(const std::vector<ParamSet>& ob
 }
 
 
+std::vector<rt3::Sphere> API::make_primitives_spheres(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps) {
+    std::cout << ">>> Inside API::make_primitives_sphere()\n";
+    std::vector<rt3::Material*> materials;
+
+    for (const auto& ps : object_material_ps) {
+        // Create a Material object from the ParamSet and add it to the materials vector
+        materials.push_back(create_material(ps));
+    }
+
+    std::vector<rt3::Sphere> primitives;
+    for (size_t i = 0; i < object_ps.size(); ++i) {
+        Sphere primitive_ptr = create_sphere(object_ps[i], materials[i]);
+    
+        primitives.emplace_back(primitive_ptr);
+    }
+
+    return primitives;
+}
+
 Camera* API::make_camera(const std::string& type, const ParamSet& camera_ps, const ParamSet& lookat_ps, Film* film) {
     std::cout << ">>> Inside API::make_camera()\n";
     Camera* cmr = nullptr;
@@ -219,9 +238,10 @@ Camera* API::make_camera(const std::string& type, const ParamSet& camera_ps, con
         make_film(render_opt->film_type, render_opt->film_ps)};
 
     Camera* cam = make_camera(render_opt->camera_type, render_opt->camera_ps, render_opt->lookat_ps, the_film);
-    auto the_primitives  = make_primitives(render_opt->object_ps, render_opt->object_material_ps);
+   // auto the_primitives  = make_primitives(render_opt->object_ps, render_opt->object_material_ps);
+    auto the_primitives  = make_primitives_spheres(render_opt->object_ps, render_opt->object_material_ps);
 
-    std::vector<Primitive*> primitive_pointers;
+    std::vector<Sphere*> primitive_pointers;
     for (auto& p : the_primitives) {
         primitive_pointers.push_back(&p);
     }

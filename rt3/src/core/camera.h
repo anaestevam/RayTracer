@@ -73,16 +73,19 @@ public:
     u = vup.cross(w).unit_vector();
     v = w.cross(u);
 
-    // horizontal = viewport_width * u;
-    // vertical = viewport_height * v;
-    // lower_left_corner = origin - horizontal / 2 - vertical / 2 - w;
+    // Create a new OrthographicCamera instance using the calculated size
+    float viewport_width = right - left;
+    float viewport_height = top - bottom;
+
+    horizontal = viewport_width * u;
+    vertical = viewport_height * v;
+    lower_left_corner = origin - horizontal / 2 - vertical / 2 - w;
   }
 
   Ray generate_ray(int x, int y) const override {
     float u = float(x) / float(film->m_full_resolution[0]);
     float v = float(y) / float(film->m_full_resolution[1]);
-    //maybe wrong beacause of order
-    return  Ray((lower_left_corner + horizontal * u + vertical * v).ToPoint3(), w, 0);
+    return Ray((lower_left_corner + horizontal * u + vertical * v).ToPoint3(), w, 0);
   }
 
 private:

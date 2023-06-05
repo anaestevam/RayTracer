@@ -34,5 +34,6 @@ namespace rt3
     };
 
     std::unique_ptr<rt3::Primitive> create_primitive(const ParamSet& ps, rt3::Material *material);
+    Sphere create_sphere(const ParamSet& ps, rt3::Material *material);
 }
 #endif // PRIMITIVE_H
