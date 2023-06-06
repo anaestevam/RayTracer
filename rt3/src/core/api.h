@@ -5,6 +5,7 @@
 
 #include "rt3.h"
 #include "paramset.h"
+#include "samplerintegrator.h"
 
 //=== API Macro definitions
 
@@ -43,7 +44,11 @@ namespace rt3
     std::string object_type{"sphere"}; // The only type available.
     std::vector<ParamSet> object_ps;
     std::vector<ParamSet> object_material_ps;
-    // the Film
+  
+      // the sample
+    std::string integrator_type{"sample"}; // The only type available.
+    ParamSet integrator_ps;
+      // the Film
     std::string film_type{"image"}; // The only type available.
     ParamSet film_ps;
     /// the Camera
@@ -104,6 +109,8 @@ namespace rt3
     static Material *make_material(const string &name, const ParamSet &ps);
     static std::vector<rt3::Primitive> make_primitives(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps);
     static std::vector<rt3::Sphere> make_primitives_spheres(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps);
+    static Integrator* make_integrator(const std::string &name, const ParamSet &ps,rt3::Camera* cam );
+    static Scene* make_scene(Camera* camera, BackgroundColor* background, const std::vector<Sphere*>& primitives);
 
   public:
     static std::unique_ptr<Film> the_film;
@@ -121,6 +128,8 @@ namespace rt3
     static void material(const ParamSet &ps);
     static void object(const ParamSet &ps);
     static void background(const ParamSet &ps);
+    static void integrator(const ParamSet &ps);
+    static void scene(const ParamSet &ps);
     static void world_begin();
     static void world_end();
   };
