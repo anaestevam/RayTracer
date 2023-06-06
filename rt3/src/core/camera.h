@@ -61,31 +61,33 @@ private:
 class OrthographicCamera : public Camera {
 public:
   OrthographicCamera(const Vector3f &lookfrom, const Vector3f &lookat,
-                     const Vector3f &vup, float left, float right, float bottom,
-                     float top, Film *film)
-      : Camera(film), origin(lookfrom) {
-    this->left = left;
-    this->right = right;
-    this->bottom = bottom;
-    this->top = top;
+                 const Vector3f &vup, float left, float right, float bottom,
+                 float top, Film *film)
+  : Camera(film), origin(lookfrom) {
+  this->left = left;
+  this->right = right;
+  this->bottom = bottom;
+  this->top = top;
 
-    w = (lookfrom - lookat).unit_vector();
-    u = vup.cross(w).unit_vector();
-    v = w.cross(u);
+  w = (lookfrom - lookat).unit_vector();
+  u = vup
+    .cross(w)
+    .unit_vector();
+  v = w.cross(u);
 
-    // Create a new OrthographicCamera instance using the calculated size
-    float viewport_width = right - left;
-    float viewport_height = top - bottom;
+  float viewport_width = (right - left);
+  float viewport_height = (top - bottom);
 
-    horizontal = viewport_width * u;
-    vertical = viewport_height * v;
-    lower_left_corner = origin - horizontal / 2 - vertical / 2 - w;
-  }
+  horizontal = viewport_width * u;
+  vertical = viewport_height * v;
+  lower_left_corner = origin - horizontal / (2.0f * film->m_full_resolution[0]) - vertical / (2.0f * film->m_full_resolution[1]) - w;
+}
+
 
   Ray generate_ray(int x, int y) const override {
     float u = float(x) / float(film->m_full_resolution[0]);
     float v = float(y) / float(film->m_full_resolution[1]);
-    return Ray((lower_left_corner + horizontal * u + vertical * v).ToPoint3(), w, 0);
+    return Ray((lower_left_corner + (horizontal * u) + (vertical * v)).ToPoint3(), w, 0);
   }
 
 private:
