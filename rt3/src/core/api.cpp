@@ -2,6 +2,9 @@
 #include "background.h"
 #include "scene.h"
 #include "sphere.h"
+#include "paramset.h"
+#include "ray.h"
+#include "samplerintegrator.h"
 
 #include <chrono>
 #include <memory>
