@@ -68,6 +68,10 @@ namespace rt3
   class Background;
   class BackgroundColor;
   class Camera;
+  class Scene;
+  class Light;
+  class Integrator;
+  class SampleIntegrator;
 
   //=== aliases
   typedef float real_type;

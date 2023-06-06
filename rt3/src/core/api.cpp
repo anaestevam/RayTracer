@@ -2,72 +2,15 @@
 #include "background.h"
 #include "scene.h"
 #include "sphere.h"
+#include "paramset.h"
+#include "ray.h"
+#include "samplerintegrator.h"
 
 #include <chrono>
 #include <memory>
 
-
 namespace rt3
 {
-
-void render(Scene* &s)
-  {
-
-    auto res = s->camera->film->get_resolution();
-    size_t w = res[0];
-    size_t h = res[1];
-
-
-
-    const auto aspect_ratio = w / h;
-    const int image_width = w;
-    const int image_height = h;
-
-    auto viewport_height = 1.0;
-    auto viewport_width = aspect_ratio * viewport_height;
-    auto focal_length = 1.0;
-
-    auto origin = Point3f(0, 0, 0);
-    auto horizontal = Vector3f(viewport_width, 0, 0);
-    auto vertical = Vector3f(0, viewport_height, 0);
-    auto lower_left_corner = origin - horizontal/2 - vertical/2 - Vector3f(0, 0, focal_length);
-
-
-    for (size_t y = 0; y < h; ++y)
-    {
-      for (size_t x = 0; x < w; ++x)
-      {
-        auto u = float(x) / (image_width-1);
-        auto v = float(y) / (image_height-1);
-        Ray r = s->camera->generate_ray(x, y);
-        Point2f pixel_coords{static_cast<float>(x) / static_cast<float>(w), static_cast<float>(y) / static_cast<float>(h)};
-        ColorXYZ color{0, 0, 0};
-      
-        if (s->backgroundColor->mapping_type == Background::mapping_t::screen)
-          color = s->backgroundColor->sampleXYZ(pixel_coords);
-        else if (s->backgroundColor->mapping_type == Background::mapping_t::spherical)
-          color = s->backgroundColor->sampleXYZ(pixel_coords);
-      for (const auto &p : s->primitives)
-      {
-          bool is_intersecting = false;
-
-          Sphere *sphere = dynamic_cast<Sphere *>(p);
-          if (sphere != nullptr)
-          {
-              is_intersecting = sphere->intersect_p(r);
-          }
-          
-          if (is_intersecting)
-          {
-              color = sphere->material->color;
-          }
-      }
-
-        s->camera->film->add_sample(pixel_coords, color);
-      }
-    }
-    s->camera->film->write_image(w, h, 1, s->camera->film->m_filename);
-  }
 
   //=== API's static members declaration and initialization.
   API::APIState API::curr_state = APIState::Uninitialized;
@@ -97,69 +40,78 @@ void render(Scene* &s)
     return bkg;
   }
 
-
-std::vector<rt3::Primitive> API::make_primitives(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps) {
+  std::vector<rt3::Primitive> API::make_primitives(const std::vector<ParamSet> &object_ps, const std::vector<ParamSet> &object_material_ps)
+  {
     std::cout << ">>> Inside API::make_primitives()\n";
-    std::vector<rt3::Material*> materials;
+    std::vector<rt3::Material *> materials;
 
-    for (const auto& ps : object_material_ps) {
-        // Create a Material object from the ParamSet and add it to the materials vector
-        materials.push_back(create_material(ps));
+    for (const auto &ps : object_material_ps)
+    {
+      // Create a Material object from the ParamSet and add it to the materials vector
+      materials.push_back(create_material(ps));
     }
 
     std::vector<rt3::Primitive> primitives;
-    for (size_t i = 0; i < object_ps.size(); ++i) {
-        std::unique_ptr<rt3::Primitive> primitive_ptr = create_primitive(object_ps[i], materials[i]);
-        
-        // Move the unique pointer into a local variable
-        rt3::Primitive* primitive_raw_ptr = primitive_ptr.release();
+    for (size_t i = 0; i < object_ps.size(); ++i)
+    {
+      std::unique_ptr<rt3::Primitive> primitive_ptr = create_primitive(object_ps[i], materials[i]);
 
-        // Add the primitive to the vector
-        primitives.emplace_back(*primitive_raw_ptr);
-        
-        // Release ownership of the raw pointer
-        delete primitive_raw_ptr;
+      // Move the unique pointer into a local variable
+      rt3::Primitive *primitive_raw_ptr = primitive_ptr.release();
+
+      // Add the primitive to the vector
+      primitives.emplace_back(*primitive_raw_ptr);
+
+      // Release ownership of the raw pointer
+      delete primitive_raw_ptr;
     }
 
     return primitives;
-}
+  }
 
-
-std::vector<rt3::Sphere> API::make_primitives_spheres(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps) {
+  std::vector<rt3::Sphere> API::make_primitives_spheres(const std::vector<ParamSet> &object_ps, const std::vector<ParamSet> &object_material_ps)
+  {
     std::cout << ">>> Inside API::make_primitives_sphere()\n";
-    std::vector<rt3::Material*> materials;
+    std::vector<rt3::Material *> materials;
 
-    for (const auto& ps : object_material_ps) {
-        // Create a Material object from the ParamSet and add it to the materials vector
-        materials.push_back(create_material(ps));
+    for (const auto &ps : object_material_ps)
+    {
+      // Create a Material object from the ParamSet and add it to the materials vector
+      materials.push_back(create_material(ps));
     }
 
     std::vector<rt3::Sphere> primitives;
-    for (size_t i = 0; i < object_ps.size(); ++i) {
-        Sphere primitive_ptr = create_sphere(object_ps[i], materials[i]);
-    
-        primitives.emplace_back(primitive_ptr);
+    for (size_t i = 0; i < object_ps.size(); ++i)
+    {
+      Sphere primitive_ptr = create_sphere(object_ps[i], materials[i]);
+
+      primitives.emplace_back(primitive_ptr);
     }
 
     return primitives;
-}
+  }
 
-Camera* API::make_camera(const std::string& type, const ParamSet& camera_ps, const ParamSet& lookat_ps, Film* film) {
+  Camera *API::make_camera(const std::string &type, const ParamSet &camera_ps, const ParamSet &lookat_ps, Film *film)
+  {
     std::cout << ">>> Inside API::make_camera()\n";
-    Camera* cmr = nullptr;
+    Camera *cmr = nullptr;
 
-    if (type == "orthographic") {
-        cmr = create_orthographic_camera(camera_ps, lookat_ps, film);
-    } else if (type == "perspective") {
-        cmr = create_perspective_camera(camera_ps, lookat_ps, film);
-    } else {
-        RT3_ERROR("API::clean_up() called before engine initialization.");
+    if (type == "orthographic")
+    {
+      cmr = create_orthographic_camera(camera_ps, lookat_ps, film);
+    }
+    else if (type == "perspective")
+    {
+      cmr = create_perspective_camera(camera_ps, lookat_ps, film);
+    }
+    else
+    {
+      RT3_ERROR("API::clean_up() called before engine initialization.");
     }
 
     // Return the newly created camera.
     return cmr;
-}
-
+  }
 
   Material *API::make_material(const std::string &name, const ParamSet &ps)
   {
@@ -168,6 +120,32 @@ Camera* API::make_camera(const std::string& type, const ParamSet& camera_ps, con
     material = create_material(ps);
     // Return the newly created background.
     return material;
+  }
+
+  Scene *API::make_scene(Camera *camera, BackgroundColor *background, const std::vector<Sphere *> &primitives)
+  {
+    std::cout << ">>> Inside API::make_scene()\n";
+
+    // Create the Scene object with the provided camera, background, and primitives
+    Scene *scene = new Scene(camera, std::move(background), primitives);
+
+    return scene;
+  }
+
+  Integrator *API::make_integrator(const std::string &name, const ParamSet &ps, Camera* cam)
+  {
+    std::cout << ">>> Inside API::make_integrator()\n";
+    Integrator *itr = nullptr;
+
+    if (name == "sample")
+    {
+      itr = create_sample_integrator(ps, cam);
+    } else
+    {
+      RT3_ERROR("Unsupported integrator type.");
+    }
+
+    return itr;
   }
 
   // ˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆ
@@ -231,22 +209,32 @@ Camera* API::make_camera(const std::string& type, const ParamSet& camera_ps, con
 
     // At this point, we have the background as a solitary pointer here.
     // In the future, the background will be parte of the scene object.
-    BackgroundColor* the_background{
+    BackgroundColor *the_background{
         make_background(render_opt->bkg_type, render_opt->bkg_ps)};
     // Same with the film, that later on will belong to a camera object.
-    Film* the_film{
+    Film *the_film{
         make_film(render_opt->film_type, render_opt->film_ps)};
 
-    Camera* cam = make_camera(render_opt->camera_type, render_opt->camera_ps, render_opt->lookat_ps, the_film);
-   // auto the_primitives  = make_primitives(render_opt->object_ps, render_opt->object_material_ps);
-    auto the_primitives  = make_primitives_spheres(render_opt->object_ps, render_opt->object_material_ps);
+    Camera *cam = make_camera(render_opt->camera_type, render_opt->camera_ps, render_opt->lookat_ps, the_film);
+    // auto the_primitives  = make_primitives(render_opt->object_ps, render_opt->object_material_ps);
+    auto the_primitives = make_primitives_spheres(render_opt->object_ps, render_opt->object_material_ps);
 
-    std::vector<Sphere*> primitive_pointers;
-    for (auto& p : the_primitives) {
-        primitive_pointers.push_back(&p);
+    std::vector<Sphere *> primitive_pointers;
+    for (auto &p : the_primitives)
+    {
+      primitive_pointers.push_back(&p);
     }
 
-rt3::Scene scene(cam, std::move(the_background), primitive_pointers);
+    Integrator *the_integrator{
+        make_integrator(render_opt->integrator_type, render_opt->integrator_ps, cam)};
+
+    Scene *scene_ptr = make_scene(cam, std::move(the_background), primitive_pointers);
+
+    rt3::Scene scene(cam, std::move(the_background), primitive_pointers);
+
+    //  the_integrator.reset( make_integrator() ); // make Film, make Camera.
+    //   // [2] Create the scene.
+    //   the_scene.reset( make_scene() ); // make Primitives, make Background.
 
     // Run only if we got film and background.
     if (the_film and the_background)
@@ -266,9 +254,7 @@ rt3::Scene scene(cam, std::move(the_background), primitive_pointers);
       //================================================================================
       auto start = std::chrono::steady_clock::now();
 
-      Scene* scene_ptr = &scene;
-
-      render(scene_ptr);
+      the_integrator->render(scene); // Main ray tracer loop!!!
 
       auto end = std::chrono::steady_clock::now();
       //================================================================================
@@ -343,10 +329,10 @@ rt3::Scene scene(cam, std::move(the_background), primitive_pointers);
     render_opt->object_type = type;
     render_opt->object_ps.push_back(ps);
     render_opt->object_material_ps.push_back(render_opt->material_ps);
-
   }
 
- void API::camera(const ParamSet &ps) {
+  void API::camera(const ParamSet &ps)
+  {
     std::cout << ">>> Inside API::camera()\n";
     VERIFY_SETUP_BLOCK("API::camera");
 
@@ -358,7 +344,8 @@ rt3::Scene scene(cam, std::move(the_background), primitive_pointers);
     render_opt->camera_ps = ps;
   }
 
-   void API::look_at(const ParamSet &ps) {
+  void API::look_at(const ParamSet &ps)
+  {
     std::cout << ">>> Inside API::look_at()\n";
     VERIFY_SETUP_BLOCK("API::look_at");
     // retrieve type from ps.
