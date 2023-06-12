@@ -7,13 +7,6 @@
 
 namespace rt3
 {
-        struct hit_record {
-        Point3f p;
-        Vector3f normal;
-        double t;
-        Material *mat_ptr;
-
-    };
     class Primitive
     {
     public:
@@ -37,16 +30,16 @@ namespace rt3
             return 0;
         };
 
-        virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const {
-            return 0;
+        virtual Vector3f intersect_p_vector(const Ray &r) const
+        {
+            return Vector3f{0, 0, 0};
         };
 
         Material *material;
     };
 
-    std::unique_ptr<rt3::Primitive> create_primitive(const ParamSet& ps, rt3::Material *material);
-    Sphere create_sphere(const ParamSet& ps, rt3::Material *material);
-
+    std::unique_ptr<rt3::Primitive> create_primitive(const ParamSet &ps, rt3::Material *material);
+    Sphere create_sphere(const ParamSet &ps, rt3::Material *material);
 
 }
 #endif // PRIMITIVE_H

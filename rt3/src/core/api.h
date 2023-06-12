@@ -7,6 +7,7 @@
 #include "paramset.h"
 #include "samplerintegrator.h"
 #include "depthintegrator.h"
+#include "normalintegrator.h"
 
 //=== API Macro definitions
 
