@@ -21,6 +21,8 @@ public:
     {
   
     }
+    Point3f point_at_parameter(float t) const { return o + d * t; }
+
     /*Ray() {}
     Ray(const Vector3f& origin, const Vector3f& direction, int b) { A = origin; B = direction; b = 0;}
     Vector3f origin() const       { return A; }

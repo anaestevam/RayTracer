@@ -13,6 +13,7 @@ class Integrator {
         Integrator(Camera *camera) : camera(camera) {}
     	virtual ~Integrator() = default;
 		virtual void render( const Scene& scene ) =0;
+        // virtual void preprocess(const Scene& scene)  = 0;
 
      Camera* camera;
 

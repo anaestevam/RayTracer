@@ -11,5 +11,4 @@ Scene::Scene(Camera* cam, BackgroundColor* &&bkg, const std::vector<Sphere*>& pr
         primitives.emplace_back(p);
     }
 }
-
 }

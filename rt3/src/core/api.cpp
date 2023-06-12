@@ -5,6 +5,7 @@
 #include "paramset.h"
 #include "ray.h"
 #include "samplerintegrator.h"
+#include "depthintegrator.h"
 
 #include <chrono>
 #include <memory>
@@ -134,12 +135,15 @@ namespace rt3
 
   Integrator *API::make_integrator(const std::string &name, const ParamSet &ps, Camera* cam)
   {
-    std::cout << ">>> Inside API::make_integrator()\n";
+    std::cout << ">>> Inside API::make_integrator()"<< name <<" s///\n";
     Integrator *itr = nullptr;
 
-    if (name == "sample")
+    if (name == "flat")
     {
       itr = create_sample_integrator(ps, cam);
+    } else if (name == "depth_map")
+    {
+      itr = create_depth_integrator(ps, cam);
     } else
     {
       RT3_ERROR("Unsupported integrator type.");
@@ -351,5 +355,27 @@ namespace rt3
     // retrieve type from ps.
     std::string type = retrieve(ps, "type", string{"unknown"});
     render_opt->lookat_ps = ps;
+  }
+
+    void API::integrator(const ParamSet &ps)
+  {
+    std::cout << ">>> Inside API::integrator()\n";
+    VERIFY_SETUP_BLOCK("API::integrator");
+    // retrieve type from ps.
+    std::string type = retrieve(ps, "type", string{"unknown"});
+        std::cout << ">>> Inside API::integrator()\n"<< type;
+
+    render_opt->integrator_type = type;
+    render_opt->integrator_ps = ps;
+  }
+
+      void API::scene(const ParamSet &ps)
+  {
+    std::cout << ">>> Inside API::scene()\n";
+    VERIFY_SETUP_BLOCK("API::scene");
+    // retrieve type from ps.
+    std::string type = retrieve(ps, "type", string{"unknown"});
+    render_opt->scene_type = type;
+    render_opt->scene_ps = ps;
   }
 } // namespace rt3

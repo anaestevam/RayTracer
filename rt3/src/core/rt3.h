@@ -71,7 +71,7 @@ namespace rt3
   class Scene;
   class Light;
   class Integrator;
-  class SampleIntegrator;
+  class SamplerIntegrator;
 
   //=== aliases
   typedef float real_type;

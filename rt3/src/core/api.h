@@ -6,6 +6,7 @@
 #include "rt3.h"
 #include "paramset.h"
 #include "samplerintegrator.h"
+#include "depthintegrator.h"
 
 //=== API Macro definitions
 
@@ -46,8 +47,10 @@ namespace rt3
     std::vector<ParamSet> object_material_ps;
   
       // the sample
-    std::string integrator_type{"sample"}; // The only type available.
+    std::string integrator_type{"flat"}; // The only type available.
     ParamSet integrator_ps;
+    std::string scene_type{"sample"}; // The only type available.
+    ParamSet scene_ps;
       // the Film
     std::string film_type{"image"}; // The only type available.
     ParamSet film_ps;

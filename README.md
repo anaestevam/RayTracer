@@ -17,7 +17,7 @@ This method corresponds to the "main loop" of the rendering process.
 # To compile
 
 ```
-cd ..
+cd rt3
 cmake -S . -B build
 cd build
 make
