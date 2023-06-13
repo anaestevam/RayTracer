@@ -147,10 +147,10 @@ named_material só busca com o find e mostra o erro com o end, crr_GS.curr_mater
     {
       itr = create_sample_integrator(ps, cam);
     }
-    else if (name == "depth_map")
-    {
-      itr = create_depth_integrator(ps, cam);
-    }
+    // else if (name == "depth_map")
+    // {
+    //   itr = create_depth_integrator(ps, cam);
+    // }
     else if (name == "normal_map")
     {
       itr = create_normal_integrator(ps, cam);
