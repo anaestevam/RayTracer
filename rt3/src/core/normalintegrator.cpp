@@ -50,13 +50,6 @@ namespace rt3
     return color;
   }
 
-  ColorXYZ RGBfromNormal(const Vector3f &normal)
-  {
-    float r = (normal[0] + 1.0f) / 2.0f;
-    float g = (normal[1] + 1.0f) / 2.0f;
-    float b = (normal[2] + 1.0f) / 2.0f;
-    return {r, g, b};
-  }
 
   NormalIntegrator *create_normal_integrator(const ParamSet &ps, Camera *cam)
   {

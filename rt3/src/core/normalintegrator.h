@@ -17,7 +17,6 @@ public:
 
 };
     NormalIntegrator *create_normal_integrator(const ParamSet &ps, Camera* cam );
-    ColorXYZ RGBfromNormal(const Vector3f &normal);
 
 }
 

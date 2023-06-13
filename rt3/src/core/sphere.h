@@ -37,29 +37,38 @@ namespace rt3
             return normal;
         }
 
-        float hit_sphere(const Ray &r)
+        Vector3f hit_sphere(const Ray &r)
         {
-            Vector3f oc = Vector3f{1, 1, 1} * (r.o - center);
+            Vector3f oc = (r.d.ToVector3(r.o) - center);
+
             auto a = r.d.dot(r.d);
-            auto b = 2.0 * oc.dot(r.d);
-            auto c = oc.dot(oc) - radius * radius;
-            auto discriminant = b * b - 4 * a * c;
+            auto b = 2.0 * r.d.dot(oc);
+
+            auto c = oc.dot(oc) - (radius * radius);
+            auto discriminant = (b * b) - (4 * a * c);
             if (discriminant < 0)
             {
-                return -1.0;
+                return Vector3f{0, 0, 0};
             }
             else
             {
-                return (-b - sqrt(discriminant)) / (2.0 * a);
+                float t1 = (-b - sqrt(discriminant)) / (2.0 * a);
+                float t2 = (-b + sqrt(discriminant)) / (2.0 * a);
+                if (t1 > t2) std::swap(t1, t2);
+
+                return r.vector_at_parameter(t1);
             }
         }
 
         ColorXYZ ray_color(const Ray &r)
         {
-            float t = hit_sphere(r);
-            float half = 0.5;
-            Vector3f N = ((r.vector_at_parameter(t)) - Vector3f(0, 0, -1)).unit_vector();
-            return ColorXYZ{((N[0] * 255)), ((N[1] * 255)) , ((N[2] * 255))};
+            Vector3f intersection_point = hit_sphere(r);
+            if (intersection_point == Vector3f{0, 0, 0})
+            {
+                return ColorXYZ{0, 0, 0};
+            }
+            Vector3f normal = (intersection_point - center).normalized();
+            return ColorXYZ{(std::abs(normal[0]) * 255) / 2, (std::abs(normal[1]) * 255) / 2, std::abs((normal[2]) * 255) / 2};
         }
     };
 
