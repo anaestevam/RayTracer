@@ -143,12 +143,20 @@ namespace rt3
         vector<std::pair<param_type_e, string>> param_list{
             {param_type_e::STRING, "type"},
             {param_type_e::COLOR, "color"},
+            
+            {param_type_e::Vector3f, "diffuse"}
             // Add any other parameters specific to the flat tag
         };
 
         parse_parameters(p_element, param_list, /* out */ &ps);
 
         API::material(ps); // Replace with the appropriate API function to handle the flat tag
+      }else if(tag_name = "make_named_material"){
+        //named_material
+
+      }else if(tag_name = "named_material"){
+        //named_material
+
       }
       else if (tag_name == "object") // New case for sphere
       {
@@ -190,7 +198,6 @@ namespace rt3
 
         API::integrator(ps);
 }
-
       else if (tag_name == "world_begin")
       {
         // std::clog << ">>> Entering WorldBegin, at level " << level+1 <<

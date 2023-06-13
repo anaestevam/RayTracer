@@ -68,7 +68,7 @@ namespace rt3
   /// lib of material, etc.
   struct GraphicsState
   {
-    // Not necessary in Project 01 through Project 07.
+    // Not necessary in Project 01 through Project 07. tem um ponteiro pro material.
   };
 
   /// Static class that manages the render process
@@ -98,8 +98,8 @@ namespace rt3
      */
     /// Unique infrastructure to render a scene (camera, integrator, etc.).
     // [NO NECESSARY IN THIS PROJECT]
-    // /// The current GraphicsState
-    // static GraphicsState curr_GS;
+    // /// The current GraphicsState criar
+    // static GraphicsState curr_GS; criar
     // [NOT NECESSARY IN THIS PROJECT]
     // /// Pointer to the scene. We keep it as parte of the API because it may be
     // reused later [1] Create the integrator. static unique_ptr< Scene >

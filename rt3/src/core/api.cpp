@@ -18,7 +18,7 @@ namespace rt3
   API::APIState API::curr_state = APIState::Uninitialized;
   RunningOptions API::curr_run_opt;
   std::unique_ptr<RenderOptions> API::render_opt;
-  // GraphicsState API::curr_GS;
+  // GraphicsState API::curr_GS; // criar ponteiro pro material e a bibliotera de materiais <DictionaryOfMaterial>
 
   // THESE FUNCTIONS ARE NEEDED ONLY IN THIS SOURCE FILE (NO HEADER NECESSARY)
   // ˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇ
@@ -121,9 +121,13 @@ namespace rt3
     Material *material{nullptr};
     material = create_material(ps);
     // Return the newly created background.
+    //acrescentar condicao pro tipo flag, blinn
+    //curr_material
     return material;
   }
-
+/*make_named_material vou buscar o curr na biblioteca e faz o hash table 
+procurar o material no rash table e jogar pro make_material
+named_material só busca com o find e mostra o erro com o end, crr_GS.curr_material = it->second*/
   Scene *API::make_scene(Camera *camera, BackgroundColor *background, const std::vector<Sphere *> &primitives)
   {
     std::cout << ">>> Inside API::make_scene()\n";
@@ -178,7 +182,7 @@ namespace rt3
     // Preprare render infrastructure for a new scene.
     render_opt = std::make_unique<RenderOptions>();
     // Create a new initial GS
-    // curr_GS = GraphicsState();
+    // curr_GS = GraphicsState(); // criar
     RT3_MESSAGE("[1] Rendering engine initiated.\n");
   }
 
