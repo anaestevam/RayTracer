@@ -6,6 +6,7 @@
 #include "material.h"
 #include "primitive.h"
 #include "math.h"
+#include "surfaceinteraction.h"
 
 namespace rt3
 {
@@ -14,6 +15,7 @@ namespace rt3
     public:
         Point3f center;
         float radius;
+        float eps = 0.001;
 
         Sphere(const Point3f &center, float radius, Material *mat)
             : Primitive(mat), center(center), radius(radius) {}
@@ -28,6 +30,47 @@ namespace rt3
             auto c = oc.dot(oc) - radius * radius;
             auto discriminant = b * b - 4 * a * c;
             return (discriminant > 0);
+        }
+
+        bool intersect(const Ray &r,
+                       SurfaceInteraction *surface)
+            const
+        {
+
+            Point3f origin = r.o;
+            Vector3f direction = r.d;
+
+            Vector3f oc = direction.ToVector3(origin) - this->center;
+
+            float a = direction.dot(direction);
+            float b = 2.0 * oc.dot(direction);
+            float c = oc.dot(oc) - (this->radius * this->radius);
+
+            float delta = (b * b) - (4.0 * a * c);
+
+            if (delta < 0.0)
+                return false;
+
+            float r1 = (-b + sqrt(delta)) / (2 * a);
+            float r2 = (-b - sqrt(delta)) / (2 * a);
+
+            auto tHit = fmin(r1, r2);
+            if (tHit > r.t_max || tHit < 0)
+                return false;
+
+            if (surface != nullptr)
+            {
+                surface->t = tHit;
+                surface->p = r.point_at_parameter(surface->t);
+                surface->m = material;
+
+                surface->n = oc.ToVector3((surface->p - center) * 2.0).unit_vector();
+                surface->wo = (-1.0 * (direction - origin)).unit_vector();
+
+                surface->p = surface->p + (eps * surface->n);
+            }
+
+            return true;
         }
 
         Vector3f normalAt(const Ray &ray, const Vector3f &intersection_point) const
@@ -54,8 +97,8 @@ namespace rt3
             {
                 float t1 = (-b - sqrt(discriminant)) / (2.0 * a);
                 float t2 = (-b + sqrt(discriminant)) / (2.0 * a);
-                if (t1 > t2) std::swap(t1, t2);
-
+                if (t1 > t2)
+                    std::swap(t1, t2);
                 return r.vector_at_parameter(t1);
             }
         }

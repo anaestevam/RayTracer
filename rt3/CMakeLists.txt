@@ -47,6 +47,8 @@ add_executable(basic_rt3 ${RT3_SOURCE_DIR}/core/api.cpp
                          ${RT3_SOURCE_DIR}/core/depthintegrator.cpp
                          ${RT3_SOURCE_DIR}/core/normalintegrator.cpp
                          ${RT3_SOURCE_DIR}/core/blinnphongintegrator.cpp
+                         ${RT3_SOURCE_DIR}/core/surfaceinteraction.cpp
+                         ${RT3_SOURCE_DIR}/core/visibilitytester.cpp
                          ${RT3_SOURCE_DIR}/core/ray.cpp
                          ${RT3_SOURCE_DIR}/core/sphere.cpp
                          ${RT3_SOURCE_DIR}/core/image_io.cpp

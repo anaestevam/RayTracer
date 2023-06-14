@@ -7,7 +7,7 @@ class Ray
 {
 public:
     Ray(const Point3f &o, const Vector3f &d,
-        float start = 0, float end = INFINITY) : o{o}, d{d}, t_min{0.f}, t_max{INFINITY}
+        float start = 0, float end = INFINITY) : o{o}, d{d}, t_min{0.f}, t_max{end}
     { /*empty*/
     }
 
@@ -22,9 +22,9 @@ public:
     }
     Point3f point_at_parameter(float t) const { return o + d * t; }
     Vector3f vector_at_parameter(float t) const { return d.ToVector3(o) + d * t; }
+    float t_min, t_max; //!< parameters
 
 private:
-    float t_min, t_max; //!< parameters
     Vector3f operator()(float t) const
     {
         return d.ToVector3(o) + d * t;

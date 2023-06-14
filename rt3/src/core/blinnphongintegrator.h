@@ -1,23 +1,23 @@
-// #ifndef BLINNPHONG_INTEGRATOR_H
-// #define BLINNPHONG_INTEGRATOR_H
+#ifndef BLINNPHONG_INTEGRATOR_H
+#define BLINNPHONG_INTEGRATOR_H
 
-// #include "integrator.h"
-// #include "camera.h"
-// #include "sphere.h"
-// #include "rt3.h"
+#include "integrator.h"
+#include "camera.h"
+#include "sphere.h"
+#include "rt3.h"
 
-// namespace rt3
-// {
-// class BlinnPhongIntegrator : public Integrator {
-// public:
-//     virtual ~BlinnPhongIntegrator() {}
-//     BlinnPhongIntegrator(Camera* cam) : Integrator(cam) {}
-//     virtual ColorXYZ Li(const Ray& ray, const Scene& scene,const Point2f &pixel_coords);
-//     virtual void render(const Scene& scene) override;
+namespace rt3
+{
+class BlinnPhongIntegrator : public Integrator {
+public:
+    virtual ~BlinnPhongIntegrator() {}
+    BlinnPhongIntegrator(Camera* cam) : Integrator(cam) {}
+    virtual ColorXYZ Li(const Ray& ray, const Scene& scene,const Point2f &pixel_coords);
+    virtual void render(const Scene& scene) override;
 
-// };
-//     BlinnPhongIntegrator *create_blinnphong_integrator(const ParamSet &ps, Camera* cam );
+};
+    BlinnPhongIntegrator *create_blinnphong_integrator(const ParamSet &ps, Camera* cam );
 
-// }
+}
 
-// #endif
+#endif

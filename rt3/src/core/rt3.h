@@ -73,6 +73,7 @@ namespace rt3
   class Light;
   class Integrator;
   class SamplerIntegrator;
+  class SurfaceInteraction;
 
   //=== aliases
   typedef float real_type;
