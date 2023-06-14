@@ -144,28 +144,20 @@ namespace rt3
             {param_type_e::STRING, "type"},
             {param_type_e::COLOR, "color"},
             
-<<<<<<< HEAD
-            //{param_type_e::Vector3f, "diffuse"}
-=======
             {param_type_e::ARR_REAL, "diffuse"}
->>>>>>> refs/remotes/origin/main
             // Add any other parameters specific to the flat tag
         };
 
         parse_parameters(p_element, param_list, /* out */ &ps);
 
         API::material(ps); // Replace with the appropriate API function to handle the flat tag
-<<<<<<< HEAD
-      }/*else if(tag_name = "make_named_material"){
-=======
       }else if(tag_name == "make_named_material"){
->>>>>>> refs/remotes/origin/main
         //named_material
 
       }else if(tag_name == "named_material"){
         //named_material
 
-      }*/
+      }
       else if (tag_name == "object") // New case for sphere
       {
         ParamSet ps;

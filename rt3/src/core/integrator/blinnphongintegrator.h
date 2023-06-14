@@ -2,9 +2,9 @@
 #define BLINNPHONG_INTEGRATOR_H
 
 #include "integrator.h"
-#include "camera.h"
-#include "sphere.h"
-#include "rt3.h"
+#include "../camera.h"
+#include "../sphere.h"
+#include "../rt3.h"
 
 namespace rt3
 {
