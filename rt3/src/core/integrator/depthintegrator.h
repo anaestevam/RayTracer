@@ -2,9 +2,9 @@
 #define DEPTH_INTEGRATOR_H
 
 #include "integrator.h"
-#include "camera.h"
-#include "rt3.h"
-#include "sphere.h"
+#include "../camera.h"
+#include "../rt3.h"
+#include "../sphere.h"
 
 namespace rt3
 {

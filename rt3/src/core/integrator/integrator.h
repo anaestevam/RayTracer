@@ -2,8 +2,8 @@
 #define INTEGRATOR_H
 
 
-#include "rt3.h"
-#include "scene.h"
+#include "../rt3.h"
+#include "../scene.h"
 
 namespace rt3
 {

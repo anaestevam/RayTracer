@@ -5,9 +5,9 @@
 
 #include "rt3.h"
 #include "paramset.h"
-#include "samplerintegrator.h"
-#include "depthintegrator.h"
-#include "normalintegrator.h"
+#include "integrator/samplerintegrator.h"
+#include "integrator/depthintegrator.h"
+#include "integrator/normalintegrator.h"
 
 //=== API Macro definitions
 

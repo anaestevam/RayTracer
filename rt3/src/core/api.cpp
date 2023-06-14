@@ -4,9 +4,9 @@
 #include "sphere.h"
 #include "paramset.h"
 #include "ray.h"
-#include "samplerintegrator.h"
-#include "depthintegrator.h"
-#include "normalintegrator.h"
+#include "integrator/samplerintegrator.h"
+#include "integrator/depthintegrator.h"
+#include "integrator/normalintegrator.h"
 
 #include <chrono>
 #include <memory>
