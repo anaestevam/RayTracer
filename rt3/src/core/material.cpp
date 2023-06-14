@@ -16,7 +16,7 @@ namespace rt3
         if (type == "flat")
         {
             ColorXYZ color = retrieve(ps, "color", ColorXYZ{{0, 0, 0}});
-            material = new Material(color,1,1);
+            material = new FlatMaterial(color,1,1);
         }
         else
         {

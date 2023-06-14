@@ -26,8 +26,8 @@ namespace rt3
 
     DepthIntegrator* create_depth_integrator(const ParamSet& ps, Camera* cam);
     float calculate_normalized_depth(const Ray &ray, const Scene &scene, const Point2f &pixel_coords, float min_z , float max_z);
-float sphere_distance(const Point3f &point, const Point3f &center, float radius);
-ColorXYZ interpolate(int color1, int color2, float fraction);
+    float sphere_distance(const Point3f &point, const Point3f &center, float radius);
+    ColorXYZ interpolate(int color1, int color2, float fraction);
 }
 
 #endif // DEPTH_INTEGRATOR_H

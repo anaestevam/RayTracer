@@ -29,6 +29,7 @@ using std::array;
 #define Dictionary std::map
 using ColorXYZ = std::array<float, 3>;
 using Point2f = std::array<float, 2>;
+using Vector4f = std::array<float, 4>;
 
 //=== Aliases
 namespace rt3
