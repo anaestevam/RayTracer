@@ -27,6 +27,8 @@ using std::array;
 //== Alias to the chosen data structure to implement a dictionary.
 // #define Dictionary std::unordered_map
 #define Dictionary std::map
+#define UNUSED(x) (void)(x)
+
 using ColorXYZ = std::array<float, 3>;
 using Point2f = std::array<float, 2>;
 using Vector4f = std::array<float, 4>;
@@ -74,6 +76,12 @@ namespace rt3
   class Integrator;
   class SamplerIntegrator;
   class SurfaceInteraction;
+  class VisibilityTester;
+  class Bounds3;
+  class Light;
+  class AmbientLight;
+
+
 
   //=== aliases
   typedef float real_type;

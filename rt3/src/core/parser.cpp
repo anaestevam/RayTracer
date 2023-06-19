@@ -143,8 +143,10 @@ namespace rt3
         vector<std::pair<param_type_e, string>> param_list{
             {param_type_e::STRING, "type"},
             {param_type_e::COLOR, "color"},
-            
-            {param_type_e::ARR_REAL, "diffuse"}
+            {param_type_e::POINT3F, "ambient"},
+            {param_type_e::POINT3F, "diffuse"},
+            {param_type_e::POINT3F, "specular"},
+            {param_type_e::INT, "glossiness"},
             // Add any other parameters specific to the flat tag
         };
 

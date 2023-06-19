@@ -40,11 +40,10 @@ namespace rt3
             Point3f origin = r.o;
             Vector3f direction = r.d;
 
-            Vector3f oc = direction.ToVector3(origin) - this->center;
-
-            float a = direction.dot(direction);
-            float b = 2.0 * oc.dot(direction);
-            float c = oc.dot(oc) - (this->radius * this->radius);
+            Vector3f oc = (r.d.ToVector3(r.o) - center);
+            auto a = r.d.dot(r.d);
+            auto b = 2.0 * r.d.dot(oc);
+            auto c = oc.dot(oc) - (radius * radius);
 
             float delta = (b * b) - (4.0 * a * c);
 
@@ -54,7 +53,11 @@ namespace rt3
             float r1 = (-b + sqrt(delta)) / (2 * a);
             float r2 = (-b - sqrt(delta)) / (2 * a);
 
-            auto tHit = fmin(r1, r2);
+            if (r1 > r2)
+                std::swap(r1, r2);
+
+            auto tHit = -r1;
+
             if (tHit > r.t_max || tHit < 0)
                 return false;
 
@@ -83,24 +86,38 @@ namespace rt3
         Vector3f hit_sphere(const Ray &r)
         {
             Vector3f oc = (r.d.ToVector3(r.o) - center);
-
-            auto a = r.d.dot(r.d);
+            auto a = (r.d).length_squared();
             auto b = 2.0 * r.d.dot(oc);
+            auto half_b = r.d.dot(oc);
+            auto c = oc.length_squared() - radius * radius;
+            auto discriminant = half_b * half_b - a * c;
 
-            auto c = oc.dot(oc) - (radius * radius);
-            auto discriminant = (b * b) - (4 * a * c);
             if (discriminant < 0)
             {
                 return Vector3f{0, 0, 0};
             }
             else
             {
-                float t1 = (-b - sqrt(discriminant)) / (2.0 * a);
-                float t2 = (-b + sqrt(discriminant)) / (2.0 * a);
-                if (t1 > t2)
-                    std::swap(t1, t2);
-                return r.vector_at_parameter(t1);
+                return r.vector_at_parameter((-half_b - sqrt(discriminant)) / a);
             }
+
+            // auto a = r.d.dot(r.d);
+            // auto b = 2.0 * r.d.dot(oc);
+
+            // auto c = oc.dot(oc) - (radius * radius);
+            // auto discriminant = (b * b) - (4 * a * c);
+            // if (discriminant < 0)
+            // {
+            //     return Vector3f{0, 0, 0};
+            // }
+            // else
+            // {
+            //     float t1 = (-b - sqrt(discriminant)) / (2.0 * a);
+            //     float t2 = (-b + sqrt(discriminant)) / (2.0 * a);
+            //     if (t1 > t2)
+            //         std::swap(t1, t2);
+            //     return r.vector_at_parameter(t1);
+            // }
         }
 
         ColorXYZ ray_color(const Ray &r)

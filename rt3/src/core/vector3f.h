@@ -3,6 +3,7 @@
 #include <random>
 #include <math.h>
 #include <stdlib.h>
+#include <random>
 
 class Vector3f
 {
@@ -95,8 +96,6 @@ public:
         return std::sqrt(data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2]);
     }
 
-
-
     Vector3f unit_vector() const
     {
         float magnitude = norm();
@@ -116,6 +115,13 @@ public:
     float degrees_to_radians(float degrees)
     {
         return degrees * M_PI / 180.0;
+    }
+
+    inline float distance(Vector3f &p2)
+    {
+        return sqrt(pow((data_[0] - p2[0]), 2) +
+                    pow((data_[1] - p2[1]), 2) +
+                    pow((data_[2] - p2[2]), 2));
     }
 
     static Vector3f unit_vector(Vector3f v)
@@ -168,6 +174,17 @@ public:
         }
     }
 
+    
+ double length()
+{
+    return sqrt(length_squared());
+}
+
+ double length_squared() const
+{
+    return data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2];
+}
+
     inline const Vector3f &operator+() const { return *this; }
     inline Vector3f operator-() const { return Vector3f(-data_[0], -data_[1], -data_[2]); }
     inline float operator[](int i) const { return data_[i]; }
@@ -183,7 +200,10 @@ public:
     inline float length() const { return sqrt(data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2]); }
     inline float squared_length() const { return data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2]; }
     inline void make_unit_vector();
-
+    inline double random_double_a();
+    inline double random_double(double min, double max);
+    inline Vector3f random(double min, double max);
+    inline Vector3f random_in_unit_sphere();
     float e[3];
 
 private:
@@ -225,16 +245,10 @@ inline Vector3f operator-(const Vector3f &v1, const Point3f &point)
     return Vector3f(v1[0] - point[0], v1[1] - point[1], v1[2] - point[2]);
 }
 
-/////////////////
-/*inline std::istream& operator>>(std::istream &is, Vector3f &t) {
-    is >> t.e[0] >> t.e[1] >> t.e[2];
-    return is;
+inline Point3f operator*(const Point3f &v1, const Vector3f &v2)
+{
+    return Point3f(v1[0] * v2[0], v1[1] * v2[1], v1[2] * v2[2]);
 }
-
-inline std::ostream& operator<<(std::ostream &os, const Vector3f &t) {
-    os << t.e[0] << " " << t.e[1] << " " << t.e[2];
-    return os;
-}*/
 
 inline void Vector3f::make_unit_vector()
 {
@@ -243,92 +257,32 @@ inline void Vector3f::make_unit_vector()
     e[1] *= k;
     e[2] *= k;
 }
-/*
-inline Vector3f operator+(const Vector3f &v1, const Vector3f &v2) {
-    return Vector3f(v1.e[0] + v2.e[0], v1.e[1] + v2.e[1], v1.e[2] + v2.e[2]);
+
+inline double Vector3f::random_double_a() {
+    return rand() / (RAND_MAX + 1.0);
 }
 
-inline Vector3f operator-(const Vector3f &v1, const Vector3f &v2) {
-    return Vector3f(v1.e[0] - v2.e[0], v1.e[1] - v2.e[1], v1.e[2] - v2.e[2]);
+inline double Vector3f::random_double(double min, double max)
+{
+    return min + (max - min) * random_double_a();
 }
 
-inline Vector3f operator*(const Vector3f &v1, const Vector3f &v2) {
-    return Vector3f(v1.e[0] * v2.e[0], v1.e[1] * v2.e[1], v1.e[2] * v2.e[2]);
-}
-
-inline Vector3f operator/(const Vector3f &v1, const Vector3f &v2) {
-    return Vector3f(v1.e[0] / v2.e[0], v1.e[1] / v2.e[1], v1.e[2] / v2.e[2]);
-}
-
-inline Vector3f operator*(float t, const Vector3f &v) {
-    return Vector3f(t*v.e[0], t*v.e[1], t*v.e[2]);
-}
-
-inline Vector3f operator/(Vector3f v, float t) {
-    return Vector3f(v.e[0]/t, v.e[1]/t, v.e[2]/t);
-}
-
-inline Vector3f operator*(const Vector3f &v, float t) {
-    return Vector3f(t*v.e[0], t*v.e[1], t*v.e[2]);
-}
-
-inline float dot(const Vector3f &v1, const Vector3f &v2) {
-    return v1.e[0] *v2.e[0] + v1.e[1] *v2.e[1]  + v1.e[2] *v2.e[2];
-}
-
-inline Vector3f cross(const Vector3f &v1, const Vector3f &v2) {
-    return Vector3f( (v1.e[1]*v2.e[2] - v1.e[2]*v2.e[1]),
-                (-(v1.e[0]*v2.e[2] - v1.e[2]*v2.e[0])),
-                (v1.e[0]*v2.e[1] - v1.e[1]*v2.e[0]));
+inline Vector3f Vector3f::random(double min, double max)
+{
+    return Vector3f(random_double(min, max), random_double(min, max), random_double(min, max));
 }
 
 
-inline Vector3f& Vector3f::operator+=(const Vector3f &v){
-    e[0]  += v.e[0];
-    e[1]  += v.e[1];
-    e[2]  += v.e[2];
-    return *this;
+inline Vector3f Vector3f::random_in_unit_sphere()
+{
+    while (true)
+    {
+        double x = random_double(-1, 1);
+        double y = random_double(-1, 1);
+        double z = random_double(-1, 1);
+        Vector3f p(x, y, z);
+        if (p.length_squared() >= 1)
+            continue;
+        return p;
+    }
 }
-
-inline Vector3f& Vector3f::operator*=(const Vector3f &v){
-    e[0]  *= v.e[0];
-    e[1]  *= v.e[1];
-    e[2]  *= v.e[2];
-    return *this;
-}
-
-inline Vector3f& Vector3f::operator/=(const Vector3f &v){
-    e[0]  /= v.e[0];
-    e[1]  /= v.e[1];
-    e[2]  /= v.e[2];
-    return *this;
-}
-
-inline Vector3f& Vector3f::operator-=(const Vector3f& v) {
-    e[0]  -= v.e[0];
-    e[1]  -= v.e[1];
-    e[2]  -= v.e[2];
-    return *this;
-}
-
-inline Vector3f& Vector3f::operator*=(const float t) {
-    e[0]  *= t;
-    e[1]  *= t;
-    e[2]  *= t;
-    return *this;
-}
-
-inline Vector3f& Vector3f::operator/=(const float t) {
-    float k = 1.0/t;
-
-    e[0]  *= k;
-    e[1]  *= k;
-    e[2]  *= k;
-    return *this;
-}
-
-inline Vector3f unit_vector(Vector3f v) {
-    return v / v.length();
-}
-
-*/

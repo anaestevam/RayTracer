@@ -9,16 +9,12 @@
 #include "integrator/depthintegrator.h"
 #include "integrator/normalintegrator.h"
 
-//=== API Macro definitions
-
-/// Check whether the current state has been intialized.
 #define VERIFY_INITIALIZED(func_name)                                                                                     \
   if (curr_state == APIState::Uninitialized)                                                                              \
   {                                                                                                                       \
     RT3_ERROR(std::string{"API::init() must be called before "} + std::string{func_name} + std::string{"(). Ignoring."}); \
   }
 
-/// Check whether the current state corresponds to setup section.
 #define VERIFY_SETUP_BLOCK(func_name)                                                                                                                                             \
   VERIFY_INITIALIZED(func_name)                                                                                                                                                   \
   if (curr_state == APIState::WorldBlock)                                                                                                                                         \
@@ -26,7 +22,6 @@
     RT3_ERROR(std::string{"Rendering setup cannot happen inside "} + std::string{"World definition block; "} + std::string{func_name} + std::string{"() not allowed. Ignoring"}); \
   }
 
-/// Check whether the current state corresponds to the world section.
 #define VERIFY_WORLD_BLOCK(func_name)                                                                                                                                             \
   VERIFY_INITIALIZED(func_name)                                                                                                                                                   \
   if (curr_state == APIState::SetupBlock)                                                                                                                                         \
@@ -36,83 +31,66 @@
 
 namespace rt3
 {
-  /// Collection of objects and diretives that control rendering, such as camera,
-  /// lights, prims.
+
   struct RenderOptions
   {
-    std::string material_type{"flat"}; // The only type available.
+    std::string material_type{"flat"};  
     ParamSet material_ps;
 
-    std::string object_type{"sphere"}; // The only type available.
+    std::string object_type{"sphere"};  
     std::vector<ParamSet> object_ps;
     std::vector<ParamSet> object_material_ps;
-  
-      // the sample
-    std::string integrator_type{"flat"}; // The only type available.
+
+    std::vector<std::string> light_type{"ambient"}; 
+    std::vector<ParamSet> light_ps;
+
+    std::string integrator_type{"flat"};  
     ParamSet integrator_ps;
-    std::string scene_type{"sample"}; // The only type available.
+    std::string scene_type{"sample"};  
     ParamSet scene_ps;
-      // the Film
-    std::string film_type{"image"}; // The only type available.
+
+    std::string film_type{"image"};  
     ParamSet film_ps;
-    /// the Camera
+
     string camera_type{"perspective"};
     ParamSet camera_ps;
     ParamSet lookat_ps;
-    /// the Bakcground
-    string bkg_type{"solid"}; // "image", "interpolated"
+
+    string bkg_type{"solid"}; 
     ParamSet bkg_ps;
   };
 
-  /// Collection of data related to a Graphics state, such as current material,
-  /// lib of material, etc.
   struct GraphicsState
   {
-    // Not necessary in Project 01 through Project 07. tem um ponteiro pro material.
+
   };
 
-  /// Static class that manages the render process
   class API
   {
   public:
-    /// Defines the current state the API may be at a given time
+
     enum class APIState
     {
-      Uninitialized, //!< Initial state, before parsing.
-      SetupBlock,    //!< Parsing the render setup section.
+      Uninitialized, 
+      SetupBlock,    
       WorldBlock
-    }; //!< Parsing the world's information section.
+    }; 
 
-    /// Stores the running options collect in main().
     static RunningOptions curr_run_opt;
 
     static std::unique_ptr<RenderOptions> render_opt;
 
   private:
-    /// Current API state
-    static APIState curr_state;
-    /*
-     * The unique pointer below is useful to support various calls to
-     * init()-run()-clean-up(), in case we want to process several input files in
-     * a single run of the system.
-     */
-    /// Unique infrastructure to render a scene (camera, integrator, etc.).
-    // [NO NECESSARY IN THIS PROJECT]
-    // /// The current GraphicsState criar
-    // static GraphicsState curr_GS; criar
-    // [NOT NECESSARY IN THIS PROJECT]
-    // /// Pointer to the scene. We keep it as parte of the API because it may be
-    // reused later [1] Create the integrator. static unique_ptr< Scene >
-    // the_scene;
 
-    // === Helper functions.
-    ///
+    static APIState curr_state;
+
     static Film *make_film(const string &name, const ParamSet &ps);
     static BackgroundColor *make_background(const string &name, const ParamSet &ps);
     static Camera* make_camera(const std::string& type, const ParamSet& camera_ps, const ParamSet& lookat_ps, Film* film);
     static Material *make_material(const string &name, const ParamSet &ps);
     static std::vector<rt3::Primitive> make_primitives(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps);
     static std::vector<rt3::Sphere> make_primitives_spheres(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps);
+    static std::vector<rt3::Light *> make_lights(const std::vector<string>& light_type, const std::vector<ParamSet>& light_ps);
     static Integrator* make_integrator(const std::string &name, const ParamSet &ps,rt3::Camera* cam );
     static Scene* make_scene(Camera* camera, BackgroundColor* background, const std::vector<Sphere*>& primitives);
 
@@ -120,7 +98,6 @@ namespace rt3
     static std::unique_ptr<Film> the_film;
     static std::unique_ptr<Background> the_background;
 
-    //=== API function begins here.
     static void init_engine(const RunningOptions &);
     static void run();
     static void clean_up();
@@ -133,10 +110,11 @@ namespace rt3
     static void object(const ParamSet &ps);
     static void background(const ParamSet &ps);
     static void integrator(const ParamSet &ps);
+    static void light(const ParamSet &ps);
     static void scene(const ParamSet &ps);
     static void world_begin();
     static void world_end();
   };
-} // namespace rt3
+} 
 
-#endif // API_H
+#endif 

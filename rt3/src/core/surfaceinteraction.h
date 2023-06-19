@@ -16,6 +16,8 @@ public:
                     {  };
 
     SurfaceInteraction (){}
+    
+    ~SurfaceInteraction(){}
 
     SurfaceInteraction (Point3f p) : p{p}{}
 

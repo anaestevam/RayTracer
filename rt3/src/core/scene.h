@@ -20,19 +20,13 @@ namespace rt3
     std::vector<Sphere *> primitives;
     std::vector<Light *> lights;
 
-
-  bool intersect(const Ray &r, SurfaceInteraction *surface) const
-  {
+    bool intersect(const Ray &r, SurfaceInteraction *surface) const
+    {
       for (const auto &primitive : primitives)
       {
-          if (primitive->intersect(r, surface))
-          {
-              return true;
-          }
+        return primitive->intersect(r, surface);
       }
-      return false;
-  }
-
-    };
-} // namespace rt3
-#endif // SCENE_H
+    }
+  };
+}
+#endif
