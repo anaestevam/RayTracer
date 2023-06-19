@@ -41,13 +41,9 @@ add_executable(basic_rt3 ${RT3_SOURCE_DIR}/core/api.cpp
                          ${RT3_SOURCE_DIR}/core/error.cpp
                          ${RT3_SOURCE_DIR}/core/material.cpp
                          ${RT3_SOURCE_DIR}/core/primitive.cpp
-<<<<<<< HEAD
-                         ${RT3_SOURCE_DIR}/core/light.cpp
-=======
                          ${RT3_SOURCE_DIR}/core/lights/light.cpp
                          ${RT3_SOURCE_DIR}/core/lights/ambientlight.cpp
                          ${RT3_SOURCE_DIR}/core/bounds3.cpp
->>>>>>> a55cadd (fix blin)
                          ${RT3_SOURCE_DIR}/core/integrator/integrator.cpp
                          ${RT3_SOURCE_DIR}/core/integrator/samplerintegrator.cpp
                          ${RT3_SOURCE_DIR}/core/integrator/depthintegrator.cpp

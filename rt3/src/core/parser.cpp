@@ -137,7 +137,7 @@ namespace rt3
 
         API::film(ps);
       }
-      else if (tag_name == "material") // New case for flat
+     else if (tag_name == "material") // New case for flat
       {
         ParamSet ps;
         vector<std::pair<param_type_e, string>> param_list{
@@ -150,29 +150,48 @@ namespace rt3
             // Add any other parameters specific to the flat tag
         };
 
-        parse_parameters(p_element, param_list, /* out */ &ps);
+        parse_parameters(p_element, param_list,  &ps);
 
         API::material(ps); // Replace with the appropriate API function to handle the flat tag
-      }else if(tag_name == "make_named_material"){
-        //named_material
+      }  /*else if (tag_name == "make_named_material") {
+            ParamSet ps;
+            vector<std::pair<param_type_e, string>> param_list{
+              { param_type_e::STRING, "type" },
+              { param_type_e::STRING, "name" },
+              { param_type_e::COLOR, "color" },
+              { param_type_e::VEC3F, "ambient" },
+              { param_type_e::VEC3F, "diffuse" },
+              { param_type_e::VEC3F, "specular" },
+              { param_type_e::VEC3F, "mirror" },
+              { param_type_e::REAL, "glossiness" },
+            };
 
-      }else if(tag_name == "named_material"){
-        //named_material
+            parse_parameters(p_element, param_list,  &ps);
 
-      }
-      else if (tag_name == "object") // New case for sphere
-      {
-        ParamSet ps;
-        vector<std::pair<param_type_e, string>> param_list{
-            {param_type_e::STRING, "type"},
-            {param_type_e::REAL, "radius"},
-            {param_type_e::POINT3F, "center"},
-            // Add any other parameters specific to the sphere tag
-        };
+            API::make_named_material(ps);
 
-        parse_parameters(p_element, param_list, /* out */ &ps);
+		} else if(tag_name == "named_material") {
+          ParamSet ps;
+          vector<std::pair<param_type_e, string>> param_list{
+            { param_type_e::STRING, "name" }
+          };
+          parse_parameters(p_element, param_list,  &ps);
 
-        API::object(ps); // Replace with the appropriate API function to handle the sphere tag
+          API::named_material(ps);
+
+        } */ else if (tag_name == "object") // New case for sphere
+          {
+            ParamSet ps;
+            vector<std::pair<param_type_e, string>> param_list{
+                {param_type_e::STRING, "type"},
+                {param_type_e::REAL, "radius"},
+                {param_type_e::POINT3F, "center"},
+                // Add any other parameters specific to the sphere tag
+            };
+
+            parse_parameters(p_element, param_list, /* out */ &ps);
+
+            API::object(ps); // Replace with the appropriate API function to handle the sphere tag
       }
       else if (tag_name == "lookat")
       {

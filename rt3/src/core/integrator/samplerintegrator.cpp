@@ -58,4 +58,5 @@ namespace rt3
   {
     return new SamplerIntegrator(cam);
   }
+  
 }

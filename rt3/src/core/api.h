@@ -45,6 +45,7 @@ namespace rt3
     std::vector<ParamSet> light_ps;
 
     std::string integrator_type{"flat"};  
+
     ParamSet integrator_ps;
     std::string scene_type{"sample"};  
     ParamSet scene_ps;
@@ -62,7 +63,11 @@ namespace rt3
 
   struct GraphicsState
   {
-
+    // Not necessary in Project 01 through Project 07. tem um ponteiro pro material.
+      std::shared_ptr<Material> curr_material;  //!< Current material that globally affects all objects.
+	    //bool flip_normals{false};              //!< When true, we flip the normals
+	    std::map<std::string, std::shared_ptr<Material>> named_materials;      //!< Library of materials.
+	    //bool mats_lib_cloned{false};  
   };
 
   class API
@@ -80,6 +85,8 @@ namespace rt3
 
     static std::unique_ptr<RenderOptions> render_opt;
 
+    static GraphicsState curr_GS;
+
   private:
 
     static APIState curr_state;
@@ -87,7 +94,8 @@ namespace rt3
     static Film *make_film(const string &name, const ParamSet &ps);
     static BackgroundColor *make_background(const string &name, const ParamSet &ps);
     static Camera* make_camera(const std::string& type, const ParamSet& camera_ps, const ParamSet& lookat_ps, Film* film);
-    static Material *make_material(const string &name, const ParamSet &ps);
+    static Material *make_material(const std::string& type, const ParamSet &ps);
+    //static Material *make_material( const ParamSet& ps );
     static std::vector<rt3::Primitive> make_primitives(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps);
     static std::vector<rt3::Sphere> make_primitives_spheres(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps);
     static std::vector<rt3::Light *> make_lights(const std::vector<string>& light_type, const std::vector<ParamSet>& light_ps);
@@ -107,6 +115,9 @@ namespace rt3
     static void camera(const ParamSet &ps);
     static void look_at(const ParamSet& ps);
     static void material(const ParamSet &ps);
+    static void make_named_material(const ParamSet& ps);
+    static void create_named_material( const ParamSet& ps );
+	  static void named_material(const ParamSet& ps);
     static void object(const ParamSet &ps);
     static void background(const ParamSet &ps);
     static void integrator(const ParamSet &ps);

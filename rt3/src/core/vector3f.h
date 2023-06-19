@@ -209,7 +209,11 @@ public:
 private:
     DataType data_;
 };
-
+inline double clamp(double x, double min, double max) {
+    if (x < min) return min;
+    if (x > max) return max;
+    return x;
+}
 inline float degrees_to_radians(float degrees)
 {
     return degrees * M_PI / 180.0;

@@ -15,12 +15,13 @@ namespace rt3
 
         Material(const Material &m)
             : color(m.color), reflectivity(m.reflectivity), transparency(m.reflectivity) {}
-
         virtual ~Material() = default;
         virtual void someFunction() = 0;
+        
         ColorXYZ color;
         float reflectivity;
         float transparency;
+         Material(Vector3f ambient, Vector3f diffuse, Vector3f specular, Vector3f mirror, real_type glossiness) {}
         // virtual ColorXYZ emitted(const Ray &ray, const Surfel &surfel, const Vector3f &dir) const = 0;
     };
     Material *create_material(const ParamSet &ps);
@@ -34,6 +35,7 @@ namespace rt3
         // {
         //     return color;
         // }
+        //FlatMaterial(const ColorXYZ& color): color{color}{}
         void someFunction() override
         {
             // Implementation of the virtual function
