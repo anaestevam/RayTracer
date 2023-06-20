@@ -204,6 +204,8 @@ public:
     inline double random_double(double min, double max);
     inline Vector3f random(double min, double max);
     inline Vector3f random_in_unit_sphere();
+    inline Vector3f random_unit_vector();
+    inline bool near_zero() const;
     float e[3];
 
 private:
@@ -261,6 +263,16 @@ inline void Vector3f::make_unit_vector()
     e[1] *= k;
     e[2] *= k;
 }
+
+inline Vector3f Vector3f::random_unit_vector() {
+    return unit_vector(random_in_unit_sphere());
+}
+
+    inline bool Vector3f::near_zero() const {
+        // Return true if the vector is close to zero in all dimensions.
+        const auto s = 1e-8;
+        return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
+    }
 
 inline double Vector3f::random_double_a() {
     return rand() / (RAND_MAX + 1.0);

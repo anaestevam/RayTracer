@@ -219,6 +219,21 @@ namespace rt3
 
         API::integrator(ps);
 }
+     else if (tag_name == "light")
+{
+    ParamSet ps;
+    vector<std::pair<param_type_e, string>> param_list{
+                  {param_type_e::STRING, "type"},
+        {param_type_e::VEC3F, "L"},
+                    {param_type_e::POINT3F, "to"},
+            {param_type_e::POINT3F, "from"},
+    };
+
+    parse_parameters(p_element, param_list, /* out */ &ps);
+
+        API::light(ps);
+}
+
       else if (tag_name == "world_begin")
       {
         // std::clog << ">>> Entering WorldBegin, at level " << level+1 <<

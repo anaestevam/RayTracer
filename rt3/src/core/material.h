@@ -3,6 +3,8 @@
 
 #include "rt3.h"
 #include "paramset.h"
+#include "ray.h"
+#include "surfaceinteraction.h"
 #include "./lights/light.h"
 
 namespace rt3
@@ -21,8 +23,7 @@ namespace rt3
         ColorXYZ color;
         float reflectivity;
         float transparency;
-         Material(Vector3f ambient, Vector3f diffuse, Vector3f specular, Vector3f mirror, real_type glossiness) {}
-        // virtual ColorXYZ emitted(const Ray &ray, const Surfel &surfel, const Vector3f &dir) const = 0;
+        virtual bool emitted(const Ray &ray, const SurfaceInteraction &surfel, ColorXYZ& attenuation, Ray& scattered) const = 0;
     };
     Material *create_material(const ParamSet &ps);
 
@@ -31,37 +32,18 @@ namespace rt3
     public:
         FlatMaterial(const ColorXYZ &color, float reflectivity, float transparency)
             : Material(color, reflectivity, transparency) {}
-        // ColorXYZ emitted(const Ray &ray, const Surfel &surfel, const Vector3f &dir) const override
-        // {
-        //     return color;
-        // }
-        //FlatMaterial(const ColorXYZ& color): color{color}{}
-        void someFunction() override
+        bool emitted(const Ray &ray, const SurfaceInteraction &surfel,ColorXYZ& attenuation, Ray& scattered) const override
         {
-            // Implementation of the virtual function
+            Vector3f scatter_direction = scatter_direction.ToVector3(surfel.p.normalized()) + scatter_direction.random_unit_vector();
+
+            if (scatter_direction.near_zero())
+                scatter_direction = scatter_direction.ToVector3(surfel.p.normalized());
+
+            scattered = Ray(surfel.p, scatter_direction);
+            attenuation = color;
+            return true;
+    
         }
-    };
-
-    class FrostedGlassMaterial : public Material
-    {
-    public:
-        FrostedGlassMaterial(const ColorXYZ &color, float reflectivity, float transparency, float roughness, float opacity)
-            : Material(color, reflectivity, transparency), roughness(roughness), opacity(opacity) {}
-
-        float roughness;
-        float opacity;
-        //         ColorXYZ emitted(const Ray &ray, const Surfel &surfel, const Vector3f &dir) const override
-        // {
-        //     // Implement the emitted light calculation for the diffuse material.
-        //     // This is just an example; you may need to adjust the code to fit your specific requirements.
-        //     float cos_theta = dir.dot(ray.d);
-        //     if (cos_theta < 0.0f)
-        //     {
-        //         return ColorXYZ{0, 0, 0};
-        //     }
-        //     float emitted_color = cos_theta;
-        //     return ColorXYZ{0, 0, 0};
-        // }
         void someFunction() override
         {
             // Implementation of the virtual function
@@ -97,6 +79,20 @@ namespace rt3
         Point3f get_ks() { return this->ks; }
 
         int get_ge() { return this->ge; }
+
+        bool emitted(const Ray &ray, const SurfaceInteraction &surfel, ColorXYZ& attenuation, Ray& scattered) const override
+        {
+            Vector3f recordNormal = recordNormal.ToVector3(surfel.p.normalized());
+            Vector3f reflected = reflect(ray.d.unit_vector(), recordNormal);
+            scattered = Ray(surfel.p, reflected);
+            attenuation = color;
+            return (scattered.d.dot(recordNormal) > 0);
+            
+        }
+
+        inline Vector3f reflect(const Vector3f& v, const Vector3f& n) const{
+            return v - 2*v.dot(n)*n;
+        }
 
         void someFunction() override
         {
