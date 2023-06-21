@@ -11,14 +11,13 @@
 namespace rt3
 {
 
-  Film::Film(Film* film_)
-    : m_full_resolution{ film_->m_full_resolution },
-      m_filename{ film_->m_filename },
-      m_image_type{ film_->m_image_type }
-{
-      m_pixels.resize(m_full_resolution[0] * m_full_resolution[1]);
-
-}
+  Film::Film(Film *film_)
+      : m_full_resolution{film_->m_full_resolution},
+        m_filename{film_->m_filename},
+        m_image_type{film_->m_image_type}
+  {
+    m_pixels.resize(m_full_resolution[0] * m_full_resolution[1]);
+  }
 
   Film::Film(const Point2i &resolution, const std::string &filename, image_type_e imgt)
       : m_full_resolution{resolution}, m_filename{filename}, m_image_type{imgt}
@@ -30,16 +29,18 @@ namespace rt3
   {
   }
 
-  void Film::add_sample(const Point2f &pixel_coord, const ColorXYZ &pixel_color){
+  void Film::add_sample(const Point2f &pixel_coord, const ColorXYZ &pixel_color)
+  {
 
     float x = (pixel_coord[0] * m_full_resolution[0]);
     float y = (pixel_coord[1] * m_full_resolution[1]);
-    if (x < m_full_resolution[0] && y < m_full_resolution[1]){
+    if (x < m_full_resolution[0] && y < m_full_resolution[1])
+    {
       size_t index = y * m_full_resolution[0] + x;
-           for (int i = 0; i < 3; i++)
-           {
-               m_pixels[index][i] += pixel_color[i];
-           }
+      for (int i = 0; i < 3; i++)
+      {
+        m_pixels[index][i] += pixel_color[i];
+      }
     }
   }
 
@@ -47,8 +48,10 @@ namespace rt3
   {
     unsigned char *data = new unsigned char[w * h * 3];
 
-    for (size_t y = 0; y < h; y++){
-      for (size_t x = 0; x < w; x++){
+    for (size_t y = 0; y < h; y++)
+    {
+      for (size_t x = 0; x < w; x++)
+      {
         size_t index = y * w + x;
         float r = m_pixels[index][0] / d;
         float g = m_pixels[index][1] / d;
@@ -59,20 +62,18 @@ namespace rt3
       }
     }
 
-        std::cout << ">>> Inside aaAAAAAAA()\n";
-
-
-    switch (m_image_type) {
-           case image_type_e::PPM3:
-               save_ppm3(data, w, h, 3, file_name.c_str());
-               break;
-           case image_type_e::PPM6:
-               save_ppm6(data, w, h, 3, file_name.c_str());
-               break;
-           case image_type_e::PNG:
-               save_png(data, w, h, 3, file_name.c_str());
-               break;
-       }
+    switch (m_image_type)
+    {
+    case image_type_e::PPM3:
+      save_ppm3(data, w, h, 3, file_name.c_str());
+      break;
+    case image_type_e::PPM6:
+      save_ppm6(data, w, h, 3, file_name.c_str());
+      break;
+    case image_type_e::PNG:
+      save_png(data, w, h, 3, file_name.c_str());
+      break;
+    }
 
     delete[] data;
   }
@@ -80,7 +81,7 @@ namespace rt3
   // Factory function pattern.
   // This is the function that retrieves from the ParamSet object
   // all the information we need to create a Film object.
- Film *create_film(const ParamSet &ps)
+  Film *create_film(const ParamSet &ps)
   {
     std::cout << ">>> Inside create_film()\n";
     std::string filename;
@@ -124,7 +125,6 @@ namespace rt3
       std::cout << e << " ";
     std::cout << '\n';
 
-    // Note that the image type is fixed here. Must be read from ParamSet, though.
     return new Film(Point2i{xres, yres}, filename, Film::image_type_e::PNG);
   }
 } // namespace rt3

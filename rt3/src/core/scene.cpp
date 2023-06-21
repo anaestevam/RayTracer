@@ -5,8 +5,8 @@
 namespace rt3{
 
   
-Scene::Scene(Camera* cam, BackgroundColor* &&bkg, const std::vector<Sphere*>& prim)
-        : camera(cam), backgroundColor(std::move(bkg)), primitives() {
+Scene::Scene(Camera* cam, BackgroundColor* &&bkg, const std::vector<Sphere*>& prim, const std::vector<Light *> &lights)
+        : camera(cam), backgroundColor(std::move(bkg)), primitives(), lights(lights) {
     for (auto& p : prim) {
         primitives.emplace_back(p);
     }

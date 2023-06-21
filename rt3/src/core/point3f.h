@@ -38,6 +38,28 @@ public:
         os << "(" << point[0] << ", " << point[1] << ", " << point[2] << ")";
         return os;
     }
+
+        float norm() const
+    {
+        return std::sqrt(data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2]);
+    }
+
+    Point3f unit_vector() const
+    {
+        float magnitude = norm();
+        if (magnitude == 0)
+        {
+            return Point3f(0, 0, 0);
+        }
+        return Point3f(data_[0] / magnitude, data_[1] / magnitude, data_[2] / magnitude);
+    }
+
+    Point3f normalized() const
+    {
+        float n = norm();
+        return Point3f(data_[0] / n, data_[1] / n, data_[2] / n);
+    }
+
     
     friend inline Point3f operator+(const Point3f& point, const Vector3f& vector);
     friend inline Point3f operator-(const Point3f& point, const Vector3f& vector);

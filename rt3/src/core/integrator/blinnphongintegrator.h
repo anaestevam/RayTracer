@@ -16,12 +16,12 @@ public:
 
     virtual ~BlinnPhongIntegrator() {}
     BlinnPhongIntegrator(Camera* cam) : Integrator(cam) {}
-    virtual ColorXYZ Li(const Ray& ray, const Scene& scene,const Point2f &pixel_coords);
+    virtual ColorXYZ Li(const Ray& ray, const Scene& scene,const Point2f &pixel_coords, int depth);
     virtual void render(const Scene& scene) override;
 
 };
     BlinnPhongIntegrator *create_blinnphong_integrator(const ParamSet &ps, Camera* cam );
-
+  inline double clamp(double x, double min, double max);
 }
 
 #endif
