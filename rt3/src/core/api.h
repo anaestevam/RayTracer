@@ -94,8 +94,7 @@ namespace rt3
     static Film *make_film(const string &name, const ParamSet &ps);
     static BackgroundColor *make_background(const string &name, const ParamSet &ps);
     static Camera* make_camera(const std::string& type, const ParamSet& camera_ps, const ParamSet& lookat_ps, Film* film);
-    static Material *make_material(const std::string& type, const ParamSet &ps);
-    //static Material *make_material( const ParamSet& ps );
+    static Material *make_material(const std::string& name, const ParamSet &ps);
     static std::vector<rt3::Primitive> make_primitives(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps);
     static std::vector<rt3::Sphere> make_primitives_spheres(const std::vector<ParamSet>& object_ps, const std::vector<ParamSet>& object_material_ps);
     static std::vector<rt3::Light *> make_lights(const std::vector<string>& light_type, const std::vector<ParamSet>& light_ps);
@@ -115,7 +114,6 @@ namespace rt3
     static void camera(const ParamSet &ps);
     static void look_at(const ParamSet& ps);
     static void material(const ParamSet &ps);
-    static void make_named_material(const ParamSet& ps);
     static void create_named_material( const ParamSet& ps );
 	  static void named_material(const ParamSet& ps);
     static void object(const ParamSet &ps);

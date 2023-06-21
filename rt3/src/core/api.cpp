@@ -10,6 +10,7 @@
 #include "integrator/depthintegrator.h"
 #include "integrator/normalintegrator.h"
 #include "integrator/blinnphongintegrator.h"
+#include "material.h"
 
 #include <chrono>
 #include <memory>
@@ -158,22 +159,7 @@ namespace rt3
 
     return material;
   }
-// Material *API::make_material(const std::string &type, const ParamSet &ps_material, const ParamSet &camera_ps)
-// {
-//     std::cout << ">>> Inside API::make_material()\n";
 
-//     Material *material = nullptr;
-//     if(type == "flat"){
-//         material = create_sample_integrator(ps_material, camera_ps);
-//     }else if(type == "blinn"){
-//         material = create_blinnphong_integrator(ps_material, camera_ps);
-//     }else{
-//         RT3_ERROR("Uknown material type.");
-//     }
-
-//     // Return the newly created integrator
-//     return material;
-// }
   Scene *API::make_scene(Camera *camera, BackgroundColor *background, const std::vector<Sphere *> &primitives)
   {
     std::cout << ">>> Inside API::make_scene()\n";
@@ -292,8 +278,8 @@ namespace rt3
       RT3_MESSAGE("[2] Starting ray tracing progress.\n");
 
       auto res = the_film->get_resolution();
-      size_t w = res[0];
-      size_t h = res[1];
+      size_t w = res[1];
+      size_t h = res[0];
       RT3_MESSAGE("    Image dimensions in pixels (W x H): " + std::to_string(w) +
                   " x " + std::to_string(h) + ".\n");
       RT3_MESSAGE(
@@ -345,7 +331,7 @@ namespace rt3
     render_opt->film_type = type;
     render_opt->film_ps = ps;
   }
-
+// inicio estava assim
   void API::material(const ParamSet &ps)
   {
     std::cout << ">>> Inside API::material()\n";
@@ -356,104 +342,34 @@ namespace rt3
 
     render_opt->material_ps = ps;
   }
+//--------------------primeira tentativa
+
+void API::create_named_material(const ParamSet &ps) {
+  std::cout << ">>> Inside API::create_named_material()\n";
+  VERIFY_WORLD_BLOCK("API::create_named_material");
+
+  string material_name = retrieve(ps, "name", string());
+
+  curr_GS.named_materials[material_name] = shared_ptr<Material>(create_material(ps));
+}
 
 // void API::material(const ParamSet &ps) {
 //   std::cout << ">>> Inside API::material()\n";
 //   VERIFY_WORLD_BLOCK("API::material");
 
-//   shared_ptr<Material> new_material(make_material(ps));
+//   shared_ptr<Material> new_material(create_material(ps));
 
 //   curr_GS.curr_material = new_material;
 // }
-// void API::create_named_material(const ParamSet &ps) {
-//   std::cout << ">>> Inside API::create_named_material()\n";
-//   VERIFY_WORLD_BLOCK("API::create_named_material");
 
-//   string material_name = retrieve(ps, "name", string());
+void API::named_material(const ParamSet &ps) {
+  std::cout << ">>> Inside API::named_material()\n";
+  VERIFY_WORLD_BLOCK("API::named_material");
 
-//   curr_GS.named_materials[material_name] = shared_ptr<Material>(make_material(ps));
-// }
-// void API::named_material(const ParamSet &ps) {
-//   std::cout << ">>> Inside API::named_material()\n";
-//   VERIFY_WORLD_BLOCK("API::named_material");
+  string material_name = retrieve(ps, "name", string());
+  curr_GS.named_materials[material_name];
+}
 
-//   string material_name = retrieve(ps, "name", string());
-//   curr_GS.named_materials[material_name];
-// }
-//   void API::material(const ParamSet &ps) {
-// 	std::cout << ">>> Inside API::material()\n";
-// 	VERIFY_WORLD_BLOCK("API::material");
-// 	// retrieve type from ps.
-// 	std::string type = retrieve(ps, "type", string{"unknown"});
-
-// 	if (type == "flat") {
-// 			// retrieve color from ps.
-// 			ColorXYZ c = retrieve(ps, "color", ColorXYZ{0,0,0});
-// 			// check interval of values and convert if needed
-// 			// if(c.x() <= 1.0 && c.y() <= 1.0 && c.z() <= 1.0) {
-// 			// 	c *= 255.0;
-// 			// 	c.clamp(0.0, 255.0);
-// 			// }
-//       //c.normalized();
-// 			curr_GS.curr_material = std::make_shared<SamplerIntegrator>(c);
-// 	} else if (type == "blinn") {
-// 			Vector3f a = retrieve(ps, "ambient", Vector3f{0,0,0});
-//       a.normalized();
-// 			Vector3f d = retrieve(ps, "diffuse", Vector3f{0,0,0});
-//       d.normalized();
-// 			Vector3f s = retrieve(ps, "specular", Vector3f{0,0,0});
-//       s.normalized();
-// 			Vector3f m = retrieve(ps, "mirror", Vector3f{0,0,0});
-//       m.normalized();
-// 			real_type g = retrieve(ps, "glossiness", real_type{0});
-// 			curr_GS.curr_material = std::make_shared<BlinnMaterial>(a,d,s,m,g);
-// 	}
-
-// }
-// void API::make_named_material(const ParamSet &ps) {
-// 	std::cout << ">>> Inside API::make_named_material()\n";
-// 	VERIFY_WORLD_BLOCK("API::make_named_material");
-// 	// retrieve type from ps.
-// 	std::string type = retrieve(ps, "type", string{"unknown"});
-// 	std::string name = retrieve(ps, "name", string{"unknown"});
-	
-// 	if (type == "flat") {
-// 		// retrieve color from ps.
-// 		ColorXYZ c = retrieve(ps, "color", ColorXYZ{0,0,0});
-// 		// check interval of values and convert if needed
-// 		// if(c.x() <= 1.0 && c.y() <= 1.0 && c.z() <= 1.0) {
-// 		// 	c *= 255.0;
-// 		// 	c.clamp(0.0, 255.0);
-// 		// }
-//     //c.normalized();
-// 		std::cout << "color: " << c << std::endl;
-// 		curr_GS.named_materials[name] = std::make_shared<SamplerIntegrator>(c);
-// 	} else if (type == "blinn") {
-// 		// check interval of values and convert if needed?
-// 		Vector3f a = retrieve(ps, "ambient", Vector3f{0,0,0});
-// 		a.normalized();
-// 		Vector3f d = retrieve(ps, "diffuse", Vector3f{0,0,0});
-// 		d.normalized();
-// 		Vector3f s = retrieve(ps, "specular", Vector3f{0,0,0});
-// 		s.normalized();
-// 		Vector3f m = retrieve(ps, "mirror", Vector3f{0,0,0});
-// 		m.normalized();
-// 		real_type g = retrieve(ps, "glossiness", real_type{0});
-// 		curr_GS.named_materials[name] = std::make_shared<BlinnMaterial>(a,d,s,m,g);
-// 	}
-	
-// }
-// void API::named_material(const ParamSet &ps) {
-// 	std::cout << ">>> Inside API::named_material()\n";
-// 	VERIFY_WORLD_BLOCK("API::named_material");
-
-// 	std::string name = retrieve(ps, "name", string{"unknown"});
-// 	if(curr_GS.named_materials.find(name) == curr_GS.named_materials.end()) { 
-// 		RT3_ERROR("Material of name '" + name + "' not found!");
-// 	}
-
-// 	curr_GS.curr_material = curr_GS.named_materials[name];
-// }
   void API::object(const ParamSet &ps)
   {
     std::cout << ">>> Inside API::object()\n";

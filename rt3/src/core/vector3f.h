@@ -173,7 +173,6 @@ public:
             throw std::invalid_argument("Initializer list must contain exactly 3 elements.");
         }
     }
-
     
  double length()
 {

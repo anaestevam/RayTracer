@@ -122,4 +122,5 @@ namespace rt3
   {
     return new BlinnPhongIntegrator(cam);
   }
+
 }

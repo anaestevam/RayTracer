@@ -6,6 +6,7 @@
 
 namespace rt3
 {
+
 class Light { 
 
 protected:
@@ -36,6 +37,7 @@ public:
     { this->bounding_box_world = b; }
 
 };
+
 } // namespace rt3
 
 #endif

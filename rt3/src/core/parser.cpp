@@ -137,49 +137,59 @@ namespace rt3
 
         API::film(ps);
       }
-     else if (tag_name == "material") // New case for flat
-      {
-        ParamSet ps;
-        vector<std::pair<param_type_e, string>> param_list{
-            {param_type_e::STRING, "type"},
-            {param_type_e::COLOR, "color"},
-            {param_type_e::POINT3F, "ambient"},
-            {param_type_e::POINT3F, "diffuse"},
-            {param_type_e::POINT3F, "specular"},
-            {param_type_e::INT, "glossiness"},
-            // Add any other parameters specific to the flat tag
-        };
+     else if (tag_name == "material") {
+      ParamSet ps;
 
-        parse_parameters(p_element, param_list,  &ps);
+      vector<std::pair<param_type_e, string>> param_list{
+          {param_type_e::STRING, "type"},
 
-        API::material(ps); // Replace with the appropriate API function to handle the flat tag
-      }  /*else if (tag_name == "make_named_material") {
-            ParamSet ps;
-            vector<std::pair<param_type_e, string>> param_list{
-              { param_type_e::STRING, "type" },
-              { param_type_e::STRING, "name" },
-              { param_type_e::COLOR, "color" },
-              { param_type_e::VEC3F, "ambient" },
-              { param_type_e::VEC3F, "diffuse" },
-              { param_type_e::VEC3F, "specular" },
-              { param_type_e::VEC3F, "mirror" },
-              { param_type_e::REAL, "glossiness" },
-            };
+          // Flat
+          {param_type_e::COLOR, "color"},
 
-            parse_parameters(p_element, param_list,  &ps);
+          // Blinn Phong
+          {param_type_e::COLOR, "ambient"},
+          {param_type_e::COLOR, "diffuse"},
+          {param_type_e::COLOR, "specular"},
+          {param_type_e::COLOR, "mirror"},
+          {param_type_e::INT, "glossiness"},
 
-            API::make_named_material(ps);
+      };
+      parse_parameters(p_element, param_list, &ps);
 
-		} else if(tag_name == "named_material") {
-          ParamSet ps;
-          vector<std::pair<param_type_e, string>> param_list{
-            { param_type_e::STRING, "name" }
-          };
-          parse_parameters(p_element, param_list,  &ps);
+      API::material(ps);
+    } else if (tag_name == "make_named_material") {
+      ParamSet ps;
 
-          API::named_material(ps);
+      vector<std::pair<param_type_e, string>> param_list{
+          {param_type_e::STRING, "type"},
 
-        } */ else if (tag_name == "object") // New case for sphere
+          // Name
+          {param_type_e::STRING, "name"},
+
+          // Flat
+          {param_type_e::COLOR, "color"},
+
+          // Blinn Phong
+          {param_type_e::COLOR, "ambient"},
+          {param_type_e::COLOR, "diffuse"},
+          {param_type_e::COLOR, "specular"},
+          {param_type_e::COLOR, "mirror"},
+          {param_type_e::INT, "glossiness"},
+
+      };
+      parse_parameters(p_element, param_list, &ps);
+
+      API::create_named_material(ps);
+    } else if (tag_name == "named_material") {
+      ParamSet ps;
+
+      vector<std::pair<param_type_e, string>> param_list{
+          {param_type_e::STRING, "name"},
+      };
+      parse_parameters(p_element, param_list, &ps);
+
+      API::named_material(ps);
+    }  else if (tag_name == "object") // New case for sphere
           {
             ParamSet ps;
             vector<std::pair<param_type_e, string>> param_list{

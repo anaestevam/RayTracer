@@ -22,8 +22,8 @@ namespace rt3
    */
   ColorXYZ BackgroundColor::sampleXYZ(const Point2f &pixel_ndc)
   {
-    float t_ver = pixel_ndc[0];
-    float t_hor = pixel_ndc[1];
+    float t_ver = pixel_ndc[1];
+    float t_hor = pixel_ndc[0];
 
     //std::cout << t_ver << " " << t_hor << ",";
 
@@ -35,8 +35,8 @@ namespace rt3
 
     ColorXYZ BackgroundColor::sampleXYZ(const Vector3f &pixel_ndc)
   {
-    float t_ver = pixel_ndc[0];
-    float t_hor = pixel_ndc[1];
+    float t_ver = pixel_ndc[1];
+    float t_hor = pixel_ndc[0];
 
     //std::cout << t_ver << " " << t_hor << ",";
 
