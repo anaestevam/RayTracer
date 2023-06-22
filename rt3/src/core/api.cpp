@@ -350,27 +350,16 @@ namespace rt3
     render_opt->film_ps = ps;
   }
 // inicio estava assim
-  void API::material(const ParamSet &ps)
-  {
-    std::cout << ">>> Inside API::material()\n";
-    VERIFY_WORLD_BLOCK("API::material");
+  // void API::material(const ParamSet &ps)
+  // {
+  //   std::cout << ">>> Inside API::material()\n";
+  //   VERIFY_WORLD_BLOCK("API::material");
 
-    std::string type = retrieve(ps, "type", string{"unknown"});
-    render_opt->material_type = type;
+  //   std::string type = retrieve(ps, "type", string{"unknown"});
+  //   render_opt->material_type = type;
 
-    render_opt->material_ps = ps;
-  }
-//--------------------primeira tentativa
-
-void API::create_named_material(const ParamSet &ps) {
-  std::cout << ">>> Inside API::create_named_material()\n";
-  VERIFY_WORLD_BLOCK("API::create_named_material");
-
-  string material_name = retrieve(ps, "name", string());
-
-  curr_GS.named_materials[material_name] = shared_ptr<Material>(create_material(ps));
-}
-
+  //   render_opt->material_ps = ps;
+  // }
 // void API::material(const ParamSet &ps) {
 //   std::cout << ">>> Inside API::material()\n";
 //   VERIFY_WORLD_BLOCK("API::material");
@@ -379,13 +368,60 @@ void API::create_named_material(const ParamSet &ps) {
 
 //   curr_GS.curr_material = new_material;
 // }
+void API::material(const ParamSet &ps) {
+	std::cout << ">>> Inside API::material()\n";
+	VERIFY_WORLD_BLOCK("API::material");
+	// retrieve type from ps.
+	std::string type = retrieve(ps, "type", string{"unknown"});
+
+	if (type == "flat") {
+			// retrieve color from ps.
+			ColorXYZ c = retrieve(ps, "color", ColorXYZ{0,0,0});
+			// check interval of values and convert if needed
+			curr_GS.curr_material = std::make_shared<FlatMaterial>(c,1,1);
+	} else if (type == "blinn") {
+      ColorXYZ color = retrieve(ps, "color", ColorXYZ{0, 0, 0});
+			Point3f a = retrieve(ps, "ambient", Point3f{0,0,0});
+			Point3f d = retrieve(ps, "diffuse", Point3f{0,0,0});
+			Point3f s = retrieve(ps, "specular", Point3f{0,0,0});
+			int g = retrieve(ps, "glossiness", int{0});
+			curr_GS.curr_material = std::make_shared<BlinnMaterial>(color,1,1,a,d,s,g);
+	}
+
+}
+void API::create_named_material(const ParamSet &ps) {
+	std::cout << ">>> Inside API::make_named_material()\n";
+	VERIFY_WORLD_BLOCK("API::make_named_material");
+	// retrieve type from ps.
+	std::string type = retrieve(ps, "type", string{"unknown"});
+	std::string name = retrieve(ps, "name", string{"unknown"});
+	
+		if (type == "flat") {
+			// retrieve color from ps.
+			ColorXYZ c = retrieve(ps, "color", ColorXYZ{0,0,0});
+			// check interval of values and convert if needed
+			curr_GS.curr_material = std::make_shared<FlatMaterial>(c,1,1);
+	} else if (type == "blinn") {
+      ColorXYZ color = retrieve(ps, "color", ColorXYZ{0, 0, 0});
+			Point3f a = retrieve(ps, "ambient", Point3f{0,0,0});
+			Point3f d = retrieve(ps, "diffuse", Point3f{0,0,0});
+			Point3f s = retrieve(ps, "specular", Point3f{0,0,0});
+			int g = retrieve(ps, "glossiness", int{0});
+			curr_GS.curr_material = std::make_shared<BlinnMaterial>(color,1,1,a,d,s,g);
+	}
+	
+}
 
 void API::named_material(const ParamSet &ps) {
-  std::cout << ">>> Inside API::named_material()\n";
-  VERIFY_WORLD_BLOCK("API::named_material");
+	std::cout << ">>> Inside API::named_material()\n";
+	VERIFY_WORLD_BLOCK("API::named_material");
 
-  string material_name = retrieve(ps, "name", string());
-  curr_GS.named_materials[material_name];
+	string name = retrieve(ps, "name", string());
+	if(curr_GS.named_materials.find(name) != curr_GS.named_materials.end()) { 
+		RT3_ERROR("Material of name '" + name + "' not found!");
+	}
+
+	curr_GS.curr_material = curr_GS.named_materials[name];
 }
 
   void API::object(const ParamSet &ps)

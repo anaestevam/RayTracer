@@ -87,9 +87,9 @@ namespace rt3
 
     static GraphicsState curr_GS;
 
-  private:
-
     static APIState curr_state;
+
+  private:
 
     static Film *make_film(const string &name, const ParamSet &ps);
     static BackgroundColor *make_background(const string &name, const ParamSet &ps);

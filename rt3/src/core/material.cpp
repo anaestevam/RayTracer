@@ -7,9 +7,9 @@ namespace rt3
 {
 
     Material *create_material(const ParamSet &ps)
-    {
+    {   std::cout << ">>> Inside API::make_material()\n";
         // Extract the required parameters from the ParamSet object
-        std::string type = retrieve(ps, "type", std::string{""});
+        std::string type = retrieve(ps, "type", std::string{"flat"});
 
         // Create a Material object based on the type
         Material *material = nullptr;

@@ -170,10 +170,10 @@ namespace rt3
           {param_type_e::COLOR, "color"},
 
           // Blinn Phong
-          {param_type_e::COLOR, "ambient"},
-          {param_type_e::COLOR, "diffuse"},
-          {param_type_e::COLOR, "specular"},
-          {param_type_e::COLOR, "mirror"},
+          {param_type_e::VEC3F, "ambient"},
+          {param_type_e::VEC3F, "diffuse"},
+          {param_type_e::VEC3F, "specular"},
+          {param_type_e::VEC3F, "mirror"},
           {param_type_e::INT, "glossiness"},
 
       };
