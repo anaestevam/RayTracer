@@ -3,9 +3,12 @@
 
 #include "../rt3.h"
 #include "../bounds3.h"
+#include "../common.h"
 
 namespace rt3
 {
+class VisibilityTester;
+class SurfaceInteraction;
 
 class Light { 
 

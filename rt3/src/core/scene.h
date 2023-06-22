@@ -12,13 +12,15 @@ namespace rt3
   class Scene
   {
   public:
-    Scene(Camera *cam, BackgroundColor *&&bkg, const std::vector<Sphere *> &prim);
+    Scene(Camera *cam, BackgroundColor *&&bkg, const std::vector<Sphere *> &prim/*, const std::vector<Light *> &lights*/);
 
     Camera *camera;
     // std::shared_ptr<Background> background;
     BackgroundColor *backgroundColor;
     std::vector<Sphere *> primitives;
     //std::vector<Light *> lights;
+    // list of lights
+    //std::vector<std::shared_ptr<Light>> lights; 
 
     bool intersect(const Ray &r, SurfaceInteraction *surface) const
     {

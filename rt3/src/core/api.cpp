@@ -83,17 +83,18 @@ namespace rt3
       else if (light_type[i] == "directional")
       {
         // Extract the L, scale, from, and to values from the ParamSet and assign them to the light object's properties
-        // ...
+        //light = create_directional_light(light_ps[i]);
       }
       else if (light_type[i] == "point")
       {
         // Extract the I, scale, and from values from the ParamSet and assign them to the light object's properties
-        // ...
+        light = create_ambient_light(light_ps[i]);
       }
       else if (light_type[i] == "spot")
       {
         // Extract the I, scale, from, to, cutoff, and falloff values from the ParamSet and assign them to the light object's properties
         // ...
+        light = create_ambient_light(light_ps[i]);
       }
       else
       {
@@ -287,7 +288,7 @@ namespace rt3
     Integrator *the_integrator{
         make_integrator(render_opt->integrator_type, render_opt->integrator_ps, cam)};
 
-    rt3::Scene scene(cam, std::move(the_background), primitive_pointers);
+    rt3::Scene scene(cam, std::move(the_background), primitive_pointers/*, lights*/);
 
     if (the_film and the_background)
     {

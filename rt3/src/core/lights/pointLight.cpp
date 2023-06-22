@@ -1,6 +1,6 @@
 #include "pointLight.h"
 
-namespace rt
+namespace rt3
 {
 
 tuple<Color, unique_ptr<VisibilityTester>, Vector3f> PointLight::Li(const shared_ptr<Surfel>& hit){

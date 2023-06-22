@@ -2,7 +2,8 @@
 #define _DIRECTIONAL_LIGHT_
 
 #include "light.h"
-
+namespace rt3{
+    
 class DirectionalLight : public Light {
 
 private:
@@ -25,5 +26,7 @@ public:
     Point3f get_direction(){ return direction; }
 
 };
+AmbientLight* create_ambient_light(const ParamSet& ps);
 
+}
 #endif
