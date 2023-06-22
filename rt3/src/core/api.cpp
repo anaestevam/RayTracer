@@ -159,11 +159,11 @@ namespace rt3
     return material;
   }
 
-<<<<<<< HEAD
-  Scene *API::make_scene(Camera *camera, BackgroundColor *background, const std::vector<Sphere *> &primitives)
-  {
-    std::cout << ">>> Inside API::make_scene()\n";
-=======
+// <<<<<<< HEAD
+//   Scene *API::make_scene(Camera *camera, BackgroundColor *background, const std::vector<Sphere *> &primitives)
+//   {
+//     std::cout << ">>> Inside API::make_scene()\n";
+// =======
 //     Material *material = nullptr;
 //     if(type == "flat"){
 //         material = create_sample_integrator(ps_material, camera_ps);
@@ -181,7 +181,7 @@ namespace rt3
 //     std::cout << ">>> Inside API::make_scene()\n";
 // //
 //     Scene *scene = new Scene(camera, std::move(background), primitives, n);
->>>>>>> 57671b678e35fa1902e2e5e258cf9e0dc6d64e86
+//>>>>>>> 57671b678e35fa1902e2e5e258cf9e0dc6d64e86
 
 //     return scene;
 //   }
@@ -274,7 +274,7 @@ namespace rt3
 
     Camera *cam = make_camera(render_opt->camera_type, render_opt->camera_ps, render_opt->lookat_ps, the_film);
 
-    std::vector<Light *> lights= make_lights(render_opt->light_type, render_opt->light_ps);
+    //std::vector<Light *> lights= make_lights(render_opt->light_type, render_opt->light_ps);
 
     auto the_primitives = make_primitives_spheres(render_opt->object_ps, render_opt->object_material_ps);
 
@@ -287,7 +287,7 @@ namespace rt3
     Integrator *the_integrator{
         make_integrator(render_opt->integrator_type, render_opt->integrator_ps, cam)};
 
-    rt3::Scene scene(cam, std::move(the_background), primitive_pointers, lights);
+    rt3::Scene scene(cam, std::move(the_background), primitive_pointers);
 
     if (the_film and the_background)
     {
