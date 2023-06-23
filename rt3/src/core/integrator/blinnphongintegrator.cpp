@@ -7,10 +7,11 @@ namespace rt3
     auto res = camera->film->get_resolution();
     size_t w = res[0];
     size_t h = res[1];
-
-    for (size_t y = 0; y < h; ++y)
-    {
       for (size_t x = 0; x < w; ++x)
+
+    {
+          for (size_t y = 0; y < h; ++y)
+
       {
         Ray r = camera->generate_ray(x, y);
         Point2f pixel_coords{static_cast<float>(x) / static_cast<float>(w), static_cast<float>(y) / static_cast<float>(h)};

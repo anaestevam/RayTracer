@@ -23,30 +23,36 @@ namespace rt3
   {
   public:
     PerspectiveCamera(const Vector3f &lookfrom, const Vector3f &lookat,
-                      const Vector3f &vup, float vfov, float aspect_ratio,
+                      const Vector3f &vup, float vfov, float a,
                       Film *film)
         : Camera(film), origin(lookfrom)
     {
-      float theta = Radians(vfov);
-      float h = tan(theta / 2);
-      float viewport_height = 2.0 * h;
-      float viewport_width = aspect_ratio * viewport_height;
+      float theta = vfov;
+      float h = fabs(tan(theta));
 
-      w = (lookfrom - lookat).unit_vector();
-      u = vup.cross(w).unit_vector();
-      v = w.cross(u);
+            this->left = -a *h;
+      this->right = a *h;
+      this->bottom = -h;
+      this->top = h;
+      
 
-      horizontal = u * viewport_width;
-      vertical = v * viewport_height;
-      lower_left_corner = origin - horizontal / 2 - vertical / 2 - w;
+
+      w = (lookat - lookfrom).normalized();
+      u = vup.cross(w).normalized();
+      v = w.cross(u).normalized();
+
+      e = lookfrom;
     }
 
     Ray generate_ray(int x, int y) const override
     {
-      float u = float(x) / float(film->m_full_resolution[0]);
-      float v = float(y) / float(film->m_full_resolution[1]);
-      const Vector3f direction = (lower_left_corner + horizontal * u + vertical * v) - origin;
-      return Ray(origin.ToPoint3(), direction, 0.0f);
+       auto width = film->m_full_resolution[0];
+      auto height = film->m_full_resolution[1];
+
+      float u_ = left + (((right - left) * (x + 0.5)) / width);
+      float v_ = bottom + (((top - bottom) * (y + 0.5)) / height);
+      const Vector3f direction = (w + (u * u_) + (v * v_));
+      return Ray(e.ToPoint3(), direction , 0.0f);
     }
 
   private:
@@ -54,7 +60,9 @@ namespace rt3
     Vector3f lower_left_corner;
     Vector3f horizontal;
     Vector3f vertical;
-    Vector3f u, v, w;
+    Vector3f u, v, w, e;
+        float left, bottom, right, top;
+
   };
 
   class OrthographicCamera : public Camera
@@ -69,16 +77,15 @@ namespace rt3
       this->right = right;
       this->bottom = bottom;
       this->top = top;
+           std::cout << ">>> Inside API::camera_ps.count("")()" <<  left;
 
       // mapping pixels to screen space
 
-       // determining the Camera frame
-      Vector3f gaze =  lookat - lookfrom;
-      
-      w = (-gaze).unit_vector();    
-      u = vup.cross(w).unit_vector();
-      v = w.cross(u).unit_vector();
-      
+      w = (lookat - lookfrom).normalized();
+      u = vup.cross(w).normalized();
+      v = w.cross(u).normalized();
+
+      e = lookfrom;
 
       // horizontal = viewport_width * u;
       // vertical = viewport_height * v;
@@ -94,8 +101,9 @@ namespace rt3
       float u_ = left + ((right - left) * (x + 0.5)) / width;
       float v_ = bottom + ((top - bottom) * (y + 0.5)) / height;
       
+      const Vector3f origin = (e + (u * u_) + (v * v_));
 
-      return Ray((direction + ( u_ * u) + (v_ * v)).ToPoint3(), -w, 0);
+      return Ray(origin.ToPoint3(), w, 0);
     }
 
   private:
@@ -104,7 +112,7 @@ namespace rt3
     Vector3f lower_left_corner;
     Vector3f horizontal;
     Vector3f vertical;
-    Vector3f u, v, w;
+    Vector3f u, v, w, e;
     float left, bottom, right, top;
   };
 
