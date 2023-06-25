@@ -46,6 +46,10 @@ namespace rt3
     // TODO: Create the matrix (or vector) that will hold the image data.
     // std::unique_ptr< ColorBuffer > m_color_buffer_ptr; //!< Reference to the
     // color buffer (image) object.
+    Point2i resolution = get_resolution();
+    int height() const { return resolution[0]; }
+    int width() const { return resolution[1]; } 
+    real_type get_aspect() const { return ((real_type) width()) /  height(); }
 
   private:
     std::vector<ColorXYZ> m_pixels;

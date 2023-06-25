@@ -77,6 +77,7 @@ namespace rt3 {
         UINT,          //!< Single unsigned int
         REAL,          //!< Single real number
         VEC3F,         //!< Single Vector3f
+       // SCREEN_WINDOW,
         VEC3I,         //!< Single Vector3i
         NORMAL3F,      //!< Single Normal3f
         POINT3F,       //!< Single Point3f

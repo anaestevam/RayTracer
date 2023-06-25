@@ -14,7 +14,7 @@
 namespace rt3
 {
 
-  using rt3::Vector3i;
+using rt3::Vector3i;
 
   /// This is the entry function for the parsing process.
   void parse(const char *scene_file_name)
@@ -290,6 +290,10 @@ namespace rt3
         parse_single_COMPOSITE_attrib<real_type, Spectrum>(p_element, ps_out,
                                                            name);
         break;
+      /*case param_type_e::SCREEN_WINDOW:
+        parse_single_COMPOSITE_attrib<real_type, ScreenWindow>(p_element, ps_out,
+                                                           name);
+        break;*/
       case param_type_e::ARR_REAL:
         parse_array_BASIC_attrib<real_type>(p_element, ps_out, name);
         break;
