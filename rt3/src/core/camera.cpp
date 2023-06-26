@@ -3,11 +3,11 @@
 namespace rt3{
 /*Camera geral*/
 pair<real_type, real_type> Camera::get_uv_pos(int i, int j){
-    real_type u_pos = (real_type)(left) + ((real_type)(right-left) * (i + 0.5)) / film->width();
+    real_type u_pos = (real_type)(left) + (((real_type)(right-left) * (i + 0.5)) / film->width());
     //u_pos /= film->width(); 
     //u_pos += (real_type)(left);
 
-    real_type v_pos = (real_type)(bottom) + ((real_type)(top-bottom) * (j + 0.5)) / film->height();
+    real_type v_pos = (real_type)(bottom) + (((real_type)(top-bottom) * (j + 0.5)) / film->height());
     //v_pos /= film->height(); 
     //v_pos += (real_type)(bottom);
 
@@ -45,8 +45,8 @@ PerspectiveCamera* create_perspective_camera(
     const ParamSet& lookat_ps, Film *the_film
 ){
 	real_type fovy = retrieve(camera_ps, "fovy", real_type{30.0});
-	Point3f look_from = retrieve(lookat_ps, "look_from", Point3f{0.0,1,0.0});
-	Point3f look_at = retrieve(lookat_ps, "look_at", Point3f{0.0,1,0.0});
+	Point3f look_from = retrieve(lookat_ps, "look_from", Point3f{0.0,0,0.0});
+	Point3f look_at = retrieve(lookat_ps, "look_at", Point3f{0.0,0,1.0});
 	Vector3f up = retrieve(lookat_ps, "up", Vector3f{0.0,1,0.0});
 		
 	real_type aspect_ratio = the_film->get_aspect();
