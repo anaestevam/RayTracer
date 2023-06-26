@@ -28,7 +28,7 @@ namespace rt3
         : Camera(film), origin(lookfrom)
     {
       float theta = vfov;
-      float h = fabs(tan(theta));
+      float h = tan(Radians(theta/2.0));
 
             this->left = -a *h;
       this->right = a *h;
@@ -52,7 +52,7 @@ namespace rt3
       float u_ = left + (((right - left) * (x + 0.5)) / width);
       float v_ = bottom + (((top - bottom) * (y + 0.5)) / height);
       const Vector3f direction = (w + (u * u_) + (v * v_));
-      return Ray(e.ToPoint3(), direction , 0.0f);
+      return Ray(e.ToPoint3(), direction);
     }
 
   private:
@@ -81,9 +81,9 @@ namespace rt3
 
       // mapping pixels to screen space
 
-      w = (lookat - lookfrom).normalized();
+      w = (lookfrom - lookat).normalized();
       u = vup.cross(w).normalized();
-      v = w.cross(u).normalized();
+      v = u.cross(w).normalized();
 
       e = lookfrom;
 
@@ -103,7 +103,7 @@ namespace rt3
       
       const Vector3f origin = (e + (u * u_) + (v * v_));
 
-      return Ray(origin.ToPoint3(), w, 0);
+      return Ray(origin.ToPoint3(), w);
     }
 
   private:
