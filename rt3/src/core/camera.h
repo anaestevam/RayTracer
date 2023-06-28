@@ -4,7 +4,6 @@
 #include "ray.h"
 #include "film.h"
 #include "paramset.h"
-#include "screen_window.h"
 
 namespace rt3
 {
@@ -13,8 +12,6 @@ public:
     Film *film;
     Point3f eye; // position of the camera
     Vector3f w, u, v;
-    ScreenWindow sw;
-			//
 		real_type left;
 		real_type right;
 		real_type bottom;

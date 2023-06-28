@@ -1,3 +1,0 @@
-/home/ana/RayTracer/rt3/build/CMakeFiles/basic_rt3.dir
-/home/ana/RayTracer/rt3/build/CMakeFiles/edit_cache.dir
-/home/ana/RayTracer/rt3/build/CMakeFiles/rebuild_cache.dir

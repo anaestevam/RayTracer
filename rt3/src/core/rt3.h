@@ -20,6 +20,8 @@ using std::string;
 using std::tuple;
 #include <array>
 using std::array;
+using std::make_pair;
+using std::pair;
 
 #include "point3f.h"
 #include "vector3f.h"

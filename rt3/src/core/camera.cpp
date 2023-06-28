@@ -4,12 +4,8 @@ namespace rt3{
 /*Camera geral*/
 pair<real_type, real_type> Camera::get_uv_pos(int i, int j){
     real_type u_pos = (real_type)(left) + (((real_type)(right-left) * (i + 0.5)) / film->width());
-    //u_pos /= film->width(); 
-    //u_pos += (real_type)(left);
 
     real_type v_pos = (real_type)(bottom) + (((real_type)(top-bottom) * (j + 0.5)) / film->height());
-    //v_pos /= film->height(); 
-    //v_pos += (real_type)(bottom);
 
     return {u_pos, v_pos};
 }
@@ -21,19 +17,11 @@ Camera::Camera(Film *_film, Point3f _eye, Point3f _center, Vector3f _up, std::ve
         Vector3f gaze = gaze.ToVector3(_center) - _eye; 
         
         w = gaze.normalized();
-        // std::cout << "w " << w.toString() << std::endl;
         u = _up.cross(w).normalized();
-        // std::cout << "u " << u.toString() << std::endl;
         v = u.cross(w).normalized();
-        // std::cout << "v " << v.toString() << std::endl;
 }
 /*camera perspectiva*/
 
-Ray PerspectiveCamera::generate_ray(int i, int j){
-    auto [u_, v_] = get_uv_pos(i, j);
-    Vector3f direction = w + (u * u_) + (v * v_);
-    return Ray(eye, direction);
-}
 
 PerspectiveCamera::PerspectiveCamera(
     Film *_film, Point3f _eye, Point3f _center, Vector3f _up, std::vector<real_type>& screen_space): 
@@ -46,7 +34,7 @@ PerspectiveCamera* create_perspective_camera(
 ){
 	real_type fovy = retrieve(camera_ps, "fovy", real_type{30.0});
 	Point3f look_from = retrieve(lookat_ps, "look_from", Point3f{0.0,0,0.0});
-	Point3f look_at = retrieve(lookat_ps, "look_at", Point3f{0.0,0,1.0});
+	Point3f look_at = retrieve(lookat_ps, "look_at", Point3f{0.0,0,-1});
 	Vector3f up = retrieve(lookat_ps, "up", Vector3f{0.0,1,0.0});
 		
 	real_type aspect_ratio = the_film->get_aspect();
@@ -70,13 +58,13 @@ PerspectiveCamera* create_perspective_camera(
     return camera;
 }
 
+Ray PerspectiveCamera::generate_ray(int i, int j){
+    auto [u_, v_] = get_uv_pos(i, j);
+    Vector3f direction = w + (u * u_) + (v * v_);
+    return Ray(eye, direction);
+}
 /*camera orthographic */
 
-Ray OrthographicCamera::generate_ray(int i, int j){
-    auto [u_, v_] = get_uv_pos(i, j);
-    Point3f origin = eye + (u * u_) + (v * v_);
-    return Ray(origin, w);
-}
 
 
 OrthographicCamera::OrthographicCamera(
@@ -92,13 +80,17 @@ OrthographicCamera* create_orthographic_camera(
 		
     OrthographicCamera* camera = new OrthographicCamera(
         std::move(the_film),
-        retrieve( lookat_ps,   "look_from",        Point3f({0.0, 1, 0.0})),
-        retrieve( lookat_ps,   "look_at",          Point3f({0.0, 1, 0.0})),
+        retrieve( lookat_ps,   "look_from",        Point3f({0.0, 0, 0.0})),
+        retrieve( lookat_ps,   "look_at",          Point3f({0.0, 0, -1})),
         retrieve( lookat_ps,   "up",               Vector3f({0.0, 1, 0.0})),
         values
     );
 
     return camera;
 }
-
+Ray OrthographicCamera::generate_ray(int i, int j){
+    auto [u_, v_] = get_uv_pos(i, j);
+    Point3f origin = eye + (u * u_) + (v * v_);
+    return Ray(origin, w);
+}
 }
