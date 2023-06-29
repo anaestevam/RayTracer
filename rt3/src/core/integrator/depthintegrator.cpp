@@ -84,18 +84,13 @@ float calculate_normalized_depth(const Ray &ray, const Scene &scene, const Point
             is_intersecting = sphere->intersect_p(ray);
             if (is_intersecting)
             {
-                Point3f sphere_center = sphere->center;
-                depth = sphere_distance(ray.o, sphere_center, sphere->radius);
-                break;
+                depth = sphere_distance(ray.o, sphere->center, sphere->radius);
+                return  max_z - ((depth - min_z) / (max_z - min_z)) ;
             }
         }
     }
 
-    if (is_intersecting)
-    {
-        return (depth - min_z) / (max_z - min_z);
-    }
-
+ 
     return 0.0f;
 }
 

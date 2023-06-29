@@ -8,10 +8,10 @@ PerspectiveCamera* create_perspective_camera(const ParamSet &camera_ps, const Pa
     auto res = film->get_resolution();
     size_t w = res[0];
     size_t h = res[1];
-    Vector3f lookfrom = retrieve(lookat_ps,"position", Vector3f(0, 0, 0));
-    Vector3f lookat = retrieve(lookat_ps, "target", Vector3f(0, 0, -1));
+    Vector3f lookfrom = retrieve(lookat_ps,"look_from", Vector3f(0, 0, 0));
+    Vector3f lookat = retrieve(lookat_ps, "look_at", Vector3f(0, 0, -1));
     Vector3f vup = retrieve(lookat_ps, "up", Vector3f(0, 1, 0));
-    float vfov = retrieve(camera_ps,"fov", 65);
+    float vfov = retrieve(camera_ps,"fovy", float{65});
     float aspect_ratio = retrieve(camera_ps,"aspectratio", w/h);
     
     return new PerspectiveCamera(lookfrom, lookat, vup, vfov, aspect_ratio, film);
@@ -19,8 +19,8 @@ PerspectiveCamera* create_perspective_camera(const ParamSet &camera_ps, const Pa
 
 OrthographicCamera * create_orthographic_camera(const ParamSet &camera_ps, const ParamSet &lookat_ps, Film* film)
 {
-    Vector3f lookfrom = retrieve(lookat_ps,"position", Vector3f(0, 0, 0));
-    Vector3f lookat = retrieve(lookat_ps,"target", Vector3f(0, 0, -1));
+    Vector3f lookfrom = retrieve(lookat_ps,"look_from", Vector3f(0, 1, 0));
+    Vector3f lookat = retrieve(lookat_ps,"look_at", Vector3f(0, 1, 0));
     Vector3f vup = retrieve(lookat_ps,"up", Vector3f(0, 1, 0));
     float left = retrieve(camera_ps,"left", 0);
     float right = retrieve(camera_ps,"right", 0);

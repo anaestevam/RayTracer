@@ -32,7 +32,8 @@ namespace rt3
         color = scene.backgroundColor->sampleXYZ(pixel_coords);
       else if (scene.backgroundColor->mapping_type == Background::mapping_t::spherical)
         color = scene.backgroundColor->sampleXYZ(pixel_coords);
-    
+        float z = 1000;
+
     for (const auto &p : scene.primitives)
     {
       bool is_intersecting = false;
@@ -43,8 +44,9 @@ namespace rt3
         is_intersecting = sphere->intersect_p(ray);
       }
 
-      if (is_intersecting)
+      if (is_intersecting && sphere->center[2] < z)
       {
+        z = sphere->center[2];
         color = sphere->material->color;
       }
     }

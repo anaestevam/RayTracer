@@ -1,25 +1,22 @@
 <RT3>
-   
+  
     <lookat look_from="0 10 5 " look_at="0 0 5" up="0 0 1" />
-    <camera type="perspective" screen_window="-8 8 -6 6" />
-    <film type="image" x_res="800" y_res="600" filename="a.png" img_type="png" />
-    <integrator type="flat"/> 
-    <!-- Grey range colors -->
+    <camera type="orthographic" screen_window="-8 8 -6 6" />
+    <film type="image" x_res="800" y_res="600" filename="flat_spheres_ortho.png" img_type="png" />
+    <!--<integrator type="depth_map"  zmin="0.1" zmax="0.8" far_color="50 50 50" near_color="220 220 220"/>--> 
+       <!-- Grey range colors -->
    <!-- <integrator type="depth_map" zmin="0.1" zmax="0.8" near_color="50 50 50" far_color="220 220 220" /> -->
     <!-- Green range colors -->
-    <!-- <integrator type="depth_map" zmin="0.1" zmax="0.8" near_color="0 50 0" far_color="0 220 0" /> -->
-    <!-- <integrator type="normal_map"/> -->
-
+     <integrator type="depth_map" zmin="0.1" zmax="0.8" near_color="0 50 0" far_color="0 220 0" />
+   
     <world_begin/>
         <!-- The Background -->
         <background type="colors" bl="153 204 255" tl="18 10 143" tr="18 10 143" br="153 204 255" />
-        <!-- Creating a named material -->
-        <material type="flat" name="green" color="42 201 51"  />
 
+        <material type="flat" color="42 201 51" /> <!-- Green -->
         <object type="sphere" radius="0.4" center="-1 3.5 5"/>
         <object type="sphere" radius="0.4" center="1 -0.5 5" />
 
-        <!-- Creating an anonymous material -->
         <material type="flat" color="236 124 17" /> <!-- Gold -->
         <object type="sphere" radius="0.4" center="-1 -1.5 1.5"/>
 

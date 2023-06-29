@@ -178,8 +178,8 @@ namespace rt3
       {
         ParamSet ps;
         vector<std::pair<param_type_e, string>> param_list{
-            {param_type_e::POINT3F, "look_from"},
-            {param_type_e::POINT3F, "look_at"},
+            {param_type_e::VEC3F, "look_from"},
+            {param_type_e::VEC3F, "look_at"},
             {param_type_e::VEC3F, "up"}};
 
         parse_parameters(p_element, param_list, /* out */ &ps);

@@ -24,10 +24,10 @@ namespace rt3
 
         bool intersect_p(const Ray &r) const
         {
-            Vector3f oc = Vector3f{1, 1, 1} * (r.o - center);
+            Vector3f oc = (oc.ToVector3(r.o) - center);
             auto a = r.d.dot(r.d);
-            auto b = 2.0 * oc.dot(r.d);
-            auto c = oc.dot(oc) - radius * radius;
+            auto b = 2.0 * r.d.dot(oc) ;
+            auto c = oc.dot(oc) - (radius * radius);
             auto discriminant = b * b - 4 * a * c;
             return (discriminant > 0);
         }

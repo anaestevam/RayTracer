@@ -87,7 +87,7 @@ public:
     Vector3f cross(const Vector3f &other) const
     {
         return Vector3f(data_[1] * other[2] - data_[2] * other[1],
-                        data_[2] * other[0] - data_[0] * other[2],
+                        ( - data_[2]) * other[0] - data_[0] * other[2],
                         data_[0] * other[1] - data_[1] * other[0]);
     }
 

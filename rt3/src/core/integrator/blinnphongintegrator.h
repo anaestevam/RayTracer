@@ -25,9 +25,3 @@ public:
 }
 
 #endif
-
-// https://github.dev/gbrsouza/RayTracer
-
-// https://codeberg.org/selan/Proj05-Blinn-Phong-Integrator
-
-// https://removecomments.com/

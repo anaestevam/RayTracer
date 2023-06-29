@@ -40,7 +40,7 @@ namespace rt3
       {
         is_intersecting = sphere->intersect_p(ray);
       }
-
+    
       if (is_intersecting)
       {
         color = sphere->ray_color(ray);

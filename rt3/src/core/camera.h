@@ -25,45 +25,45 @@ namespace rt3
     PerspectiveCamera(const Vector3f &lookfrom, const Vector3f &lookat,
                       const Vector3f &vup, float vfov, float a,
                       Film *film)
-        : Camera(film), origin(lookfrom), direction(lookat), up(vup), fovy(vfov)
+        : Camera(film), origin(lookfrom)
     {
       float theta = vfov;
       float h = tan(Radians(theta/2.0));
+
 
       this->left = -a *h;
       this->right = a *h;
       this->bottom = -h;
       this->top = h;
-      
+
       w = (lookat - lookfrom).normalized();
       u = vup.cross(w).normalized();
       v = w.cross(u).normalized();
 
       e = lookfrom;
+      fd = 1;
+
     }
 
     Ray generate_ray(int x, int y) const override
     {
-      auto width = film->m_full_resolution[0];
+       auto width = film->m_full_resolution[0];
       auto height = film->m_full_resolution[1];
 
       float u_ = left + (((right - left) * (x + 0.5)) / width);
       float v_ = bottom + (((top - bottom) * (y + 0.5)) / height);
-      const Vector3f directio = (w + (u * u_) + (v * v_));
-      return Ray(origin.ToPoint3(), directio);
+      const Vector3f direction = (0.9* w + (u * u_) + (v * v_)).normalized();
+      return Ray(e.ToPoint3(), direction);
       
     }
 
   private:
     Vector3f origin;
-    Vector3f direction;
-    Vector3f up;
-    float fovy;
     Vector3f lower_left_corner;
     Vector3f horizontal;
     Vector3f vertical;
     Vector3f u, v, w, e;
-    float left, bottom, right, top;
+        float left, bottom, right, top, fd;
 
   };
 
@@ -73,7 +73,7 @@ namespace rt3
     OrthographicCamera(const Vector3f &lookfrom, const Vector3f &lookat,
                        const Vector3f &vup, float left, float right, float bottom,
                        float top, Film *film)
-        : Camera(film), origin(lookfrom),  direction(lookat), up(vup)
+        : Camera(film), origin(lookfrom),  direction(lookat)
     {
       this->left = left;
       this->right = right;
@@ -83,11 +83,12 @@ namespace rt3
 
       // mapping pixels to screen space
 
-      w = (lookfrom - lookat).normalized();
+      w = (lookat - lookfrom).normalized();
       u = vup.cross(w).normalized();
-      v = w.cross(u).normalized();
+      v = u.cross(w).normalized();
 
       e = lookfrom;
+      fd = 1;
 
       // horizontal = viewport_width * u;
       // vertical = viewport_height * v;
@@ -103,20 +104,19 @@ namespace rt3
       float u_ = left + ((right - left) * (x + 0.5)) / width;
       float v_ = bottom + ((top - bottom) * (y + 0.5)) / height;
       
-      const Vector3f origem = (e + (u * u_) + (v * v_));
+      const Vector3f origin = (e + (u * u_) + (v * v_));
 
-      return Ray(origem.ToPoint3(), w);
+      return Ray(origin.ToPoint3(), w);
     }
 
   private:
     Vector3f origin;
     Vector3f direction;
-    Vector3f up;
     Vector3f lower_left_corner;
     Vector3f horizontal;
     Vector3f vertical;
     Vector3f u, v, w, e;
-    float left, bottom, right, top;
+    float left, bottom, right, top, fd;
   };
 
   PerspectiveCamera *create_perspective_camera(const ParamSet &camera_ps,
